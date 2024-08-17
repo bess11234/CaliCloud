@@ -1,13 +1,38 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+<script type="module" src="/main.js"></script>
+
+<body class="bg-neutral-800 text-white">
+
+  <div class="flex flex-row place-items-center h-[1000px]">
+    <div class="size-fit mx-auto">
+      <div class="flex flex-col place-items-center gap-1">
+        <div class="flex flex-row gap-3">
+          <a href="https://vitejs.dev" target="_blank">
+            <img class="size-16 transition-transform hover:scale-95 active:scale-100" id="vitelogo" class="logo" alt="Vite logo" />
+          </a>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
+            <img class="size-16 transition-transform hover:scale-95 active:scale-100" id="javascriptlogo" class="logo vanilla" alt="JavaScript logo" />
+          </a>
+        </div>
+        <h1 class="w-fit text-3xl">Hello Vite!</h1>
+        <div class="card w-fit ">
+          <button class="transition-all border border-3 px-3 py-1 rounded-lg hover:scale-95 active:scale-100 hover:border-red-500 active:border-red-300 shadow-none hover:shadow-lg  hover:shadow-red-900/50" id="counter" type="button"></button>
+        </div>
+        <p class="w-fit read-the-docs">
+          Click on the Vite logo to learn more
+        </p>
+      </div>
+    </div>
+  </div>
+
+</body>
+
 </html>
