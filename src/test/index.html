@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1 class="text-red-400">eiei</h1>
-    <form action="" method="POST">
+    <form method="POST">
         <input type="hidden" name="csrf_token" id="csrf_token" value="">
     </form>
 
@@ -46,6 +46,24 @@
         })
         .then(data=>{
           
+        })
+
+        fetch("/backend/test.php", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"long":""}),
+        })
+        .then((response)=>{
+          // console.log('Response:', response); // Log the whole response object
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json(); // Proceed to parse JSON if response is okay
+        })
+        .then(data=>{
+          document.querySelector("#csrf_token").value = data['csrf_token']
         })
     </script>
 </body>
