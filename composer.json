@@ -1,0 +1,20 @@
+{
+    "name": "bess1123/cali-cloud",
+    "description": "Cloud credential",
+    "autoload": {
+        "psr-4": {
+            "Bess1123\\CaliCloud\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kasomsri",
+            "email": "bess11234@hotmail.com"
+        }
+    ],
+    "require": {
+        "aws/aws-sdk-php": "^3.325",
+        "firebase/php-jwt": "^6.10",
+        "web-token/jwt-key-mgmt": "^4.0"
+    }
+}
