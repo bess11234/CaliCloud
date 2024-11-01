@@ -18,6 +18,7 @@ htmlFiles.forEach((file) => {
 })
 
 export default defineConfig({
+    base: './',
     build: {
         rollupOptions: {
             input: input
