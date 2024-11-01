@@ -45,7 +45,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         // Catch an authentication error
         echo "Error: " . $e->getAwsErrorMessage();
     }
-}else{
-    header("location: test.php");
 }
 ?>
