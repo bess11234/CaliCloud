@@ -6,35 +6,50 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vite App</title>
-  <link rel="stylesheet" href="/output.css">
+  <link rel="stylesheet" href="./output.css">
 </head>
 
-<body class="bg-neutral-800 text-white">
-
-  <div class="flex flex-row place-items-center h-[1000px]">
-    <div class="size-fit mx-auto">
-      <div class="flex flex-col place-items-center gap-1">
-        <div class="flex flex-row gap-3">
-          <a href="https://vitejs.dev" target="_blank">
-            <img class="size-16 transition-transform hover:scale-95 active:scale-100" src="vite.svg" class="logo" alt="Vite logo" />
-          </a>
-          <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-            <img class="size-16 transition-transform hover:scale-95 active:scale-100" src="javascript.svg" id="javascriptlogo" class="logo vanilla" alt="JavaScript logo" />
-          </a>
+<body class="bg-[url('/public/body.png')] flex flex-col min-h-screen">
+  <nav class="bg-white">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex flex-shrink-0 items-center">
+            <img src="/public/img.png" alt="" class="size-14 mr-3">
+            <a href="" class="text-3xl font-bold">CaliCloud</a>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-300 ">Home</a>
+            </div>
+          </div>
         </div>
-        <h1 class="w-fit text-3xl">Hello Vite!</h1><a href="/src/test/index.html">Go To test</a>
-        <div class="card w-fit ">
-          <button class="transition-all border border-3 px-3 py-1 rounded-lg hover:scale-95 active:scale-100 hover:border-red-500 active:border-red-300 shadow-none hover:shadow-lg  hover:shadow-red-900/50" id="counter" type="button"></button>
-        </div>
-        <p class="w-fit read-the-docs">
-          Click on the Vite logo to learn more
-        </p>
       </div>
     </div>
+  </nav>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-grow">
+    <!-- Your content goes here -->
   </div>
 
-
+  <!-- Footer -->
+  <footer class="bg-[#3d4854] text-white">
+    <div class="container mx-auto py-4 flex items-center justify-between h-24">
+      <h3 class="text-3xl">CaliCloud</h3>
+    </div>
+    <div class="container mx-auto py-4 flex items-center justify-between h-24">
+      <div class="text-sm">
+        <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
+        <span class="mx-2">|</span>
+        <a href="#" class="hover:underline">Privacy</a>
+        <span class="mx-2">|</span>
+        <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </footer>
 </body>
+
 
 <script>
   function setupCounter(element) {
