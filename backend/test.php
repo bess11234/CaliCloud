@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="credential.php" method="post">
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email">
-        </div>
-
-        <div>
-            <label for="password">password</label>
-            <input type="password" name="password" id="password">
-        </div>
-
-        <button type="submit">Sign in</button>
-    </form>
-</body>
-</html>
+<?php
+include 'config.php';
+session_start();
+$csrf_token = ["csrf_token" => $_SESSION['csrf_token'], "status" => 200];
+echo json_encode($csrf_token, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+?>
