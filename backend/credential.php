@@ -54,4 +54,4 @@ if (isset($_GET['code'])) {
     header("HTTP/1.1 400 Bad Request");
     echo "Authorization code not found!";
 }
-// header("location: /index.html");
+header("location: /index.html");
