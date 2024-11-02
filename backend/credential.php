@@ -1,51 +1,59 @@
 <?php
+# AWS Cognito (App client) OAuth 2.0 grant types need to be 'Authorization code grant'
+
 include 'config.php';
-require '../vendor/autoload.php';
 
-use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
-use Aws\Exception\AwsException;
+$redirectUri = "https://3.82.155.205/backend/test.php"; // This should match the callback URL in your user pool settings
 
-if ($_SERVER['REQUEST_METHOD'] == "POST"){
-    $content = file_get_contents('php://input');
-    $data = json_decode($content);
+if (isset($_GET['code'])) {
+    $authorizationCode = $_GET['code'];
 
-    // Cognito configuration
-    $region = constant("AWS_REGION"); // Replace with your AWS region
-    $appClientId = constant("CLIENT_ID"); // Replace with your App Client ID
+    // Prepare the POST request to exchange the authorization code for tokens
+    $url = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/oauth2/token";
+    $postFields = http_build_query([
+        'grant_type' => 'authorization_code',
+        'client_id' => constant("CLIENT_ID"),
+        'client_secret' => constant("CLIENT_SECRET"),
+        'code' => $authorizationCode,
+        'redirect_uri' => $redirectUri,
+    ]);
 
-    // User credentials
-    $email = $data->email;
-    $password = $data->password;
+    // Set up cURL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/x-www-form-urlencoded',
+    ]);
 
-    try {
-        // Initialize the Cognito client
-        $client = new CognitoIdentityProviderClient([
-            'region' => $region,
-            'version' => 'latest',
-        ]);
+    // Execute the request
+    $response = curl_exec($ch);
+    curl_close($ch);
 
-        // Authenticate the user
-        $result = $client->initiateAuth([
-            'AuthFlow' => 'USER_PASSWORD_AUTH',
-            'ClientId' => $appClientId,
-            'AuthParameters' => [
-                'USERNAME' => $email,
-                'PASSWORD' => $password,
-            ],
-        ]);
+    // Decode the response
+    $data = json_decode($response, true);
 
-        // Get tokens from the response
-        $accessToken = $result['AuthenticationResult']['AccessToken'];
-        $idToken = $result['AuthenticationResult']['IdToken'];
-        $refreshToken = $result['AuthenticationResult']['RefreshToken'];
+    // Check if tokens are present in the response
+    if (isset($data['access_token']) && isset($data['id_token']) && isset($data['expires_in'])) {
+        $accessToken = $data['access_token'];
+        $idToken = $data['id_token'];
+        $expiresIn = $data['expires_in'];
 
-        echo "Access Token: " . $accessToken . PHP_EOL;
-        echo "ID Token: " . $idToken . PHP_EOL;
-        echo "Refresh Token: " . $refreshToken . PHP_EOL;
+        // Store tokens in session or database
+        session_start();
+        $_SESSION['access_token'] = $accessToken;
+        $_SESSION['id_token'] = $idToken;
+        $_SESSION['expires_in'] = $expiresIn;
 
-    } catch (AwsException $e) {
-        // Catch an authentication error
-        echo "Error: " . $e->getAwsErrorMessage();
+        header("HTTP/1.1 200 OK");
+        echo "Tokens received successfully!";
+    } else {
+        header("HTTP/1.1 400 Bad Request");
+        echo "Failed to retrieve tokens.";
     }
+} else {
+    header("HTTP/1.1 400 Bad Request");
+    echo "Authorization code not found!";
 }
-?>
+header("location: /index.html");
