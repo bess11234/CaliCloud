@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from 'path'
 import path from 'path'
 import { glob } from 'glob'
+import dotenv from 'dotenv';
 
 const htmlFiles = glob.sync('src/**/*.html')
 
@@ -17,8 +18,11 @@ htmlFiles.forEach((file) => {
     input[src] = resolve(__dirname, file)
 })
 
+dotenv.config();
+
 export default defineConfig({
     base: './',
+    root: './',
     build: {
         rollupOptions: {
             input: input
@@ -38,10 +42,16 @@ export default defineConfig({
                 target: 'http://localhost:8000', // Your PHP server URL
                 changeOrigin: true,
             }
+        },
+        hmr: {
+            overlay: false,
         }
     },
     optimizeDeps: {
         include: ['@aws-amplify/auth'], // Ensure this module is included
+    },
+    define: {
+        'process.env': process.env
     },
 
 });

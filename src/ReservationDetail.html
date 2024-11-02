@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create Map Sample | Longdo Map</title>
+    <style type="text/css">
+      html {
+        height: 100%;
+      }
+      body {
+        margin: 0px;
+        height: 100%;
+      }
+      #map {
+        height: 50%;
+      }
+      #result {
+        height: 50%;
+      }
+    </style>
+    <script type="module">
+      const mapKey = import.meta.env.VITE_LONGDO_MAP_API_KEY;
+
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://api.longdo.com/map3/?key=${mapKey}`;
+
+      script.onload = function () {
+        init();
+      };
+
+      document.head.appendChild(script);
+
+      var map;
+
+      function init() {
+        map = new longdo.Map({
+          placeholder: document.getElementById("map"),
+        });
+
+        map.Event.bind("ready", function () {
+          var marker1 = new longdo.Marker(
+            { lon: 100.538316, lat: 13.764953 },
+            {
+              title: "ตำแหน่งปัจจุบัน",
+              detail: "ตำแหน่งของคุณ",
+              id: "marker1",
+            }
+          );
+
+          var marker2 = new longdo.Marker(
+            { lon: 100.56, lat: 13.74 },
+            {
+              title: "จุดเป้าหมาย",
+              detail: "จุดที่ต้องการไป",
+              id: "marker2",
+            }
+          );
+
+          drawRoute(marker1.location(), marker2.location());
+
+          map.Event.bind(longdo.EventName.OverlayDrop, function (overlay) {
+            console.log(
+              "Longitude:",
+              overlay.location().lon,
+              "Latitude:",
+              overlay.location().lat
+            );
+
+            setTimeout(() => {
+              const distanceSpan = document.querySelector(".ldroute-distance");
+              if (distanceSpan) {
+                const distanceText = distanceSpan.innerText;
+                const distanceValue = parseFloat(distanceText);
+                console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+              } else {
+                console.log("ไม่พบระยะทาง");
+              }
+            }, 500);
+            return false;
+          });
+        });
+      }
+
+      function drawRoute(start, end) {
+        console.log("Drawing route from", start, "to", end);
+        map.Route.clear();
+        map.Route.placeholder(document.getElementById("result"));
+        map.Route.add(start);
+        map.Route.add(end);
+        map.Route.search();
+      }
+    </script>
+  </head>
+  <body onload="init();">
+    <div id="map"></div>
+    <div id="result"></div>
+  </body>
+</html>
