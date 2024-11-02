@@ -98,6 +98,9 @@
         const initial_distance = 5; // กิโลเมตรแรกที่คิดราคาคงที่
         const additional_price = 6; // ราคาต่อกิโลเมตรที่เกินจาก initial_distance
 
+        // ปัด distanceValue ขึ้นเป็นจำนวนเต็มถัดไป
+        const roundedDistance = Math.ceil(distanceValue);
+
         // ตรวจสอบว่าระยะทางเกิน initial_distance หรือไม่
         if (distanceValue <= initial_distance) {
           return initial_price;
@@ -109,7 +112,7 @@
       }
     </script>
   </head>
-  <body>
+  <body onload="init();">
     <nav class="bg-white">
       <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
