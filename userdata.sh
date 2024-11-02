@@ -2,7 +2,6 @@ sudo yum -y update
 sudo yum install -y git
 sudo rm -rf ~/app
 sudo git clone https://github.com/bess11234/CaliCloud.git app
-sudo echo "VITE_LONGDO_MAP_API_KEY=795eb87adb34512f8b9de4fd06fdf730" > .env
 sudo mv .env app/
 cd app
 sudo yum install -y nginx
