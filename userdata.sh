@@ -5,6 +5,10 @@ sudo git clone https://github.com/bess11234/CaliCloud.git app
 cd app
 sudo yum install -y nginx
 sudo cp nginx.conf /etc/nginx/
+sudo mkdir /etc/pki/nginx
+sudo cp ssl/calicloud.crt /etc/pki/nginx/
+sudo mkdir /etc/pki/nginx/private
+sudo cp ssl/calicloud.key /etc/pki/nginx/private/
 sudo systemctl restart nginx
 sudo yum install curl
 curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
