@@ -1,22 +1,55 @@
 <?php
 include 'config.php';
-// session_start();
 
-# Reserve
-# ต้องข้อมูล name, lat, long, distance
-// if (isset($_SESSION['access_token'])){
-//     # เชื่อม Database
-//     # INSERT
-// }
+$redirectUri = "https://3.82.155.205/backend/test.php"; // This should match the callback URL in your user pool settings
 
-if ($_SERVER['REQUEST_METHOD'] == "POST"){
+if (isset($_GET['code'])) {
+    $authorizationCode = $_GET['code'];
 
-    $content = file_get_contents('php://input');
-    $data = json_decode($content);
-    echo $content;
-    echo $data->email;
-    // $arr = ["email" => $_POST["email"], "password" => $_POST["password"]];
-    // echo json_encode($arr);
+    // Prepare the POST request to exchange the authorization code for tokens
+    $url = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/oauth2/token";
+    $postFields = http_build_query([
+        'grant_type' => 'authorization_code',
+        'client_id' => constant("CLIENT_ID"),
+        'client_secret' => constant("CLIENT_SECRET"),
+        'code' => $authorizationCode,
+        'redirect_uri' => $redirectUri,
+    ]);
+
+    // Set up cURL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/x-www-form-urlencoded',
+    ]);
+
+    // Execute the request
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    // Decode the response
+    $data = json_decode($response, true);
+
+    // Check if tokens are present in the response
+    if (isset($data['access_token']) && isset($data['id_token']) && isset($data['expires_in'])) {
+        $accessToken = $data['access_token'];
+        $idToken = $data['id_token'];
+        $expiresIn = $data['expires_in'];
+
+        // Store tokens in session or database
+        session_start();
+        $_SESSION['access_token'] = $accessToken;
+        $_SESSION['id_token'] = $idToken;
+        $_SESSION['expires_in'] = $expiresIn;
+
+        echo "Tokens received successfully!";
+    } else {
+        echo "Failed to retrieve tokens.";
+    }
+} else {
+    echo "Authorization code not found!";
 }
-
+header("location: /index.html")
 ?>

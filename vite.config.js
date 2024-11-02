@@ -39,6 +39,9 @@ export default defineConfig({
                 changeOrigin: true,
             }
         }
-    }
+    },
+    optimizeDeps: {
+        include: ['@aws-amplify/auth'], // Ensure this module is included
+    },
 
 });

@@ -29,21 +29,51 @@
     </div>
   </nav>
   <!-- Main Content Wrapper -->
-  <div class="flex-grow">
+  <div class="flex-grow overflow-auto">
+    <!--All Content-->
     <div class="flex">
-        <!-- input -->
-        <div class="flex flex-1 bg-[#3d4854] justify-center h-full">
-            <div class="bg-[#ffffff]">
-                <h1 class="text-4xl">Reservation Services</h1>
-                <input class="mt-10" placeholder="Pick-Up Location">
-                <br>
-                <input class="mt-10" placeholder="Drop-off Location">
-                <br>
-                <input class="mt-10" placeholder="Pick-Up Location">
-                <br>
+      <!--Input Section-->
+      <div class="flex flex-col basis-2/6 justify-center h-auto">
+
+        <!--Inside Input Section-->
+        <div class="w-full p-10 pt-5">
+          <h1 class="text-3xl mb-5">Reservation Services</h1>
+          <input class="border border-slate-300 h-12 w-full px-2 mb-5" placeholder="Pick-Up Location">      
+          <input class="border border-slate-300 h-12 w-full px-2 mb-5" placeholder="Drop-off Location">
+          <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" placeholder="Select Pick-Up Date">
+          <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" placeholder="Select Pick-Up Time">
+          
+          <!--Middle section-->
+          <div class="flex">
+            <!--Vehicle Image-->
+            <div class= "w-full">
+              <h1 class="mb-2">Vehicle Selected</h1>
+              <img src="public/img.png">
             </div>
+
+            <!--Service Option-->
+            <div class= "w-full">
+              <h1 class="mb-2">Options</h1>
+              <ul>
+                <li><input class="mr-2" type="checkbox" id="option1" name="option1" value="Packing">Packing Service </li>
+                <li><input class="mr-2" type="checkbox" id="option1" name="option1" value="Packing">Packing Service </li>
+                <li><input class="mr-2" type="checkbox" id="option1" name="option1" value="Packing">Packing Service </li>
+              </ul>
+            </div>
+          </div>
+          <!--Middle section-->
+          <hr class="m-4">
+
+          <div class="mt-5 flex">
+            <p class="flex-1 text-2xl">Total Price: 0</p>
+            <button class=" bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center">Payment ></button>
+          </div>
+
         </div>
-        <div class=" flex flex-1 justify-center">Hall</div>
+        <!--Inside Input Section-->
+      </div>
+      <!--Input Section-->
+      <div class=" flex flex-1 justify-center">(MAP ZONE)</div>
     </div>
   </div>
 
