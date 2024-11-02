@@ -6,14 +6,16 @@ use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Aws\Exception\AwsException;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
+    $content = file_get_contents('php://input');
+    $data = json_decode($content);
 
     // Cognito configuration
     $region = constant("AWS_REGION"); // Replace with your AWS region
     $appClientId = constant("CLIENT_ID"); // Replace with your App Client ID
 
     // User credentials
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = $data->email;
+    $password = $data->password;
 
     try {
         // Initialize the Cognito client
