@@ -59,22 +59,20 @@
   </footer>
 </body>
 
-<script>
+<script type="module">
   const sign_out_path = process.env.CREDENTIAL_SIGN_OUT;
   const sign_in_path = process.env.CREDENTIAL_SIGN_IN;
-</script>
-
-<script>
-  let is_showLogout = false
+  
   function signout() {
     fetch("/backend/signout.php", {
       method: "POST"
     })
-      .then((response) => {
-        location.href = sign_out_path
-      })
+    .then((response) => {
+      location.href = sign_out_path
+    })
   }
-
+  
+  let is_showLogout = false
   function showLogout() {
     let logout_box = document.getElementById("logout_box")
     if (is_showLogout) {
@@ -108,7 +106,7 @@
         </a>`
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.json(); // Proceed to parse JSON if response is okay
+      //return response.json(); // Proceed to parse JSON if response is okay
     })
     .then(data => {
       if (data['userdata']['name']) {
