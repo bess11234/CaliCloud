@@ -50,5 +50,23 @@
   </footer>
 </body>
 
+<script>
+  fetch("/backend/retriveuser.php", {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      // console.log('Response:', response); // Log the whole response object
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json(); // Proceed to parse JSON if response is okay
+    })
+    .then(data => {
+      console.log(data)
+    })
+</script>
 
 </html>
