@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+< lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -62,7 +62,9 @@
 <script type="module">
   const sign_out_path = process.env.CREDENTIAL_SIGN_OUT;
   const sign_in_path = process.env.CREDENTIAL_SIGN_IN;
+</script>
 
+<script>
   let is_showLogout = false
   function signout() {
     fetch("/backend/signout.php", {
