@@ -9,6 +9,6 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 define('AWS_REGION', 'us-east-1');
-define('USER_POOL_ID', 'us-west-2_123456789');
-define('CLIENT_ID', '5810otpi7ps4olqdhdpc4igqcs');
+define('USER_POOL_ID', 'us-east-1_IJfiebLkV');
+define('CLIENT_ID', '7uvm35k22tckpfkhbq46b7jkut');
 ?>
