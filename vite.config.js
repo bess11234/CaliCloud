@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from 'path'
 import path from 'path'
 import { glob } from 'glob'
+import dotenv from 'dotenv';
 
 const htmlFiles = glob.sync('src/**/*.html')
 
@@ -16,6 +17,8 @@ htmlFiles.forEach((file) => {
     const src = file.replace(/^src\//, '') // Keeps src folder structure
     input[src] = resolve(__dirname, file)
 })
+
+dotenv.config();
 
 export default defineConfig({
     base: './',
@@ -42,6 +45,9 @@ export default defineConfig({
     },
     optimizeDeps: {
         include: ['@aws-amplify/auth'], // Ensure this module is included
+    },
+    define: {
+        'process.env': process.env
     },
 
 });
