@@ -60,8 +60,9 @@
 </body>
 
 <script>
-  const signOutPath = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F34.238.254.27%2Fbackend%2Fcredential.php&response_type=code";
-  const signInPath = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F34.238.254.27%2Fbackend%2Fcredential.php";;
+  const ip = "34.238.254.27"
+  const signOutPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php&response_type=code`
+  const signInPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php`
 
   function signout() {
     fetch("/backend/signout.php", {
@@ -112,7 +113,7 @@
       console.log(data)
       if (data['userdata']['name']) {
         signin.innerHTML = `
-        <p onclick="showLogout()" class="select-none">${data['userdata']['name']}</p>
+        <p onclick="showLogout()" class="select-none cursor-pointer">${data['userdata']['name']}</p>
         <div id="logout_box"
           class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow">
           <p onclick="signout()" class="cursor-pointer w-32">Sign out</p>
