@@ -9,7 +9,7 @@ php -S localhost:8000 # 3
 
 # วิธีการใช้งาน
 EC2 เปิด Instance
-ใส่ไฟล์ .env
-Cognito แก้ IP address
 แก้ .env SIGNOUT, SIGNIN (IP ADDRESS)
+ใส่ไฟล์ .env (S3)
+Cognito แก้ IP address
 แก้ userdata.sh

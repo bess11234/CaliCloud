@@ -2,6 +2,7 @@ sudo yum -y update
 sudo yum install -y git
 sudo rm -rf ~/app
 sudo git clone https://github.com/bess11234/CaliCloud.git app
+aws s3 cp s3://calicloud/.env .env
 sudo mv .env app/
 cd app
 sudo yum install -y nginx
