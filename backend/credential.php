@@ -3,7 +3,7 @@
 
 include 'config.php';
 
-$redirectUri = "https://3.82.155.205/backend/test.php"; // This should match the callback URL in your user pool settings
+$redirectUri = constant("REDIRECT_URL"); // This should match the callback URL in your user pool settings
 
 if (isset($_GET['code'])) {
     $authorizationCode = $_GET['code'];

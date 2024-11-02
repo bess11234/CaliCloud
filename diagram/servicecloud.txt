@@ -1,27 +1,6 @@
-S3
-สร้าง bucket calicloud
-แก้ busket policy CORS
-```
-[
-    {
-        "AllowedHeaders": [
-            "*"
-        ],
-        "AllowedMethods": [
-            "GET",
-            "PUT",
-            "HEAD",
-            "POST",
-            "DELETE"
-        ],
-        "AllowedOrigins": [
-            "*"
-        ],
-        "ExposeHeaders": [],
-        "MaxAgeSeconds": 0
-    }
-]
-```
+วิธีการใช้งาน
+EC2 เปิด Instance
+Cognito แก้ IP address
 
 EC2
 sudo yum -y update
@@ -39,5 +18,7 @@ sudo composer install
 sudo npm run build
 sudo cp -r dist/* /usr/share/nginx/html/
 sudo php -S localhost:8000
+
+Cognito
 
 RDS
