@@ -106,7 +106,7 @@
         </a>`
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      //return response.json(); // Proceed to parse JSON if response is okay
+      return response.json(); // Proceed to parse JSON if response is okay
     })
     .then(data => {
       console.log(data)
