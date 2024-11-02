@@ -60,15 +60,15 @@
 </body>
 
 <script>
-  const sign_out_path = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F34.238.254.27%2Fbackend%2Fcredential.php&response_type=code";
-  const sign_in_path = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F34.238.254.27%2Fbackend%2Fcredential.php";;
+  const signOutPath = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F34.238.254.27%2Fbackend%2Fcredential.php&response_type=code";
+  const signInPath = "https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F34.238.254.27%2Fbackend%2Fcredential.php";;
 
   function signout() {
     fetch("/backend/signout.php", {
       method: "POST"
     })
     .then((response) => {
-      location.href = sign_out_path
+      location.href = signOutPath
     })
   }
   
@@ -101,7 +101,7 @@
     .then((response) => {
       // console.log('Response:', response); // Log the whole response object
       if (!response.ok) {
-        signin.innerHTML = `<a href="${sign_in_path}">
+        signin.innerHTML = `<a href="${signInPath}">
           <button class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-3 py-2 rounded-lg">Sign in</button>
         </a>`
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -109,6 +109,7 @@
       //return response.json(); // Proceed to parse JSON if response is okay
     })
     .then(data => {
+      console.log(data)
       if (data['userdata']['name']) {
         signin.innerHTML = `
         <p onclick="showLogout()" class="select-none">${data['userdata']['name']}</p>
