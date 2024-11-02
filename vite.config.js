@@ -42,6 +42,9 @@ export default defineConfig({
                 target: 'http://localhost:8000', // Your PHP server URL
                 changeOrigin: true,
             }
+        },
+        hmr: {
+            overlay: false,
         }
     },
     optimizeDeps: {

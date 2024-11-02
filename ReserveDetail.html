@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="output.css">
+    <title>Create Map Sample | Longdo Map</title>
+    <style type="text/css">
+      html {
+        height: 100%;
+      }
+      body {
+        margin: 0px;
+        height: 100%;
+      }
+      #map {
+        height: 50%;
+      }
+      #result {
+        height: 50%;
+      }
+    </style>
+    <script type="module">
+      const mapKey = import.meta.env.VITE_LONGDO_MAP_API_KEY;
+
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://api.longdo.com/map3/?key=${mapKey}`;
+
+      script.onload = function () {
+        init();
+      };
+
+      document.head.appendChild(script);
+
+      var map;
+
+      function init() {
+        map = new longdo.Map({
+          placeholder: document.getElementById("map"),
+        });
+
+        map.Event.bind("ready", function () {
+          var marker1 = new longdo.Marker(
+            { lon: 100.538316, lat: 13.764953 },
+            {
+              title: "ตำแหน่งปัจจุบัน",
+              detail: "ตำแหน่งของคุณ",
+              id: "marker1",
+            }
+          );
+
+          var marker2 = new longdo.Marker(
+            { lon: 100.56, lat: 13.74 },
+            {
+              title: "จุดเป้าหมาย",
+              detail: "จุดที่ต้องการไป",
+              id: "marker2",
+            }
+          );
+
+          drawRoute(marker1.location(), marker2.location());
+
+          map.Event.bind(longdo.EventName.OverlayDrop, function (overlay) {
+            console.log(
+              "Longitude:",
+              overlay.location().lon,
+              "Latitude:",
+              overlay.location().lat
+            );
+
+            setTimeout(() => {
+              const distanceSpan = document.querySelector(".ldroute-distance");
+              if (distanceSpan) {
+                const distanceText = distanceSpan.innerText;
+                const distanceValue = parseFloat(distanceText);
+                console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+                document.getElementById("total-price").innerHTML = Math.ceil(distanceValue)*5
+              } else {
+                console.log("ไม่พบระยะทาง");
+              }
+            }, 500);
+            return false;
+          });
+        });
+      }
+
+      function drawRoute(start, end) {
+        console.log("Drawing route from", start, "to", end);
+        map.Route.clear();
+        map.Route.placeholder(document.getElementById("result"));
+        map.Route.add(start);
+        map.Route.add(end);
+        map.Route.search();
+      }
+    </script>
+  </head>
+
+  <body class="bg-[url('/public/body.png')]">
+    <nav class="bg-white">
+        <div class="mx-auto px-2 sm:px-6 lg:px-8">
+          <div class="relative flex h-16 items-center justify-between">
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <!-- logo -->
+                <div class="flex flex-shrink-0 items-center">
+                    <img src="/public/img.png" alt="" class="size-14 mr-3">
+                    <a href="" class="text-3xl font-bold">CaliCloud</a>
+                </div>
+                <div class="hidden sm:ml-6 sm:block">
+                <div class="flex space-x-4">
+                  <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Home</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <h1 class="flex justify-center text-4xl">Reservation Service</h1>
+      <h1 class="ml-5 text-lg">1. Select your pick-up and drop-off location</h1>
+      <div class="m-5 mt-1 border-2 border-black" id="map"></div>
+      <div class="hidden" id="result"></div>
+
+      <div class="flex">
+        <!--Vehicle Image-->
+        <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
+            <div class="w-fit">
+                <h1 class="mb-2 text-lg">(Vehicle Selected)</h1>
+                <img class="h-60" src="public/img.png">
+            </div>
+        </div>
+        
+        
+        <div class="m-5 mt-0 w-full">
+
+            <!--Input Date time-->
+            <h1 class="mb-2 text-lg">2.Select Date-Time Pick-Up</h1>
+            <div class="flex gap-4">
+                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" placeholder="Select Pick-Up Date">
+                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" placeholder="Select Pick-Up Time">
+            </div>
+
+            <!--Service Option-->
+            <h1 class="mb-2 text-lg">3. Select Option(s)</h1>
+            <ul>
+                <li><input class="mr-2" type="checkbox" id="option1" name="option1" value="Packing">Packing Service +100</li>
+                <li><input class="mr-2" type="checkbox" id="option2" name="option2" value="Packing">Packing Service +200</li>
+                <li><input class="mr-2" type="checkbox" id="option1" name="option3" value="Packing">Packing Service +300</li>
+            </ul>
+            <hr class="mt-5">
+
+            <div class="flex mt-5">
+                <p class="flex-1 text-2xl">Total Price: <span id="total-price">0</span> Baht</p>
+                <button class=" bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center">Payment ></button>
+            </div>
+        </div>
+        </div>
+      </div> 
+  </body>
+</html>
