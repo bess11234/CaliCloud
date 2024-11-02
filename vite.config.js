@@ -22,6 +22,7 @@ dotenv.config();
 
 export default defineConfig({
     base: './',
+    root: './',
     build: {
         rollupOptions: {
             input: input
