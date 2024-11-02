@@ -70,6 +70,7 @@
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        location.reload()
         // return response.json(); // Proceed to parse JSON if response is okay
       })
       .then(data => {
