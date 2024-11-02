@@ -693,8 +693,8 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-\[url\(\'\/public\/body\.png\'\)\] {
-  background-image: url('/public/body.png');
+.bg-\[url\(\'body\.png\'\)\] {
+  background-image: url('body.png');
 }
 
 .px-2 {
