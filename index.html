@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="./output.css">
 </head>
 
-<body class="bg-[url('body.png')] flex flex-col min-h-screen">
-  <nav class="bg-white">
+<body class="bg-[url('src/body.png')] flex flex-col min-h-screen">
+  <nav class="bg-white dark:bg-black2">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -24,6 +24,11 @@
             </div>
           </div>
         </div>
+
+        <div id="signin" class="relative flex flex-row cursor-pointer">
+          <p onclick="showLogout()" class="select-none">...</p>
+        </div>
+
       </div>
     </div>
   </nav>
@@ -34,7 +39,7 @@
   </div>
 
   <!-- Footer -->
-  <footer class="bg-[#3d4854] text-white">
+  <footer class="bg-black2 text-white">
     <div class="container mx-auto py-4 flex items-center justify-between h-15">
       <h3 class="text-3xl">CaliCloud</h3>
     </div>
@@ -51,6 +56,26 @@
 </body>
 
 <script>
+  let is_showLogout = false
+  function showLogout() {
+    let logout_box = document.getElementById("logout_box")
+    if (is_showLogout) {
+      logout_box.classList.toggle("opacity-0")
+      logout_box.classList.toggle("translate-y-full")
+      setTimeout(() => {
+        logout_box.classList.toggle("hidden")
+      }, 300)
+    } else {
+      logout_box.classList.toggle("hidden")
+      setTimeout(() => {
+        logout_box.classList.toggle("opacity-0")
+        logout_box.classList.toggle("translate-y-full")
+      }, 300)
+    }
+    is_showLogout = !is_showLogout
+  }
+
+  const signin = document.querySelector("#signin")
   fetch("/backend/retriveuser.php", {
     method: "GET",
     headers: {
@@ -60,12 +85,23 @@
     .then((response) => {
       // console.log('Response:', response); // Log the whole response object
       if (!response.ok) {
+        signin.innerHTML = `<a href="https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F3.82.155.205%2Fbackend%2Ftest.php">
+          <button class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-3 py-2 rounded-lg">Sign in</button>
+        </a>`
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json(); // Proceed to parse JSON if response is okay
     })
     .then(data => {
-      console.log(data)
+      if (data['userdata']['name']) {
+        signin.innerHTML = `
+        <p onclick="showLogout()" class="select-none">${data['userdata']['name']}</p>
+        <div id="logout_box"
+          class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow w-32">
+          <a href="https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F3.82.155.205%2Fbackend%2Ftest.php&response_type=code" class="ml-auto">Sign out</a>
+        </div>
+        `
+      }
     })
 </script>
 

@@ -1,4 +1,6 @@
 <?php
+# AWS Cognito (App client) OAuth 2.0 grant types need to be 'Authorization code grant'
+
 include 'config.php';
 
 $redirectUri = "https://3.82.155.205/backend/test.php"; // This should match the callback URL in your user pool settings
@@ -44,12 +46,14 @@ if (isset($_GET['code'])) {
         $_SESSION['id_token'] = $idToken;
         $_SESSION['expires_in'] = $expiresIn;
 
+        header("HTTP/1.1 200 OK");
         echo "Tokens received successfully!";
     } else {
+        header("HTTP/1.1 400 Bad Request");
         echo "Failed to retrieve tokens.";
     }
 } else {
+    header("HTTP/1.1 400 Bad Request");
     echo "Authorization code not found!";
 }
-header("location: /index.html")
-?>
+header("location: /index.html");

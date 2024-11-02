@@ -20,19 +20,10 @@ if (isset($_SESSION['access_token']) && isset($_SESSION['id_token']) && isset($_
         $userData = $decodedPayload; // Contains user attributes
     }
 
-    // Use the information as needed
-    // echo "Access Token: " . $accessToken . "<br>";
-    // echo "ID Token: " . $idToken . "<br>";
-    // echo "Expires In: " . $expiresIn . " seconds<br>";
-    
-    // Print user information
-    // if ($userData) {
-    //     echo "<pre>User Information: ";
-    //     print_r($userData);
-    //     echo "</pre>";
-    // }
-    echo json_encode(["userdata" => $userData, "status" => 200]);
+    header("HTTP/1.1 200 OK");
+    echo json_encode(["userdata" => $userData]);
 } else {
-    echo json_encode(["userdata" => "No user information found in the session.", "status" => 200]);
+    header("HTTP/1.1 400 Bad Request");
+    echo json_encode(["userdata" => "No user information found in the session."]);
 }
 ?>

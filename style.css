@@ -4,6 +4,10 @@
 
 @tailwind utilities;
 
+body {
+  @apply text-black dark:text-white bg-white dark:bg-black2
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
