@@ -3,8 +3,6 @@
 
 include 'config.php';
 
-$redirectUri = constant("REDIRECT_URL"); // This should match the callback URL in your user pool settings
-
 if (isset($_GET['code'])) {
     $authorizationCode = $_GET['code'];
 
@@ -15,7 +13,7 @@ if (isset($_GET['code'])) {
         'client_id' => constant("CLIENT_ID"),
         'client_secret' => constant("CLIENT_SECRET"),
         'code' => $authorizationCode,
-        'redirect_uri' => $redirectUri,
+        'redirect_uri' => constant("REDIRECT_URL"),
     ]);
 
     // Set up cURL
@@ -56,4 +54,4 @@ if (isset($_GET['code'])) {
     header("HTTP/1.1 400 Bad Request");
     echo "Authorization code not found!";
 }
-header("location: /index.html");
+// header("location: /index.html");
