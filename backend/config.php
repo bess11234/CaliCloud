@@ -13,5 +13,5 @@ define('AWS_REGION', 'us-east-1');
 define('USER_POOL_ID', 'us-east-1_IJfiebLkV');
 define('CLIENT_ID', '7uvm35k22tckpfkhbq46b7jkut');
 define("CLIENT_SECRET", "1dc44dl0ae6f0823t84elteejcvl0tlhkve3uigb7u86a0i8hbfa");
-define("REDIRECT_URL", "https://34.238.254.27/backend/credential.php");
+define("REDIRECT_URL", "https://98.82.12.212/backend/credential.php");
 ?>

@@ -3,24 +3,29 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/img.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite App</title>
+  <title>CaliCloud</title>
   <link rel="stylesheet" href="./output.css">
 </head>
 
-<body class="bg-[url('src/body.png')] flex flex-col min-h-screen">
-  <nav class="bg-white dark:bg-black2">
+<body class="bg-[url('/src/body.png')] flex flex-col min-h-screen">
+  <nav class="bg-[#3d4854] text-white">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
             <img src="/img.png" alt="" class="size-14 mr-3">
-            <a href="" class="text-3xl font-bold">CaliCloud</a>
+            <a href="/" class="text-3xl font-bold">CaliCloud</a>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
               <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Home</a>
+            </div>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Service</a>
             </div>
           </div>
         </div>
@@ -43,7 +48,7 @@
   </div>
 
   <!-- Footer -->
-  <footer class="bg-black2 text-white">
+  <footer class="bg-[#3d4854] text-white">
     <div class="container mx-auto py-4 flex items-center justify-between h-15">
       <h3 class="text-3xl">CaliCloud</h3>
     </div>
@@ -60,7 +65,7 @@
 </body>
 
 <script>
-  const ip = "34.238.254.27"
+  const ip = "98.82.12.212"
   const signOutPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php&response_type=code`
   const signInPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php`
 
@@ -93,7 +98,7 @@
   }
 
   const signin = document.querySelector("#signin")
-  fetch("/backend/retriveuser.php", {
+  fetch("/backend/retrieveuser.php", {
     method: "GET",
     headers: {
       'Content-Type': 'application/json'

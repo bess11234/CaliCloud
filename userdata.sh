@@ -1,17 +1,19 @@
+#! /bin/bash
 sudo yum -y update
 sudo yum install -y git
-sudo rm -rf ~/app
+sudo rm -rf app
 sudo git clone https://github.com/bess11234/CaliCloud.git app
-aws s3 cp s3://calicloud/.env .env
+sudo aws s3 cp s3://calicloud/.env .env
 sudo mv .env app/
 cd app
 sudo yum install -y nginx
-sudo yum install -y php-xml
+sudo yum install -y php-xml php-pdo php-mysqlnd
 sudo cp nginx.conf /etc/nginx/
 sudo mkdir /etc/pki/nginx
 sudo cp ssl/calicloud.crt /etc/pki/nginx/
 sudo mkdir /etc/pki/nginx/private
 sudo cp ssl/calicloud.key /etc/pki/nginx/private/
+sudo systemctl start nginx
 sudo systemctl restart nginx
 sudo yum install curl
 curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -

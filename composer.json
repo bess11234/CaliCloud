@@ -15,6 +15,7 @@
     "require": {
         "aws/aws-sdk-php": "^3.325",
         "firebase/php-jwt": "^6.10",
-        "web-token/jwt-library": "^3.4"
+        "web-token/jwt-library": "^3.4",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

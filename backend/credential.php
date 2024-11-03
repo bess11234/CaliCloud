@@ -1,7 +1,8 @@
 <?php
-# AWS Cognito (App client) OAuth 2.0 grant types need to be 'Authorization code grant'
+# AWS Cognito (App client) OAuth 2.0 grant types need to be 'Authorization code grant'.
 
 include 'config.php';
+include 'database.php';
 
 if (isset($_GET['code'])) {
     $authorizationCode = $_GET['code'];
@@ -43,6 +44,28 @@ if (isset($_GET['code'])) {
         $_SESSION['access_token'] = $accessToken;
         $_SESSION['id_token'] = $idToken;
         $_SESSION['expires_in'] = $expiresIn;
+        $_SESSION['token'] = explode(".", $accessToken)[2];
+
+        // You can also decode the ID token to retrieve user details (if you want)
+        $userData = null;
+        if ($idToken) {
+            // Decode the JWT (ID token) to get user information
+            $payload = explode('.', $idToken)[1]; // Get the payload part of the JWT
+            $decodedPayload = json_decode(base64_decode($payload), true); // Decode and convert JSON to an associative array
+
+            $userData = $decodedPayload; // Contains user attributes
+
+            $email = $userData['email'];
+            
+            $result = $conn->query("SELECT email FROM user WHERE email='$email'");
+            if ($result->rowCount()==1){
+                // CREATE user
+                $conn->query("UPDATE user SET token='{$_SESSION['token']}' WHERE email='$email'");
+            }else{
+                // UPDATE user
+                $conn->query("INSERT INTO user (email, token) VALUES ('$email', '{$_SESSION['token']}')");
+            }
+        }
 
         header("HTTP/1.1 200 OK");
         echo "Tokens received successfully!";
