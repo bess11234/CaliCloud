@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET"){
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $name = isset($input['name']) ? $input['name'] : null;
     
-    $result = $conn->query("INSERT INTO test (name) VALUES ('$name')");
     if ($name) {
+        $result = $conn->query("INSERT INTO test (name) VALUES ('$name')");
         if ($result){
             header("HTTP/1.1 201 Created");
             echo json_encode(['status' => "Successfully inserted test data"]);
@@ -33,9 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"){
     $name = isset($input['name']) ? $input['name'] : null;
     $new_name = isset($input['new_name']) ? $input['new_name'] : null;
 
-    $result = $conn->query("UPDATE test SET name='$new_name' WHERE name='$name'");
     if ($name && $new_name) {
-        $result = $conn->query("DELETE FROM test WHERE name='$name'");
+        $result = $conn->query("UPDATE test SET name='$new_name' WHERE name='$name'");
         if ($result) {
             header("HTTP/1.1 200 OK");
             echo json_encode(['status' => "Successfully deleted test data"]);

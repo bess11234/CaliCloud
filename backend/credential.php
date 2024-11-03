@@ -44,24 +44,28 @@ if (isset($_GET['code'])) {
         $_SESSION['access_token'] = $accessToken;
         $_SESSION['id_token'] = $idToken;
         $_SESSION['expires_in'] = $expiresIn;
+        $_SESSION['token'] = explode(".", $accessToken)[2];
 
-        // // You can also decode the ID token to retrieve user details (if you want)
-        // $userData = null;
-        // if ($idToken) {
-        //     // Decode the JWT (ID token) to get user information
-        //     $payload = explode('.', $idToken)[1]; // Get the payload part of the JWT
-        //     $decodedPayload = json_decode(base64_decode($payload), true); // Decode and convert JSON to an associative array
+        // You can also decode the ID token to retrieve user details (if you want)
+        $userData = null;
+        if ($idToken) {
+            // Decode the JWT (ID token) to get user information
+            $payload = explode('.', $idToken)[1]; // Get the payload part of the JWT
+            $decodedPayload = json_decode(base64_decode($payload), true); // Decode and convert JSON to an associative array
 
-        //     $userData = $decodedPayload; // Contains user attributes
+            $userData = $decodedPayload; // Contains user attributes
 
-        //     $email = $userData['email'];
+            $email = $userData['email'];
             
-        //     // CREATE user
-        //     $result = $conn->query("SELECT email FROM user WHERE email='$email'");
-        //     if ($result->rowCount()==1){
-        //         $conn->query("INSERT INTO user (email, token) VALUES ()");
-        //     }
-        // }
+            $result = $conn->query("SELECT email FROM user WHERE email='$email'");
+            if ($result->rowCount()==1){
+                // CREATE user
+                $conn->query("UPDATE user SET token='{$_SESSION['token']}' WHERE email='$email'");
+            }else{
+                // UPDATE user
+                $conn->query("INSERT INTO user (email, token) VALUES ('$email', '{$_SESSION['token']}')");
+            }
+        }
 
         header("HTTP/1.1 200 OK");
         echo "Tokens received successfully!";
