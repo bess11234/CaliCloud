@@ -1,7 +1,3 @@
-Here's a more formal version of your README.md:
-
----
-
 # Project Initialization
 
 To set up the project, execute the following commands:
