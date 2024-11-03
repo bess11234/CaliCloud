@@ -61,20 +61,36 @@
           drawRoute(marker1.location(), marker2.location());
 
           map.Event.bind(longdo.EventName.OverlayDrop, function (overlay) {
-            console.log(
-              "Longitude:",
-              overlay.location().lon,
-              "Latitude:",
-              overlay.location().lat
-            );
+            document.getElementById("marker1_lat").value = marker1.location().lat;
+            document.getElementById("marker1_lon").value = marker1.location().lon;
 
+            document.getElementById("marker2_lat").value = marker2.location().lat;
+            document.getElementById("marker2_lon").value = marker2.location().lon;
+
+            console.log(
+              "M1 Longitude:",
+              marker1.location().lon,
+              "M1 Latitude:",
+              marker1.location().lat
+            );
+            console.log(
+              "M2 Longitude:",
+              marker2.location().lon,
+              "M2 Latitude:",
+              marker2.location().lat
+            );
+            
             setTimeout(() => {
               const distanceSpan = document.querySelector(".ldroute-distance");
               if (distanceSpan) {
                 const distanceText = distanceSpan.innerText;
                 const distanceValue = parseFloat(distanceText);
+                const totalPrice = calculatePrice(distanceValue);
                 console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-                document.getElementById("total-price").innerHTML = Math.ceil(distanceValue)*5
+                console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+                document.getElementById("total-price").innerHTML = totalPrice;
+                document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
+                document.getElementById('distance').value = distanceValue
               } else {
                 console.log("ไม่พบระยะทาง");
               }
@@ -92,6 +108,47 @@
         map.Route.add(end);
         map.Route.search();
       }
+
+      function calculatePrice(distanceValue) {
+        const initial_price = 100; // ราคาเริ่มต้น 100 บาท
+        const initial_distance = 5; // กิโลเมตรแรกที่คิดราคาคงที่
+        const additional_price = 6; // ราคาต่อกิโลเมตรที่เกินจาก initial_distance
+
+        // คำนวณราคาตามระยะทาง
+        let basePrice;
+        if (distanceValue <= initial_distance) {
+          basePrice = initial_price;
+        } else {
+          const extra_distance = distanceValue - initial_distance;
+          const extra_cost = extra_distance * additional_price;
+          basePrice = initial_price + extra_cost;
+        }
+
+        // คำนวณราคาจากตัวเลือกเพิ่มเติมที่ถูกเลือก
+        const options = document.querySelectorAll(".option-checkbox:checked");
+        let optionTotal = 0;
+        options.forEach((option) => {
+          optionTotal += parseFloat(option.value);
+        });
+
+        // รวมราคาทั้งหมดและจำกัดทศนิยม 2 ตำแหน่ง
+        const totalPrice = basePrice + optionTotal;
+        return parseFloat(totalPrice.toFixed(2));
+      }
+
+      // อัปเดตการคำนวณเมื่อมีการเปลี่ยนแปลงตัวเลือกเพิ่มเติม
+      document.querySelectorAll(".option-checkbox").forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          const distanceSpan = document.querySelector(".ldroute-distance");
+          if (distanceSpan) {
+            const distanceValue = parseFloat(distanceSpan.innerText);
+            const totalPrice = calculatePrice(distanceValue);
+            document.getElementById("total-price").innerHTML = totalPrice;
+            document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
+            document.getElementById('distance').value = distanceValue
+          }
+        });
+      });
     </script>
   </head>
 
@@ -129,31 +186,76 @@
             </div>
         </div>
         
-        
         <div class="m-5 mt-0 w-full">
-
+          <form id="reservationForm" method="POST" onsubmit="submitForm(event)">
             <!--Input Date time-->
             <h1 class="mb-2 text-lg">2.Select Date-Time Pick-Up</h1>
             <div class="flex gap-4">
-                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" placeholder="Select Pick-Up Date">
-                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" placeholder="Select Pick-Up Time">
+                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" name="pickup_date" placeholder="Select Pick-Up Date" required>
+                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" name="pickup_time" placeholder="Select Pick-Up Time" required>
             </div>
 
             <!--Service Option-->
             <h1 class="mb-2 text-lg">3. Select Option(s)</h1>
             <ul>
-                <li><input class="mr-2" type="checkbox" id="option1" name="option1" value="Packing">Packing Service +100</li>
-                <li><input class="mr-2" type="checkbox" id="option2" name="option2" value="Packing">Packing Service +200</li>
-                <li><input class="mr-2" type="checkbox" id="option1" name="option3" value="Packing">Packing Service +300</li>
+                <li><input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100">Packing Service +100</li>
+                <li><input class="mr-2 option-checkbox" type="checkbox" id="option2" name="option2" value="200">Packing Service +200</li>
+                <li><input class="mr-2 option-checkbox" type="checkbox" id="option3" name="option3" value="300">Packing Service +300</li>
             </ul>
             <hr class="mt-5">
 
+            <!-- Hidden fields for marker1 -->
+            <input type="hidden" id="marker1_lat" name="marker1_lat">
+            <input type="hidden" id="marker1_lon" name="marker1_lon">
+
+            <!-- Hidden fields for marker2 -->
+            <input type="hidden" id="marker2_lat" name="marker2_lat">
+            <input type="hidden" id="marker2_lon" name="marker2_lon">
+
+            <input type="hidden" name="distance" id="distance">
+            <input type="hidden" id="totalPriceInput" name="total_price">
+
             <div class="flex mt-5">
                 <p class="flex-1 text-2xl">Total Price: <span id="total-price">0</span> Baht</p>
-                <button class=" bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center">Payment ></button>
+                <button class=" bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center" type="submit">Payment ></button>
             </div>
-        </div>
+          </form>
         </div>
       </div> 
   </body>
 </html>
+
+<script>
+  function submitForm(event) {
+    event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
+
+    // ดึงข้อมูลจากฟอร์ม
+    const form = document.getElementById('reservationForm');
+    const formData = new FormData(form);
+    const data = {};
+
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    // ส่งข้อมูลไปยัง backend
+    fetch("/backend/test.php", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+</script>
