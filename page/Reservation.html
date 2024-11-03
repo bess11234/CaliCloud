@@ -70,6 +70,7 @@
 
 <script>
     const vehicle_show = document.getElementById("vehicle_show")
+    console.log(window.location.search)
     fetch("/backend/api/vehicles.php", {
         method: "GET",
         headers: {
@@ -87,7 +88,7 @@
             vehicle_show.innerHTML = ""
             data.forEach(item => {
                 vehicle_show.innerHTML +=
-                    `
+                `
                 <div class="bg-gray-500 rounded-t-3xl rounded-b-lg text-center">
                     <img src="/${item['image_url']}" alt="" class="w-full h-auto rounded-t-3xl rounded-b-3xl ">
                     <h2 class="text-center text-3xl font-bold">${item['name']}</h2>
@@ -97,9 +98,9 @@
                     <div class="items-center">
                         <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]
                         cursor-pointer ml-20 mr-20 mt-5">
-                            <p class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] ml-10">
+                            <a href="ReserveDetail.html?vehicleID=${item['id']}" class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] ml-10">
                                 Reserve
-                            </p>
+                            </a>
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                                 class="flex-grow-0 flex-shrink-0 w-3.5 h-3.5 relative" preserveAspectRatio="xMidYMid meet">
                                 <path fill-rule="evenodd" clip-rule="evenodd"

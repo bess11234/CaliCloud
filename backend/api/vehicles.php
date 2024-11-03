@@ -5,7 +5,7 @@ include '../database.php';
 $input = json_decode(file_get_contents("php://input"), true);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET"){
-    $result = $conn->query("SELECT name, initial_price, add_price, capacity, image_url FROM vehicles");
+    $result = $conn->query("SELECT id, name, initial_price, add_price, capacity, image_url FROM vehicles");
     $result->setFetchMode(PDO::FETCH_ASSOC);
 
     header("HTTP/1.1 200 OK");
