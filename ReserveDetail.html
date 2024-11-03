@@ -149,11 +149,16 @@
           }
         });
       });
+
+      //minimum selected date is tomorrow
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById("date").min = tomorrow.toISOString().split("T")[0];
     </script>
   </head>
 
-  <body class="bg-[url('/public/body.png')]">
-    <nav class="bg-white">
+  <body class="bg-gradient-to-b from-white via-cyan-50 to-white h-screen">
+    <nav class="bg-white drop-shadow-md">
         <div class="mx-auto px-2 sm:px-6 lg:px-8">
           <div class="relative flex h-16 items-center justify-between">
             <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -172,8 +177,7 @@
         </div>
       </nav>
 
-      <h1 class="flex justify-center text-4xl">Reservation Service</h1>
-      <h1 class="ml-5 text-lg">1. Select your pick-up and drop-off location</h1>
+      <h1 class="mt-5 mb-5 flex justify-center text-4xl font-semibold">Reservation Service</h1>
       <div class="m-5 mt-1 border-2 border-black" id="map"></div>
       <div class="hidden" id="result"></div>
 
@@ -181,28 +185,30 @@
         <!--Vehicle Image-->
         <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
             <div class="w-fit">
-                <h1 class="mb-2 text-lg">(Vehicle Selected)</h1>
+                <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
                 <img class="h-60" src="public/img.png">
             </div>
         </div>
         
-        <div class="m-5 mt-0 w-full">
+        <div class="m-5 mt-0 w-full bg-white border-2 border-black p-6 rounded-xl">
           <form id="reservationForm" method="POST" onsubmit="submitForm(event)">
             <!--Input Date time-->
-            <h1 class="mb-2 text-lg">2.Select Date-Time Pick-Up</h1>
+            <h1 class="mb-3 text-xl font-medium">1. Select your pick-up and drop-off location from the map above.</h1>
+            <hr>
+            <h1 class="mt-5 mb-2 text-xl font-medium">2. Select Date-Time Pick-Up</h1>
             <div class="flex gap-4">
-                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" name="pickup_date" placeholder="Select Pick-Up Date" required>
-                <input class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" name="pickup_time" placeholder="Select Pick-Up Time" required>
+                <input id="date" class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" name="pickup_date" placeholder="Select Pick-Up Date" required>
+                <input id="time" class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" name="pickup_time" placeholder="Select Pick-Up Time" required>
             </div>
 
+            <hr>
             <!--Service Option-->
-            <h1 class="mb-2 text-lg">3. Select Option(s)</h1>
+            <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
             <ul>
                 <li><input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100">Packing Service +100</li>
                 <li><input class="mr-2 option-checkbox" type="checkbox" id="option2" name="option2" value="200">Packing Service +200</li>
                 <li><input class="mr-2 option-checkbox" type="checkbox" id="option3" name="option3" value="300">Packing Service +300</li>
             </ul>
-            <hr class="mt-5">
 
             <!-- Hidden fields for marker1 -->
             <input type="hidden" id="marker1_lat" name="marker1_lat">
@@ -214,18 +220,63 @@
 
             <input type="hidden" name="distance" id="distance">
             <input type="hidden" id="totalPriceInput" name="total_price">
+            
+            <hr class="mt-5">
+            <div class="mt-5">
+                <h1 class="mb-2 text-xl font-medium">4. Select Method for Payment</h1>
+                <div class="">
+                  <ul>
+                    <li><input onclick="show_payment('card', 'qr')" class="mr-2 option-checkbox" type="radio" id="card" name="pay" value="0">Credit/Debit Card</li>
+                      <div id="card-pay" class="hidden flex gap-2">
+                        <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="card_number" placeholder="Card Number" required>
+                        <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="expire_date" placeholder="Expiration Date (mm/yy)" required>
+                        <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="secure_code" placeholder="Security Code" required>
+                      </div>
+                    <li><input onclick="show_payment('qr', 'card')" class="mr-2 option-checkbox" type="radio" id="qr" name="pay" value="0">QR Code</li>
+                      <div id="qr-pay" class="hidden">
+                        <img class="" src="public/qr.png">
+                      </div>
+                  </ul>
+                </div>
+            </div>
+
+            <hr class="mt-5">
 
             <div class="flex mt-5">
-                <p class="flex-1 text-2xl">Total Price: <span id="total-price">0</span> Baht</p>
-                <button class=" bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center" type="submit">Payment ></button>
+              <p class="flex-1 text-2xl font-medium">Total Price: <span id="total-price">0</span> Baht</p>
+              <button class=" bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center" type="submit">Submit</button>
             </div>
+
           </form>
         </div>
-      </div> 
+      </div>
+
+      <footer class="bg-[#3d4854] text-white">
+        <div class="container mx-auto py-4 flex items-center justify-between h-15">
+          <h3 class="text-3xl">CaliCloud</h3>
+        </div>
+        <div class="container mx-auto py-4 flex items-center justify-between h-15">
+          <div class="text-sm">
+            <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
+            <span class="mx-2">|</span>
+            <a href="#" class="hover:underline">Privacy</a>
+            <span class="mx-2">|</span>
+            <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </footer>
   </body>
 </html>
 
 <script>
+  function show_payment(open, close){
+    console.log("open = "+open, "close = ", close)
+    console.log(document.getElementById(open+"-pay"));
+    document.getElementById(open+"-pay").style.display = "block";
+    document.getElementById(close+"-pay").style.display = "none";
+  }
+
+
   function submitForm(event) {
     event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
 
