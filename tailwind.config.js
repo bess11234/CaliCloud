@@ -3,10 +3,10 @@ export default {
   content: ['./*.html', './page/**/*.{js,ts,jsx,tsx,html}'],
   theme: {
     extend: {
-      colors:{
+      colors: {
         'black2': "#18181b",
       }
     },
-  },
-  plugins: [],
+    plugins: [],
+  }
 }

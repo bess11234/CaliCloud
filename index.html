@@ -2,130 +2,152 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/img.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CaliCloud</title>
-  <link rel="stylesheet" href="./output.css">
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/img.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CaliCloud</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/src/fonts.css">
 </head>
 
-<body class="bg-[url('/src/body.png')] flex flex-col min-h-screen">
-  <nav class="bg-[#3d4854] text-white">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div class="relative flex h-16 items-center justify-between">
-        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-          <div class="flex flex-shrink-0 items-center">
-            <img src="/img.png" alt="" class="size-14 mr-3">
-            <a href="/" class="text-3xl font-bold">CaliCloud</a>
-          </div>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Home</a>
+<body class="text-black dark:text-white flex flex-col min-h-screen transition-colors duration-300 bg-lightBlue dark:bg-darkBlue">
+<nav class="bg-[#3d4854] text-white dark:bg-gray-800">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex flex-shrink-0 items-center">
+                    <img src="/img.png" alt="" class="size-14 mr-3">
+                    <a href="/" class="text-3xl font-black">CaliCloud</a>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex space-x-4">
+                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Home</a>
+                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Service</a>
+                </div>
             </div>
-          </div>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Service</a>
+
+            <div id="signin" class="relative flex flex-row">
+                <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
+                <div id="logout_box"
+                     class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
+                    <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
+                </div>
             </div>
-          </div>
         </div>
+    </div>
+</nav>
 
-        <div id="signin" class="relative flex flex-row">
-          <p onclick="showLogout()" class="select-none cursor-pointer">...</p>
-          <div id="logout_box"
-            class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 rounded shadow">
-            <p onclick="signout()" class="cursor-pointer p-3 px-4 w-32">Sign out</p>
-          </div>
+<!-- Main Content Wrapper -->
+<div class="flex-grow mx-auto my-6 max-w-[1280px]">
+    <div class="flex flex-col justify-center items-center gap-6 mt-10">
+        <h1 class="text-8xl text-center text-[#2e343f] dark:text-white">
+            CaliCloud
+        </h1>
+        <p class="text-2xl text-center text-[#2e343f] dark:text-gray-300">
+            Service for those moving house
+        </p>
+        <p class="text-black dark:text-gray-200 mt-4">gay gay</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 px-4">
+        <div class="bg-gray-500 rounded-3xl text-center dark:bg-gray-700 shadow-lg transition-transform transform hover:scale-105">
+            <img src="/img_1.png" alt="24-hour service" class="w-full h-auto rounded-t-3xl">
+            <span class="block text-xl text-white dark:text-gray-300 p-4">ให้บริการ 24 ชม.</span>
         </div>
-
-      </div>
+        <div class="bg-gray-500 rounded-3xl text-center dark:bg-gray-700 shadow-lg transition-transform transform hover:scale-105">
+            <img src="/img_2.png" alt="Multiple options available" class="w-full h-auto rounded-t-3xl">
+            <span class="block text-xl text-white dark:text-gray-300 p-4">มีหลายตัวเลือกให้ตัดสินใจ</span>
+        </div>
+        <div class="bg-gray-500 rounded-3xl text-center dark:bg-gray-700 shadow-lg transition-transform transform hover:scale-105">
+            <img src="/img_3.png" alt="Interprovincial transportation" class="w-full h-auto rounded-t-3xl">
+            <span class="block text-xl text-white dark:text-gray-300 p-4">สามารถขนย้ายข้ามจังหวัด</span>
+        </div>
+        <div class="bg-gray-500 rounded-3xl text-center dark:bg-gray-700 shadow-lg transition-transform transform hover:scale-105">
+            <img src="/img_4.png" alt="Packing service available" class="w-full h-auto rounded-t-3xl">
+            <span class="block text-xl text-white dark:text-gray-300 p-4">มีบริการแพ๊คของ</span>
+        </div>
     </div>
-  </nav>
+</div>
 
-  <!-- Main Content Wrapper -->
-  <div class="flex-grow">
-    <!-- Your content goes here -->
-  </div>
 
-  <!-- Footer -->
-  <footer class="bg-[#3d4854] text-white">
-    <div class="container mx-auto py-4 flex items-center justify-between h-15">
-      <h3 class="text-3xl">CaliCloud</h3>
+<!-- Footer -->
+<footer class="bg-[#3d4854] text-white dark:bg-gray-800">
+    <div class="container mx-auto py-4 flex flex-col items-center justify-between">
+        <h3 class="text-3xl">CaliCloud</h3>
+        <div class="text-sm">
+            <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
+            <span class="mx-2">|</span>
+            <a href="#" class="hover:underline">Privacy</a>
+            <span class="mx-2">|</span>
+            <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+        </div>
     </div>
-    <div class="container mx-auto py-4 flex items-center justify-between h-15">
-      <div class="text-sm">
-        <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
-        <span class="mx-2">|</span>
-        <a href="#" class="hover:underline">Privacy</a>
-        <span class="mx-2">|</span>
-        <a href="#" class="hover:underline">Terms &amp; Conditions</a>
-      </div>
-    </div>
-  </footer>
+</footer>
 </body>
 
+
 <script>
-  const ip = "98.82.12.212"
-  const signOutPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php&response_type=code`
-  const signInPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php`
+    const ip = "98.82.12.212"
+    const signOutPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php&response_type=code`
+    const signInPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php`
 
-  function signout() {
-    fetch("/backend/signout.php", {
-      method: "POST"
-    })
-    .then((response) => {
-      location.href = signOutPath
-    })
-  }
-  
-  let is_showLogout = false
-  function showLogout() {
-    let logout_box = document.getElementById("logout_box")
-    if (is_showLogout) {
-      logout_box.classList.toggle("opacity-0")
-      logout_box.classList.toggle("translate-y-full")
-      setTimeout(() => {
-        logout_box.classList.toggle("hidden")
-      }, 300)
-    } else {
-      logout_box.classList.toggle("hidden")
-      setTimeout(() => {
-        logout_box.classList.toggle("opacity-0")
-        logout_box.classList.toggle("translate-y-full")
-      }, 300)
+    function signout() {
+        fetch("/backend/signout.php", {
+            method: "POST"
+        })
+            .then(() => {
+                location.href = signOutPath
+            })
     }
-    is_showLogout = !is_showLogout
-  }
 
-  const signin = document.querySelector("#signin")
-  fetch("/backend/retrieveuser.php", {
-    method: "GET",
-    headers: {
-      'Content-Type': 'application/json'
+    let is_showLogout = false
+
+    function showLogout() {
+        let logout_box = document.getElementById("logout_box")
+        if (is_showLogout) {
+            logout_box.classList.toggle("opacity-0")
+            logout_box.classList.toggle("translate-y-full")
+            setTimeout(() => {
+                logout_box.classList.toggle("hidden")
+            }, 300)
+        } else {
+            logout_box.classList.toggle("hidden")
+            setTimeout(() => {
+                logout_box.classList.toggle("opacity-0")
+                logout_box.classList.toggle("translate-y-full")
+            }, 300)
+        }
+        is_showLogout = !is_showLogout
     }
-  })
-    .then((response) => {
-      // console.log('Response:', response); // Log the whole response object
-      if (!response.ok) {
-        signin.innerHTML = `<a href="${signInPath}">
-          <button class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-3 py-2 rounded-xl text-sm">Sign in</button>
+
+    const signin = document.querySelector("#signin")
+    fetch("/backend/retrieveuser.php", {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then((response) => {
+            // console.log('Response:', response); // Log the whole response object
+            if (!response.ok) {
+                signin.innerHTML = `<a href="${signInPath}">
+          <button class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-3 py-2 rounded-lg">Sign in</button>
         </a>`
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json(); // Proceed to parse JSON if response is okay
-    })
-    .then(data => {
-      console.log(data)
-      if (data['userdata']['name']) {
-        signin.innerHTML = `
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // Proceed to parse JSON if response is okay
+        })
+        .then(data => {
+            console.log(data)
+            if (data['userdata']['name']) {
+                signin.innerHTML = `
         <p onclick="showLogout()" class="select-none cursor-pointer">${data['userdata']['name']}</p>
         <div id="logout_box"
           class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 rounded shadow">
           <p onclick="signout()" class="cursor-pointer p-3 px-4 w-32">Sign out</p>
         </div>
         `
-      }
-    })
+            }
+        })
 </script>
 
 </html>

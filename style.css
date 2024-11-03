@@ -5,8 +5,10 @@
 @tailwind utilities;
 
 body {
-  @apply text-black dark:text-white bg-white dark:bg-black2
+    font-family: Sarabun, serif;
 }
+
+
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -99,3 +101,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+
