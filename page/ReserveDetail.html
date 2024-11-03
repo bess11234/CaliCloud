@@ -104,6 +104,8 @@
       }
 
       function calculatePrice(distanceValue) {
+        distanceValue = Math.ceil(distanceValue) //ปัดขึ้นเสมอ
+        // ดึงข้อมูลจาก Database
         const initial_price = 100; // ราคาเริ่มต้น 100 บาท
         const initial_distance = 5; // กิโลเมตรแรกที่คิดราคาคงที่
         const additional_price = 6; // ราคาต่อกิโลเมตรที่เกินจาก initial_distance
@@ -136,8 +138,8 @@
           const distanceSpan = document.querySelector(".ldroute-distance");
           if (distanceSpan) {
             const distanceValue = parseFloat(distanceSpan.innerText);
-            const totalPrice = calculatePrice(distanceValue);
-            document.getElementById("total-price").innerHTML = totalPrice;
+            const totalPrice = calculatePrice(distanceValue); // ส่งไปคำนวณราคา 
+            document.getElementById("total-price").innerHTML = totalPrice; // แสดงราคาที่คำนวณ
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
             document.getElementById('distance').value = distanceValue
           }
@@ -179,8 +181,8 @@
         <!--Vehicle Image-->
         <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
             <div class="w-fit">
-                <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
-                <img class="h-60" src="public/img.png">
+                <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1> <!--Put Photo from Reservetion.html-->
+                <img class="h-60" src="/public/img.png">
             </div>
         </div>
         
