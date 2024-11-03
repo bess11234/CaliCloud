@@ -33,6 +33,9 @@
       document.head.appendChild(script);
 
       var map;
+      let routePoints = [];
+      routePoints[0] = { lon: 100.538316, lat: 13.764953 };
+      routePoints[1] = { lon: 100.56, lat: 13.74 };
 
       function init() {
         map = new longdo.Map({
@@ -40,48 +43,47 @@
         });
 
         map.Event.bind("ready", function () {
-          var marker1 = new longdo.Marker(
-            { lon: 100.538316, lat: 13.764953 },
-            {
-              title: "ตำแหน่งปัจจุบัน",
-              detail: "ตำแหน่งของคุณ",
-              id: "marker1",
-            }
-          );
+        drawRoute(routePoints[0], routePoints[1]);
+          function drawRoute(start, end) {
+            console.log("Drawing route from", start, "to", end);
+            map.Route.clear();
+            map.Route.placeholder(document.getElementById("result"));
 
-          var marker2 = new longdo.Marker(
-            { lon: 100.56, lat: 13.74 },
-            {
-              title: "จุดเป้าหมาย",
-              detail: "จุดที่ต้องการไป",
-              id: "marker2",
-            }
-          );
+            map.Route.add(start);
+            map.Route.add(end);
+            routePoints = [];
+            routePoints.push(start); // เก็บตำแหน่งจุดเริ่มต้น
+            routePoints.push(end); // เก็บตำแหน่งจุดสิ้นสุด
+            // ค้นหาเส้นทาง
+            map.Route.search({
+              callback: function () {
+                updateRouteInfo(); // อัปเดตข้อมูลเส้นทางเมื่อการค้นหาสำเร็จ
+              },
+            });
+          }
 
-          drawRoute(marker1.location(), marker2.location());
+          function updateRouteInfo() {
+            // แค่แสดงผลตำแหน่งใน console
+            console.log("Start Location lat:", routePoints[0].lat);
+            console.log("Start Location long:", routePoints[0].lon);
+            console.log("End Location lat:", routePoints[1].lat);
+            console.log("End Location long:", routePoints[1].lon);
+        }
 
           map.Event.bind(longdo.EventName.OverlayDrop, function (overlay) {
-            document.getElementById("marker1_lat").value = marker1.location().lat;
-            document.getElementById("marker1_lon").value = marker1.location().lon;
+            document.getElementById("marker1_lat").value = routePoints[0].lat;
+            document.getElementById("marker1_lon").value = routePoints[0].lon;
+            document.getElementById("marker2_lat").value = routePoints[1].lat;
+            document.getElementById("marker2_lon").value = routePoints[1].lon;
 
-            document.getElementById("marker2_lat").value = marker2.location().lat;
-            document.getElementById("marker2_lon").value = marker2.location().lon;
-
-            console.log(
-              "M1 Longitude:",
-              marker1.location().lon,
-              "M1 Latitude:",
-              marker1.location().lat
-            );
-            console.log(
-              "M2 Longitude:",
-              marker2.location().lon,
-              "M2 Latitude:",
-              marker2.location().lat
-            );
-            
+            console.log("Start Location lat:", document.getElementById("marker1_lat").value);
+            console.log("Start Location long:",document.getElementById("marker1_lon").value);
+            console.log("End Location lat:", document.getElementById("marker2_lat").value);
+            console.log("End Location long:", document.getElementById("marker2_lon").value);
             setTimeout(() => {
+
               const distanceSpan = document.querySelector(".ldroute-distance");
+
               if (distanceSpan) {
                 const distanceText = distanceSpan.innerText;
                 const distanceValue = parseFloat(distanceText);
@@ -98,15 +100,6 @@
             return false;
           });
         });
-      }
-
-      function drawRoute(start, end) {
-        console.log("Drawing route from", start, "to", end);
-        map.Route.clear();
-        map.Route.placeholder(document.getElementById("result"));
-        map.Route.add(start);
-        map.Route.add(end);
-        map.Route.search();
       }
 
       function calculatePrice(distanceValue) {
@@ -239,7 +232,7 @@
     });
 
     // ส่งข้อมูลไปยัง backend
-    fetch("/backend/test.php", {
+    fetch("/backend/save_reservation.php", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
