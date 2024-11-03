@@ -109,6 +109,7 @@
     }
 
     function calculatePrice(distanceValue) {
+      distanceValue = Math.ceil(distanceValue)
       const initial_price = 100; // ราคาเริ่มต้น 100 บาท
       const initial_distance = 5; // กิโลเมตรแรกที่คิดราคาคงที่
       const additional_price = 6; // ราคาต่อกิโลเมตรที่เกินจาก initial_distance
@@ -205,16 +206,10 @@
         <hr>
         <!--Service Option-->
         <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
-        <ul>
-          <li><input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100">Packing
+        <ul id="option_show">
+          {% comment %} <li><input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100">Packing
             Service +100
-          </li>
-          <li><input class="mr-2 option-checkbox" type="checkbox" id="option2" name="option2" value="200">Packing
-            Service +200
-          </li>
-          <li><input class="mr-2 option-checkbox" type="checkbox" id="option3" name="option3" value="300">Packing
-            Service +300
-          </li>
+          </li> {% endcomment %}
         </ul>
 
         <!-- Hidden fields for marker1 -->
@@ -284,6 +279,36 @@
 </body>
 
 </html>
+
+<script>
+  const option_show = document.getElementById("option_show")
+  console.log(window.location.search)
+  fetch("/backend/api/reserve_detail.php", {
+      method: "GET",
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+      .then((response) => {
+          // console.log('Response:', response); // Log the whole response object
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json(); // Proceed to parse JSON if response is okay
+      })
+      .then(data => {
+        option_show.innerHTML = ""
+          data.forEach(item => {
+            console.log(item)
+            option_show.innerHTML +=
+              `
+              <li><input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="${item['price']}">
+                ${item['name']} +${item['price']}
+              </li>
+              `
+          })
+      })
+</script>
 
 <script>
   function show_payment(open, close) {

@@ -171,12 +171,12 @@
             console.log(data)
             if (data['userdata']['name']) {
                 signin.innerHTML = `
-        <p onclick="showLogout()" class="select-none cursor-pointer">${data['userdata']['name']}</p>
-        <div id="logout_box"
-          class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow">
-          <p onclick="signout()" class="cursor-pointer w-32">Sign out</p>
-        </div>
-        `
+                <p onclick="showLogout()" class="select-none cursor-pointer">${data['userdata']['name']}</p>
+                <div id="logout_box"
+                class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow">
+                <p onclick="signout()" class="cursor-pointer w-32">Sign out</p>
+                </div>
+                `
             }
         })
 </script>

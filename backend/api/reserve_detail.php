@@ -4,9 +4,13 @@ include '../database.php';
 
 $input = json_decode(file_get_contents("php://input"), true);
 
-// if ($_SERVER['REQUEST_METHOD'] == "GET"){
-//     $result = $conn->query("SELECT id, name FROM test");
-//     $result->setFetchMode(PDO::FETCH_ASSOC);
+if ($_SERVER['REQUEST_METHOD'] == "GET"){
+    $result = $conn->query("SELECT id, name, price FROM serviceoptions");
+    $result->setFetchMode(PDO::FETCH_ASSOC);
+
+    header("HTTP/1.1 200 OK");
+    echo json_encode($result->fetchAll());
+}
 
 //     header("HTTP/1.1 200 OK");
 //     echo json_encode($result->fetchAll());
