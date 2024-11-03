@@ -4,7 +4,7 @@ import path from 'path'
 import { glob } from 'glob'
 import dotenv from 'dotenv';
 
-const htmlFiles = glob.sync('src/**/*.html')
+const htmlFiles = glob.sync('page/**/*.html')
 
 // Create entry points object for Rollup
 // Create entry points for Rollup
@@ -14,8 +14,8 @@ const input = {
 
 // Add each HTML file from src to the input
 htmlFiles.forEach((file) => {
-    const src = file.replace(/^src\//, '') // Keeps src folder structure
-    input[src] = resolve(__dirname, file)
+    const page = file.replace(/^page\//, '') // Keeps src folder structure
+    input[page] = resolve(__dirname, file)
 })
 
 dotenv.config();
