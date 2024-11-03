@@ -1,12 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./*.html', './page/**/*.{js,ts,jsx,tsx,html}'],
-  theme: {
-    extend: {
-      colors: {
-        'black2': "#18181b",
-      }
+    content: ['./*.html', './page/**/*.{js,ts,jsx,tsx,html}'],
+    darkMode: 'media',
+    theme: {
+        extend: {
+            colors: {
+                'black2': "#18181b",
+                'lightBlue': "#eff2f7",
+                'darkBlue': "#010c27",
+            }
+        },
     },
     plugins: [],
-  }
 }
