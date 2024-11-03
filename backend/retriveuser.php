@@ -27,18 +27,16 @@ if (isset($_SESSION['access_token']) && isset($_SESSION['id_token']) && isset($_
         $result = $conn->query("SELECT token FROM user WHERE email='$email'");
         $result->setFetchMode(PDO::FETCH_ASSOC);
         $result = $result->fetchObject();
-        
-        if ($result['token'] == $_SESSION['token']){
+
+        if ($result->token == $_SESSION['token']) {
             header("HTTP/1.1 200 OK");
             echo json_encode(["userdata" => $userData]);
-        }else{
+        } else {
+            session_destroy();
             header("HTTP/1.1 401 Unauthorized");
-            header("location: signout.php");
         }
     }
-
 } else {
     header("HTTP/1.1 400 Bad Request");
     echo json_encode(["userdata" => "No user information found in the session."]);
 }
-?>

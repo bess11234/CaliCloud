@@ -13,6 +13,7 @@ php -S localhost:8000 # 3
 - Amazon Cognito แก้ IP address
 - แก้ index.html (ip), config.php (redirect_url)
 - แก้ userdata.sh
+- รัน .sh แบบ Root role
 
 # SET ENVIRONMENTS
 ```
