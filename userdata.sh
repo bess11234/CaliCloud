@@ -1,3 +1,4 @@
+#! /bin/bash
 sudo yum -y update
 sudo yum install -y git
 sudo rm -rf ~/app
@@ -24,7 +25,4 @@ sudo npm install
 sudo php /usr/local/bin/composer install
 sudo npm run build
 sudo cp -r dist/* /usr/share/nginx/html/
-# sudo dnf update -y
-# sudo dnf install -y mariadb105
-# mysql -h calicloud.coxfpw5fib1g.us-east-1.rds.amazonaws.com -u admin -p calicloud < <.sql>
 php -S localhost:8000
