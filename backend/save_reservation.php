@@ -1,47 +1,91 @@
 <?php
-// การตั้งค่า PDO
-// $host = 'localhost';
-// $dbname = 'your_database';
-// $username = 'your_username';
-// $password = 'your_password';
+include 'config.php';
 
-// try {
-//     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-//     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// // ตั้งค่าเชื่อมต่อฐานข้อมูล
+// $servername = "your-rds-endpoint"; // เช่น your-instance-name.region.rds.amazonaws.com
+// $username = "your-username";
+// $password = "your-password";
+// $dbname = "your-database-name";
 
-// รับข้อมูลจากฟอร์ม
-$marker1_lat = $_POST['marker1_lat'];
-$marker1_lon = $_POST['marker1_lon'];
+// // เชื่อมต่อฐานข้อมูล
+// $conn = new mysqli($servername, $username, $password, $dbname);
 
-$marker2_lat = $_POST['marker2_lat'];
-$marker2_lon = $_POST['marker2_lon'];
-
-$pickup_date = $_POST['pickup_date'];
-$pickup_time = $_POST['pickup_time'];
-
-$distance = $_POST['distance'];
-$totalPrice = $_POST['total_price'];
-
-$userId = 1; // ตัวอย่างการกำหนดค่า user_id
-$vehicleId = 1; // ตัวอย่างการกำหนดค่า vehicle_id
-
-// ปริ้นค่าต่าง ๆ
-echo "Marker 1 Latitude: " . $marker1_lat . "<br>";
-echo "Marker 1 Longitude: " . $marker1_lon . "<br>";
-echo "Marker 2 Latitude: " . $marker2_lat . "<br>";
-echo "Marker 2 Longitude: " . $marker2_lon . "<br>";
-echo "Pickup Date: " . $pickup_date . "<br>";
-echo "Pickup Time: " . $pickup_time . "<br>";
-echo "Distance: " . $distance . "<br>";
-echo "Total Price: " . $totalPrice . "<br>";
-echo "User ID: " . $userId . "<br>";
-echo "Vehicle ID: " . $vehicleId . "<br>";
-
-// สร้างข้อมูลการจอง
-//     $stmt = $pdo->prepare("INSERT INTO ReserveServices (user_id, vehicle_id, total_price) VALUES (?, ?, ?)");
-//     $stmt->execute([$userId, $vehicleId, $totalPrice]);
-
-//     echo "บันทึกข้อมูลสำเร็จ";
-// } catch (PDOException $e) {
-//     echo "เกิดข้อผิดพลาด: " . $e->getMessage();
+// // ตรวจสอบการเชื่อมต่อ
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
 // }
+
+// ตรวจสอบการร้องขอ POST
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // อ่านข้อมูล JSON ที่ส่งมาจากฟอร์ม
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    // ตรวจสอบว่ามีข้อมูลที่ต้องการหรือไม่
+    if ($data) {
+        // ดึงค่าต่างๆ จากข้อมูล
+        $pickup_date = $data['pickup_date'] ?? null;
+        $pickup_time = $data['pickup_time'] ?? null;
+        $marker1_lat = $data['marker1_lat'] ?? null;
+        $marker1_lon = $data['marker1_lon'] ?? null;
+        $marker2_lat = $data['marker2_lat'] ?? null;
+        $marker2_lon = $data['marker2_lon'] ?? null;
+        $distance = $data['distance'] ?? 0;
+        $total_price = $data['total_price'] ?? 0;
+
+        // เก็บข้อมูลอื่นๆ เช่น Service Options
+        $option1 = isset($data['option1']) ? true : false;
+        $option2 = isset($data['option2']) ? true : false;
+        $option3 = isset($data['option3']) ? true : false;
+
+        // ตัวอย่างการประมวลผลข้อมูล (อาจจะเก็บลงฐานข้อมูลหรือส่งต่อไปยัง API อื่น)
+        // ตัวอย่างการตอบกลับด้วย JSON
+        $response = [
+            'status' => 'success',
+            'message' => 'Reservation saved successfully.',
+            'data' => [
+                'pickup_date' => $pickup_date,
+                'pickup_time' => $pickup_time,
+                'marker1_lat' => $marker1_lat,
+                'marker1_lon' => $marker1_lon,
+                'marker2_lat' => $marker2_lat,
+                'marker2_lon' => $marker2_lon,
+                'distance' => $distance,
+                'total_price' => $total_price,
+                'options' => [
+                    'option1' => $option1,
+                    'option2' => $option2,
+                    'option3' => $option3,
+                ]
+            ]
+        ];
+
+        // // คำสั่ง SQL สำหรับการแทรกข้อมูล
+        // $sql = "INSERT INTO reservations (pickup_date, pickup_time, marker1_lat, marker1_lon, marker2_lat, marker2_lon, distance, total_price, option1, option2, option3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // // เตรียม statement และ bind parameters
+        // $stmt = $conn->prepare($sql);
+        // $stmt->bind_param("sssssssddii", $pickup_date, $pickup_time, $marker1_lat, $marker1_lon, $marker2_lat, $marker2_lon, $distance, $total_price, $option1, $option2, $option3);
+
+        // // ตรวจสอบการบันทึกข้อมูล
+        // if ($stmt->execute()) {
+        //     echo json_encode(['status' => 'success', 'message' => 'Data inserted successfully']);
+        // } else {
+        //     echo json_encode(['status' => 'error', 'message' => 'Data insertion failed']);
+        // }
+
+        // // ปิด statement
+        // $stmt->close();
+
+        // ตั้งค่า Header ให้ตอบกลับเป็น JSON
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } else {
+        // กรณีข้อมูลไม่ครบหรือไม่ถูกต้อง
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'error', 'message' => 'Invalid data']);
+    }
+} else {
+    // ไม่รองรับการร้องขอที่ไม่ใช่ POST
+    header("HTTP/1.1 405 Method Not Allowed");
+    echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+}
