@@ -1,5 +1,5 @@
 <?php
-# AWS Cognito (App client) OAuth 2.0 grant types need to be 'Authorization code grant'
+# AWS Cognito (App client) OAuth 2.0 grant types need to be 'Authorization code grant'.
 
 include 'config.php';
 

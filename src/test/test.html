@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/output.css">
+</head>
+<body>
+    <div class="flex flex-col gap-3 m-3 font-bold">
+        <button onclick="get()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-green-500 hover:bg-green-600 active:bg-green-700">GET</button>
+        <button onclick="post()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-sky-500 hover:bg-sky-600 active:bg-sky-700">POST</button>
+        <button onclick="put()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-violet-500 hover:bg-violet-600 active:bg-violet-700">PUT</button>
+        <button onclick="deletee()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-red-500 hover:bg-red-600 active:bg-red-700">DELETE</button>
+    </div>
+
+    <script>
+        function get(){
+            fetch("/backend/api/test.php", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response)=>{
+                if (!response.ok){
+                    throw new Error(`Response status: ${response.status}`);
+                }
+                return response.json()
+            })
+            .then((data)=>{
+                console.log(data)
+            })
+        }
+
+        function post(){
+            fetch("/backend/api/test.php", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({'name': "test4"})
+            })
+            .then((response)=>{
+                if (!response.ok){
+                    throw new Error(`Response status: ${response.status}`);
+                }
+                return response.json()
+            })
+            .then((data)=>{
+                console.log(data)
+            })
+        }
+
+        function put(){
+            fetch("/backend/api/test.php", {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({'name': "test4", "new_name": "test"})
+            })
+            .then((response)=>{
+                if (!response.ok){
+                    throw new Error(`Response status: ${response.status}`);
+                }
+                return response.json()
+            })
+            .then((data)=>{
+                console.log(data)
+            })
+        }
+
+        function deletee(){
+            fetch("/backend/api/test.php", {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({'name': "test"})
+            })
+            .then((response)=>{
+                if (!response.ok){
+                    throw new Error(`Response status: ${response.status}, Message: ${response.json()['status']}`);
+                }
+                return response.json()
+            })
+            .then((data)=>{
+                console.log(data)
+            })
+        }
+    </script>
+</body>
+</html>

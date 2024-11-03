@@ -6,7 +6,7 @@ aws s3 cp s3://calicloud/.env .env
 sudo mv .env app/
 cd app
 sudo yum install -y nginx
-sudo yum install -y php-xml
+sudo yum install -y php-xml php-pdo php-mysqlnd
 sudo cp nginx.conf /etc/nginx/
 sudo mkdir /etc/pki/nginx
 sudo cp ssl/calicloud.crt /etc/pki/nginx/
@@ -26,4 +26,5 @@ sudo npm run build
 sudo cp -r dist/* /usr/share/nginx/html/
 # sudo dnf update -y
 # sudo dnf install -y mariadb105
+# mysql -h calicloud.coxfpw5fib1g.us-east-1.rds.amazonaws.com -u admin -p calicloud < <.sql>
 php -S localhost:8000

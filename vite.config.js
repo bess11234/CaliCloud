@@ -47,9 +47,6 @@ export default defineConfig({
             overlay: false,
         }
     },
-    optimizeDeps: {
-        include: ['@aws-amplify/auth'], // Ensure this module is included
-    },
     define: {
         'process.env': process.env
     },
