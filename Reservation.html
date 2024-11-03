@@ -5,30 +5,44 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite App</title>
+  <title>Service</title>
   <link rel="stylesheet" href="output.css">
 </head>
 
+<<<<<<< HEAD
 <body class="bg-[url('/src/body.png')] flex flex-col min-h-screen">
   <nav class="bg-white">
+=======
+<body class="bg-[url('/public/body.png')] flex flex-col min-h-screen">
+  <nav class="bg-[#3d4854] text-white">
+>>>>>>> 86c686fa9c999d99afbf93007c188bf44dee2813
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <img src="/img.png" alt="" class="size-14 mr-3">
-            <a href="" class="text-3xl font-bold">CaliCloud</a>
+            <img src="public/img.png" alt="" class="size-14 mr-3">
+            <a href="/" class="text-3xl font-bold">CaliCloud</a>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Home</a>
+              <a href="/" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Home</a>
             </div>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Reservation</a>
+              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Service</a>
             </div>
           </div>
         </div>
+
+        <div id="signin" class="relative flex flex-row">
+          <p onclick="showLogout()" class="select-none cursor-pointer">...</p>
+          <div id="logout_box"
+            class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow">
+            <p onclick="signout()" class="cursor-pointer w-32">Sign out</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </nav>
@@ -38,13 +52,13 @@
     <h1 class="text-center font-bold text-6xl mt-10">The right vehicle for the job</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <div class="mt-20 ml-5 bg-gray-500 rounded-3xl text-center">
-        <img src="/img.png" alt="" class="mx-auto items-center mt-2">
+        <img src="public/car_type1.png" alt="" class="w-full h-auto rounded-t-3xl rounded-b-3xl ">
         <h2 class="text-center text-3xl font-bold"> text text</h2>
         <span class="text-center text-xl">text text text text</span><br>
-        <div>
-          <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]"
-          >
-            <p class="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-[#1b3764]">
+        <div class="items-center">
+          <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]
+                      cursor-pointer ml-20 mr-20 mt-5">
+            <p class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] ml-10">
               Reserve
             </p>
             <svg
@@ -68,21 +82,97 @@
         <br>
       </div>
       <div class="mt-20 ml-5 bg-gray-500 rounded-3xl text-center">
-        <img src="/img.png" alt="" class="mx-auto items-center mt-2">
+        <img src="public/car_type2.png" alt="" class="w-full h-auto rounded-t-3xl rounded-b-3xl ">
         <h2 class="text-center text-3xl font-bold"> text text</h2>
-        <span class="text-xl">text text text text</span>
-      </div>
-      <div class="mt-20 ml-5 bg-gray-500 rounded-3xl text-center">
-        <img src="/img.png" alt="" class="mx-auto items-center mt-2">
+        <span class="text-center text-xl">text text text text</span><br>
+        <div class="items-center">
+          <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]
+                      cursor-pointer ml-20 mr-20 mt-5">
+            <p class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] ml-10">
+              Reserve
+            </p>
+            <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="flex-grow-0 flex-shrink-0 w-3.5 h-3.5 relative"
+                    preserveAspectRatio="xMidYMid meet"
+            >
+              <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.78085 2.00535C7.96199 1.82201 8.25747 1.82023 8.44081 2.00137L12.928 6.4347C13.0167 6.52237 13.0667 6.64192 13.0667 6.76667C13.0667 6.89141 13.0167 7.01096 12.928 7.09864L8.44081 11.532C8.25747 11.7131 7.96199 11.7113 7.78085 11.528C7.59971 11.3446 7.60149 11.0492 7.78484 10.868L11.4637 7.23334H0.933334C0.675601 7.23334 0.466667 7.0244 0.466667 6.76667C0.466667 6.50894 0.675601 6.3 0.933334 6.3H11.4637L7.78484 2.6653C7.60149 2.48416 7.59971 2.18869 7.78085 2.00535Z"
+                      fill="#1B3764"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <br>
+      </div><div class="mt-20 ml-5 bg-gray-500 rounded-3xl text-center">
+        <img src="public/car_type3.png" alt="" class="w-full h-auto rounded-t-3xl rounded-b-3xl ">
         <h2 class="text-center text-3xl font-bold"> text text</h2>
-        <span class="text-xl">text text text text</span>
-      </div>
-      <div class="mt-20 ml-5 bg-gray-500 rounded-3xl text-center mr-5">
-        <img src="/img.png" alt="" class="mx-auto items-center mt-2">
+        <span class="text-center text-xl">text text text text</span><br>
+        <div class="items-center">
+          <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]
+                      cursor-pointer ml-20 mr-20 mt-5">
+            <p class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] ml-10">
+              Reserve
+            </p>
+            <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="flex-grow-0 flex-shrink-0 w-3.5 h-3.5 relative"
+                    preserveAspectRatio="xMidYMid meet"
+            >
+              <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.78085 2.00535C7.96199 1.82201 8.25747 1.82023 8.44081 2.00137L12.928 6.4347C13.0167 6.52237 13.0667 6.64192 13.0667 6.76667C13.0667 6.89141 13.0167 7.01096 12.928 7.09864L8.44081 11.532C8.25747 11.7131 7.96199 11.7113 7.78085 11.528C7.59971 11.3446 7.60149 11.0492 7.78484 10.868L11.4637 7.23334H0.933334C0.675601 7.23334 0.466667 7.0244 0.466667 6.76667C0.466667 6.50894 0.675601 6.3 0.933334 6.3H11.4637L7.78484 2.6653C7.60149 2.48416 7.59971 2.18869 7.78085 2.00535Z"
+                      fill="#1B3764"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <br>
+      </div><div class="mt-20 ml-5 bg-gray-500 rounded-3xl text-center">
+        <img src="public/car_type4.png" alt="" class="w-full h-auto rounded-t-3xl rounded-b-3xl ">
         <h2 class="text-center text-3xl font-bold"> text text</h2>
-        <span class="text-xl mb-4">text text text text</span>
+        <span class="text-center text-xl">text text text text</span><br>
+        <div class="items-center">
+          <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]
+                      cursor-pointer ml-20 mr-20 mt-5">
+            <p class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] ml-10">
+              Reserve
+            </p>
+            <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="flex-grow-0 flex-shrink-0 w-3.5 h-3.5 relative"
+                    preserveAspectRatio="xMidYMid meet"
+            >
+              <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.78085 2.00535C7.96199 1.82201 8.25747 1.82023 8.44081 2.00137L12.928 6.4347C13.0167 6.52237 13.0667 6.64192 13.0667 6.76667C13.0667 6.89141 13.0167 7.01096 12.928 7.09864L8.44081 11.532C8.25747 11.7131 7.96199 11.7113 7.78085 11.528C7.59971 11.3446 7.60149 11.0492 7.78484 10.868L11.4637 7.23334H0.933334C0.675601 7.23334 0.466667 7.0244 0.466667 6.76667C0.466667 6.50894 0.675601 6.3 0.933334 6.3H11.4637L7.78484 2.6653C7.60149 2.48416 7.59971 2.18869 7.78085 2.00535Z"
+                      fill="#1B3764"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <br>
       </div>
     </div>
+    <br>
+    <br>
+    <br>
   </div>
 
   <!-- Footer -->
@@ -101,5 +191,67 @@
     </div>
   </footer>
 </body>
+<script>
+  const ip = "3.83.133.202"
+  const signOutPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php&response_type=code`
+  const signInPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php`
 
+  function signout() {
+    fetch("/backend/signout.php", {
+      method: "POST"
+    })
+    .then((response) => {
+      location.href = signOutPath
+    })
+  }
+
+  let is_showLogout = false
+  function showLogout() {
+    let logout_box = document.getElementById("logout_box")
+    if (is_showLogout) {
+      logout_box.classList.toggle("opacity-0")
+      logout_box.classList.toggle("translate-y-full")
+      setTimeout(() => {
+        logout_box.classList.toggle("hidden")
+      }, 300)
+    } else {
+      logout_box.classList.toggle("hidden")
+      setTimeout(() => {
+        logout_box.classList.toggle("opacity-0")
+        logout_box.classList.toggle("translate-y-full")
+      }, 300)
+    }
+    is_showLogout = !is_showLogout
+  }
+
+  const signin = document.querySelector("#signin")
+  fetch("/backend/retriveuser.php", {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      // console.log('Response:', response); // Log the whole response object
+      if (!response.ok) {
+        signin.innerHTML = `<a href="${signInPath}">
+          <button class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-3 py-2 rounded-lg">Sign in</button>
+        </a>`
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json(); // Proceed to parse JSON if response is okay
+    })
+    .then(data => {
+      console.log(data)
+      if (data['userdata']['name']) {
+        signin.innerHTML = `
+        <p onclick="showLogout()" class="select-none cursor-pointer">${data['userdata']['name']}</p>
+        <div id="logout_box"
+          class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow">
+          <p onclick="signout()" class="cursor-pointer w-32">Sign out</p>
+        </div>
+        `
+      }
+    })
+</script>
 </html>
