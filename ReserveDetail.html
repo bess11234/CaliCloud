@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="fonts.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="src/fonts.css" />
     <title>Create Map Sample | Longdo Map</title>
     <style type="text/css">
       html {
@@ -226,7 +226,7 @@
       <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
         <div class="w-fit">
           <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
-          <img class="h-60" src="/public/img.png" />
+          <img class="h-60" src="public/img.png" />
         </div>
       </div>
 
@@ -264,8 +264,8 @@
           <hr />
           <!--Service Option-->
           <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
-          <ul id="option_show">
-            {% comment %} <li>
+          <ul>
+            <li>
               <input
                 class="mr-2 option-checkbox"
                 type="checkbox"
@@ -278,11 +278,20 @@
               <input
                 class="mr-2 option-checkbox"
                 type="checkbox"
-                id="option1"
-                name="option1"
-                value="100"
-              />Packing Service +100
-            </li> {% endcomment %}
+                id="option2"
+                name="option2"
+                value="200"
+              />Packing Service +200
+            </li>
+            <li>
+              <input
+                class="mr-2 option-checkbox"
+                type="checkbox"
+                id="option3"
+                name="option3"
+                value="300"
+              />Packing Service +300
+            </li>
           </ul>
 
           <!-- Hidden fields for marker1 -->
@@ -393,37 +402,6 @@
     </footer>
   </body>
 </html>
-
-<script>
-  const option_show = document.getElementById("option_show")
-  console.log(window.location.search)
-  fetch("/backend/api/reserve_detail.php", {
-      method: "GET",
-      headers: {
-          'Content-Type': 'application/json'
-      }
-  })
-      .then((response) => {
-          // console.log('Response:', response); // Log the whole response object
-          if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json(); // Proceed to parse JSON if response is okay
-      })
-      .then(data => {
-        option_show.innerHTML = ""
-          data.forEach(item => {
-            console.log(item)
-            option_show.innerHTML +=
-              `
-              <li>
-                <input class="mr-2 option-checkbox" type="checkbox" id="${item['id']}" name="${item['name']}" value="${item['price']}">
-                ${item['name']} +${item['price']}
-              </li>
-              `;
-          })
-      })
-</script>
 
 <script>
   function show_payment(open, close) {
