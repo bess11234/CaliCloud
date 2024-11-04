@@ -2,14 +2,6 @@ const ip = "18.233.7.46"
 const signOutPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php&response_type=code`
 const signInPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php`
 
-const logout_box = document.getElementById("logout_box")
-const show_name = document.getElementById("show_name")
-const show_book = document.getElementById("show_book")
-const show_signout = document.getElementById("show_signout")
-
-show_name.addEventListener("click", () => showLogout())
-show_signout.addEventListener("click", () => signout())
-
 function signout() {
     fetch("/backend/signout.php", {
         method: "POST"
@@ -20,6 +12,7 @@ function signout() {
 }
 
 function showLogout() {
+    const logout_box = document.getElementById("logout_box")
     if (!logout_box.classList.contains("hidden")) {
         logout_box.classList.toggle("opacity-0")
         logout_box.classList.toggle("translate-y-full")
@@ -55,6 +48,8 @@ fetch("/backend/retrieveuser.php", {
 })
 .then(data => {
     if (data['userdata']['name']) {
+        signin.innerHTML = ""
+
         let show_name_user = document.createElement("p")
         let div = document.createElement("div")
         let a_link = document.createElement("a")
@@ -75,6 +70,7 @@ fetch("/backend/retrieveuser.php", {
         show_sign_out.addEventListener("click", () => signout())
         div.append(show_sign_out)
 
+        div.id = "logout_box"
         div.className = "absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700"
         signin.append(div)
     }
