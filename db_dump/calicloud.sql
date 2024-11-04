@@ -54,16 +54,6 @@ CREATE TABLE `reserveservices` (
   `pickup_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `reserveservices`
---
-
-INSERT INTO `reserveservices` (`id`, `user_id`, `vehicle_id`, `pickup_location_lat`, `pickup_location_lon`, `dropoff_location_lat`, `dropoff_location_lon`, `distance`, `total_price`, `payment_method`, `transport_status`, `pickup_date`, `pickup_time`) VALUES
-(2, 1, 1, 13, 13, 20, 20, 100, 2650, 'CARD', 'WAITING', '2024-10-30', '15:13:00'),
-(3, 1, 1, 13, 13, 20, 20, 100, 2650, 'CARD', 'WAITING', '2024-10-30', '15:13:00'),
-(4, 1, 2, 13.8026, 100.5, 13.8274, 100.396, 17, 1052, 'QR', 'WAITING', '2024-11-05', '17:38:00'),
-(5, 1, 2, 13.8026, 100.5, 13.8274, 100.396, 17, 1052, 'QR', 'WAITING', '2024-11-05', '17:38:00');
-
 -- --------------------------------------------------------
 
 --
@@ -97,12 +87,6 @@ CREATE TABLE `user` (
   `token` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `email`, `token`) VALUES
-(1, 'test@mail.com', '$$$$');
 
 -- --------------------------------------------------------
 
