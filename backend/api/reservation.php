@@ -4,14 +4,14 @@ include '../database.php';
 
 $input = json_decode(file_get_contents("php://input"), true);
 
-if ($_SERVER['REQUEST_METHOD'] == "GET"){
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $result = $conn->query("SELECT * FROM reserveservices");
     $result->setFetchMode(PDO::FETCH_ASSOC);
 
     header("HTTP/1.1 200 OK");
     echo json_encode($result->fetchAll());
 }
-if ($_SERVER['REQUEST_METHOD'] == "POST"){
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // $result = $conn->query("SELECT id FROM user WHERE token='{$_SESSION['token']}'");
     // $result->setFetchMode(PDO::FETCH_ASSOC);
     // $user_id = $result->fetchObject()->id;
@@ -34,20 +34,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
     $total_price = $vehicle->initial_price;
     $total_price += $vehicle->add_price * $distance;
-    echo json_encode(Tuple($options));
-    // $result = $conn->query("SELECT SUM(price) FROM serviceoptions WHERE ");
-    // $total_price +=
 
-    // if ($user_id && $vehicleID && $marker1_lat && $marker1_lon && $marker2_lat && $marker2_lon && $distance && $pickup_date && $pickup_time && $option && $pay){
-    //     $result = $conn->query("INSERT INTO reserveservices (user_id, vehicle_id, pickup_location_lat, pickup_location_lon, dropoff_location_lat, dropoff_location_lon, distance, total_price, payment_method, transport_status, pickup_date, pickup_time) VALUES 
-    //     ($user_id, $vehicleID, $marker1_lat, $marker1_lon, $marker2_lat, $marker2_lon, $distance, '$total_price')");
-    // }else{
-    //     header("HTTP/1.1 400 Bad Request");
-    //     echo json_encode(['status' => "Parameter is missing"]);
-    // }
+    $options = json_encode($options);
+    $options = str_replace("[", "(", $options);
+    $options = str_replace("]", ")", $options);
+    $result = $conn->query("SELECT SUM(price) AS sum_price FROM serviceoptions WHERE id in $options");
 
+    $total_price += $result->fetchObject()->sum_price;
+
+    if ($user_id && $vehicleID && $marker1_lat && $marker1_lon && $marker2_lat && $marker2_lon && $distance && $pickup_date && $pickup_time && $options && $pay && $total_price) {
+        $result = $conn->query("INSERT INTO reserveservices (user_id, vehicle_id, pickup_location_lat, pickup_location_lon, dropoff_location_lat, dropoff_location_lon, distance, total_price, payment_method, transport_status, pickup_date, pickup_time) VALUES 
+        ($user_id, $vehicleID, $marker1_lat, $marker1_lon, $marker2_lat, $marker2_lon, $distance, $total_price, '$pay', 'WAITING', '$pickup_date', '$pickup_time')");
+
+        if ($result) {
+            header("HTTP/1.1 200 OK");
+            echo json_encode(['status' => "Successfully inserted reservation data"]);
+        } else {
+            header("HTTP/1.1 500 Internal Server Error");
+            echo json_encode(['status' => "Failed to insert reservation data"]);
+        }
+    } else {
+        header("HTTP/1.1 400 Bad Request");
+        echo json_encode(['status' => "Parameter is missing"]);
+    }
 }
-if ($_SERVER['REQUEST_METHOD'] == "PUT"){
+if ($_SERVER['REQUEST_METHOD'] == "PUT") {
     $name = isset($input['name']) ? $input['name'] : null;
     $new_name = isset($input['new_name']) ? $input['new_name'] : null;
 
@@ -55,18 +66,17 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"){
         $result = $conn->query("UPDATE test SET name='$new_name' WHERE name='$name'");
         if ($result) {
             header("HTTP/1.1 200 OK");
-            echo json_encode(['status' => "Successfully deleted test data"]);
+            echo json_encode(['status' => "Successfully updated test data"]);
         } else {
             header("HTTP/1.1 500 Internal Server Error");
-            echo json_encode(['status' => "Failed to delete test data"]);
+            echo json_encode(['status' => "Failed to update test data"]);
         }
     } else {
         header("HTTP/1.1 400 Bad Request");
         echo json_encode(['status' => "'name' or 'new_name' parameter is missing"]);
     }
-
 }
-if ($_SERVER['REQUEST_METHOD'] == "DELETE"){
+if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
     $name = isset($input['name']) ? $input['name'] : null;
 
     if ($name) {
@@ -83,4 +93,3 @@ if ($_SERVER['REQUEST_METHOD'] == "DELETE"){
         echo json_encode(['status' => "'name' parameter is missing"]);
     }
 }
-?>
