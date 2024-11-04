@@ -1,94 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/output.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
     <div class="flex flex-col gap-3 m-3 font-bold">
-        <button onclick="get()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-green-500 hover:bg-green-600 active:bg-green-700">GET</button>
-        <button onclick="post()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-sky-500 hover:bg-sky-600 active:bg-sky-700">POST</button>
-        <button onclick="put()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-violet-500 hover:bg-violet-600 active:bg-violet-700">PUT</button>
-        <button onclick="deletee()" class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-red-500 hover:bg-red-600 active:bg-red-700">DELETE</button>
+        <button onclick="get()"
+            class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-green-500 hover:bg-green-600 active:bg-green-700">GET</button>
+        <button onclick="post()"
+            class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-sky-500 hover:bg-sky-600 active:bg-sky-700">POST</button>
+
+        <form method="post" onsubmit="event.preventDefault(); post()">
+            <input type="date" name="pickup_date" id="pickup_date" required>
+            <input type="time" name="pickup_time" id="pickup_time" required>
+            <div>
+                <input type="checkbox" name="option" id="option1" value="1"><label for="option1">packing</label>
+                <input type="checkbox" name="option" id="option2" value="2"><label for="option2">insurance</label>
+                <input type="checkbox" name="option" id="option2" value="3"><label for="option3">rifting</label>
+            </div>
+            <div>
+                <input type="radio" name="pay" id="CARD" value="CARD" required checked><label for="CARD">CARD</label>
+                <input type="radio" name="pay" id="QR" value="QR" required><label for="QR">QR</label>
+            </div>
+            <button class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-sky-500 hover:bg-sky-600 active:bg-sky-700" type="submit">Submit</button>
+        </form>
+
+        <button onclick="put()"
+            class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-violet-500 hover:bg-violet-600 active:bg-violet-700">PUT</button>
+        <button onclick="deletee()"
+            class="p-4 rounded-lg w-32 md:w-64 lg:w-96 text-white bg-red-500 hover:bg-red-600 active:bg-red-700">DELETE</button>
     </div>
 
     <script>
-        function get(){
+        function get() {
             fetch("/backend/api/test.php", {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
-            .then((response)=>{
-                if (!response.ok){
-                    throw new Error(`Response status: ${response.status}`);
-                }
-                return response.json()
-            })
-            .then((data)=>{
-                console.log(data)
-            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}`);
+                    }
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                })
         }
 
-        function post(){
-            fetch("/backend/api/test.php", {
+        function post() {
+            const pay = Array.from(document.getElementsByName("pay")).filter(item=>item.checked)[0].value
+            const option = Array.from(document.getElementsByName("option")).filter(item=>item.checked).map(item=>Number(item.value))
+            fetch("/backend/api/reservation.php", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({'name': "test4"})
+                body: JSON.stringify({
+                    'user_id': 1,
+                    'vehicle_id': 1,
+                    'marker1_lat': 13,
+                    'marker1_lon': 13,
+                    'marker2_lat': 20,
+                    'marker2_lon': 20,
+                    'distance': 100,
+                    'pickup_date': document.getElementById("pickup_date").value,
+                    'pickup_time': document.getElementById("pickup_time").value,
+                    'option': option,
+                    'pay': pay,
+                })
             })
-            .then((response)=>{
-                if (!response.ok){
-                    throw new Error(`Response status: ${response.status}`);
-                }
-                return response.json()
-            })
-            .then((data)=>{
-                console.log(data)
-            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}`);
+                    }
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                })
         }
 
-        function put(){
+        function put() {
             fetch("/backend/api/test.php", {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({'name': "test4", "new_name": "test"})
+                body: JSON.stringify({ 'name': "test4", "new_name": "test" })
             })
-            .then((response)=>{
-                if (!response.ok){
-                    throw new Error(`Response status: ${response.status}`);
-                }
-                return response.json()
-            })
-            .then((data)=>{
-                console.log(data)
-            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}`);
+                    }
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                })
         }
 
-        function deletee(){
+        function deletee() {
             fetch("/backend/api/test.php", {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({'name': "test"})
+                body: JSON.stringify({ 'name': "test" })
             })
-            .then((response)=>{
-                if (!response.ok){
-                    throw new Error(`Response status: ${response.status}, Message: ${response.json()['status']}`);
-                }
-                return response.json()
-            })
-            .then((data)=>{
-                console.log(data)
-            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}, Message: ${response.json()['status']}`);
+                    }
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                })
         }
     </script>
 </body>
+
 </html>
