@@ -10,42 +10,35 @@
     <link rel="stylesheet" href="fonts.css">
 </head>
 
-<body class="bg-[url('/src/body.png')] flex flex-col min-h-screen">
-<nav class="bg-[#3d4854] text-white">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+<body class="text-black dark:text-white flex flex-col min-h-screen transition-colors duration-300 bg-lightBlue dark:bg-darkBlue">
+<nav class="bg-[#3d4854]/70 text-white dark:bg-gray-800/70 backdrop-blur-2xl fixed top-0 left-0 right-0 z-50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
             <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div class="flex flex-shrink-0 items-center">
                     <img src="/img.png" alt="" class="size-14 mr-3">
-                    <a href="/" class="text-3xl font-bold">CaliCloud</a>
+                    <a href="/" class="text-3xl font-black">CaliCloud</a>
                 </div>
-                <div class="hidden sm:ml-6 sm:block">
-                    <div class="flex space-x-4">
-                        <a href="/" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Home</a>
-                    </div>
-                </div>
-                <div class="hidden sm:ml-6 sm:block">
-                    <div class="flex space-x-4">
-                        <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400 ">Service</a>
-                    </div>
+                <div class="hidden sm:ml-6 sm:flex space-x-4">
+                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Home</a>
+                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Service</a>
                 </div>
             </div>
 
             <div id="signin" class="relative flex flex-row">
-                <p onclick="showLogout()" class="select-none cursor-pointer">...</p>
+                <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
                 <div id="logout_box"
-                     class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow">
-                    <p onclick="signout()" class="cursor-pointer w-32">Sign out</p>
+                     class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
+                    <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
                 </div>
             </div>
-
         </div>
     </div>
 </nav>
 
 <!-- Main Content Wrapper -->
-<div class="flex-grow">
-    <h1 class="text-center font-bold text-6xl mt-20 text-black">The right vehicle for the job</h1>
+<div class="flex-grow mt-14">
+    <h1 class="text-center font-bold text-6xl mt-20">The right vehicle for the job</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-16 m-4 text-white"
          id="vehicle_show">
     </div>
