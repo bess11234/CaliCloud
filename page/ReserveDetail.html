@@ -332,7 +332,7 @@
                     type="radio"
                     id="card"
                     name="pay"
-                    value="0"
+                    value="CARD"
                   />Credit/Debit Card
                 </li>
                 <div id="card-pay" class="hidden flex gap-2">
@@ -365,7 +365,7 @@
                     type="radio"
                     id="qr"
                     name="pay"
-                    value="0"
+                    value="QR"
                   />QR Code
                 </li>
                 <div id="qr-pay" class="hidden">
@@ -519,12 +519,12 @@
 
       // กำหนดข้อมูลในรูปแบบที่ต้องการ
       const data = {
-          vehicle_id: vehicleID,
-          marker1_lat: document.getElementById("marker1_lat").value,
-          marker1_lon: document.getElementById("marker1_lon").value,
-          marker2_lat: document.getElementById("marker2_lat").value,
-          marker2_lon: document.getElementById("marker2_lon").value,
-          distance: document.getElementById("distance").value,
+          vehicle_id: Number(vehicleID),
+          marker1_lat: Number(document.getElementById("marker1_lat").value),
+          marker1_lon: Number(document.getElementById("marker1_lon").value),
+          marker2_lat: Number(document.getElementById("marker2_lat").value),
+          marker2_lon: Number(document.getElementById("marker2_lon").value),
+          distance: Number(document.getElementById("distance").value),
           pickup_date: document.getElementById("date").value,
           pickup_time: document.getElementById("time").value,
           option: option,
