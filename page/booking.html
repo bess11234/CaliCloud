@@ -42,9 +42,6 @@
         document.head.appendChild(script);
 
         var map;
-        document.getElementById("distance").addEventListener("change", () => {
-            console.log("checked!")
-        })
 
         function init() {
             map = new longdo.Map({
@@ -76,7 +73,12 @@
                 map.Route.placeholder(document.getElementById("result"));
                 map.Route.add(marker1);
                 map.Route.add(marker2);
-                map.Route.search();
+                map.Route.search({
+                    callback: function () {
+                        // เลื่อนไปที่จุดของ marker1 หลังจากค้นหาเส้นทางเสร็จ
+                        map.location(marker1.location());
+                    },
+                });
             }
 
             function updateMarkers() {
@@ -96,7 +98,7 @@
                 setupRoute(marker1, marker2);
             }
 
-            document.getElementById("show_book_data").addEventListener("click", ()=>setTimeout(()=>{updateMarkers()},500));
+            document.getElementById("show_book_data").addEventListener("click", () => setTimeout(() => { updateMarkers() }, 500));
         }
 
     </script>

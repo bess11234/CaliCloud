@@ -6,8 +6,8 @@ session_start();
 $input = json_decode(file_get_contents("php://input"), true);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    $result = $conn->query("SELECT vehicle_id, name, pickup_location_lat, pickup_location_lon, dropoff_location_lat, dropoff_location_lon, distance, total_price, payment_method, transport_status, pickup_date, pickup_time FROM reserveservices rs JOIN vehicles ON (rs.vehicle_id = vehicles.id) WHERE user_id=1 ORDER BY rs.id DESC");
-    // $result = $conn->query("SELECT vehicle_id, name, pickup_location_lat, pickup_location_lon, dropoff_location_lat, dropoff_location_lon, distance, total_price, payment_method, transport_status, pickup_date, pickup_time FROM reserveservices rs JOIN vehicles ON (rs.vehicle_id = vehicles.id) JOIN user ON (rs.user_id = user.id) WHERE token='{$_SESSION['token']}' ORDER BY rs.id DESC");
+    // $result = $conn->query("SELECT vehicle_id, name, pickup_location_lat, pickup_location_lon, dropoff_location_lat, dropoff_location_lon, distance, total_price, payment_method, transport_status, pickup_date, pickup_time FROM reserveservices rs JOIN vehicles ON (rs.vehicle_id = vehicles.id) WHERE user_id=1 ORDER BY rs.id DESC");
+    $result = $conn->query("SELECT vehicle_id, name, pickup_location_lat, pickup_location_lon, dropoff_location_lat, dropoff_location_lon, distance, total_price, payment_method, transport_status, pickup_date, pickup_time FROM reserveservices rs JOIN vehicles ON (rs.vehicle_id = vehicles.id) JOIN user ON (rs.user_id = user.id) WHERE token='{$_SESSION['token']}' ORDER BY rs.id DESC");
     $result->setFetchMode(PDO::FETCH_ASSOC);
 
     header("HTTP/1.1 200 OK");
