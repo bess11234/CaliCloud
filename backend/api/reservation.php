@@ -5,17 +5,18 @@ include '../database.php';
 $input = json_decode(file_get_contents("php://input"), true);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    $result = $conn->query("SELECT * FROM reserveservices");
+    $result = $conn->query("SELECT * FROM reserveservices FROM user WHERE token='{$_SESSION['token']}'");
     $result->setFetchMode(PDO::FETCH_ASSOC);
 
     header("HTTP/1.1 200 OK");
     echo json_encode($result->fetchAll());
 }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // $result = $conn->query("SELECT id FROM user WHERE token='{$_SESSION['token']}'");
-    // $result->setFetchMode(PDO::FETCH_ASSOC);
-    // $user_id = $result->fetchObject()->id;
-    $user_id = isset($input['user_id']) ? $input['user_id'] : null;
+    $result = $conn->query("SELECT id FROM user WHERE token='{$_SESSION['token']}'");
+    $result->setFetchMode(PDO::FETCH_ASSOC);
+    $user_id = $result->fetchObject()->id;
+    // $user_id = isset($input['user_id']) ? $input['user_id'] : null;
+    // $user_id = 1;
 
     $vehicleID = isset($input['vehicle_id']) ? $input['vehicle_id'] : null;
     $result = $conn->query("SELECT name, initial_price, add_price FROM vehicles WHERE id=$vehicleID");

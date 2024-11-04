@@ -1,181 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="fonts.css" />
-    <title>Create Map Sample | Longdo Map</title>
-    <style type="text/css">
-      html {
-        height: 100%;
-      }
-      body {
-        margin: 0px;
-        height: 100%;
-      }
-      #map {
-        height: 50%;
-      }
-      #result {
-        height: 50%;
-      }
-    </style>
-    <script type="module">
-      const mapKey = import.meta.env.VITE_LONGDO_MAP_API_KEY;
 
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://api.longdo.com/map3/?key=${mapKey}`;
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="fonts.css" />
+  <title>Create Map Sample | Longdo Map</title>
+  <style type="text/css">
+    html {
+      height: 100%;
+    }
 
-      script.onload = function () {
-        init();
-      };
+    body {
+      margin: 0px;
+      height: 100%;
+    }
 
-      document.head.appendChild(script);
+    #map {
+      height: 50%;
+    }
 
-      var map;
-      document.getElementById("distance").addEventListener("change", ()=>{
-        console.log("checked!")
-      })
+    #result {
+      height: 50%;
+    }
+  </style>
+  <script type="module">
+    const mapKey = import.meta.env.VITE_LONGDO_MAP_API_KEY;
 
-      function init() {
-        map = new longdo.Map({
-          placeholder: document.getElementById("map"),
-        });
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `https://api.longdo.com/map3/?key=${mapKey}`;
 
-        var marker1 = new longdo.Marker(
-          { lon: 100.538316, lat: 13.764953 },
-          { title: "จุดเริ่มต้น", detail: "I'm here", draggable: true }
-        );
+    script.onload = function () {
+      init();
+    };
 
-        var marker2 = new longdo.Marker(
-          { lon: 100, lat: 15 },
-          {
-            title: "จุดสิ้นสุด",
-            detail: "I'm here",
-            draggable: true,
-            icon: {
-              url: "https://cdn-icons-png.flaticon.com/512/2702/2702604.png", // เปลี่ยนเป็น URL หรือ path ของไอคอนที่คุณต้องการ
-              size: { width: 40, height: 40 },
-            },
-          }
-        );
+    document.head.appendChild(script);
 
-        map.Event.bind("ready", function () {
-          document.getElementById("marker1_lat").value = marker1.location().lat;
-          document.getElementById("marker1_lon").value = marker1.location().lon;
-          document.getElementById("marker2_lat").value = marker2.location().lat;
-          document.getElementById("marker2_lon").value = marker2.location().lon;
-          setupRoute(marker1, marker2);
-        });
+    var map;
+    document.getElementById("distance").addEventListener("change", () => {
+      console.log("checked!")
+    })
 
-        function setupRoute(marker1, marker2) {
-          map.Route.placeholder(document.getElementById("result"));
-          map.Route.add(marker1);
-          map.Route.add(marker2);
-          map.Route.search();
-          marker1.draggable = true;
+    function init() {
+      map = new longdo.Map({
+        placeholder: document.getElementById("map"),
+      });
+
+      var marker1 = new longdo.Marker(
+        { lon: 100.538316, lat: 13.764953 },
+        { title: "จุดเริ่มต้น", detail: "I'm here", draggable: true }
+      );
+
+      var marker2 = new longdo.Marker(
+        { lon: 100.396498, lat: 13.827429 },
+        {
+          title: "จุดสิ้นสุด",
+          detail: "I'm here",
+          draggable: true,
+          icon: {
+            url: "https://cdn-icons-png.flaticon.com/512/2702/2702604.png", // เปลี่ยนเป็น URL หรือ path ของไอคอนที่คุณต้องการ
+            size: { width: 40, height: 40 },
+          },
         }
+      );
 
-        map.Event.bind(longdo.EventName.OverlayDrop, function (overlay) {
-          const lat = overlay.location().lat;
-          const lon = overlay.location().lon;
+      map.Event.bind("ready", function () {
+        document.getElementById("marker1_lat").value = marker1.location().lat;
+        document.getElementById("marker1_lon").value = marker1.location().lon;
+        document.getElementById("marker2_lat").value = marker2.location().lat;
+        document.getElementById("marker2_lon").value = marker2.location().lon;
+        setupRoute(marker1, marker2);
 
-          if (overlay === marker1) {
-            // อัปเดตพิกัดของ marker1
-            document.getElementById("marker1_lat").value = lat;
-            document.getElementById("marker1_lon").value = lon;
-            console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
-          } else if (overlay === marker2) {
-            // อัปเดตพิกัดของ marker2
-            document.getElementById("marker2_lat").value = lat;
-            document.getElementById("marker2_lon").value = lon;
-            console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
-          }
-
-          map.Route.search();
-          console.log(
-            "Start Location lat:",
-            document.getElementById("marker1_lat").value
-          );
-          console.log(
-            "Start Location long:",
-            document.getElementById("marker1_lon").value
-          );
-          console.log(
-            "End Location lat:",
-            document.getElementById("marker2_lat").value
-          );
-          console.log(
-            "End Location long:",
-            document.getElementById("marker2_lon").value
-          );
-          setTimeout(() => {
-            const distanceSpan = document.querySelector(".ldroute-distance");
-            if (distanceSpan) {
-              const distanceText = distanceSpan.innerText.replace(",", "");
-
-              let ten = Number(distanceText.length)*10
-
-
-              const distanceValue = parseFloat(distanceText);
-              const roundedDistanceValue = Math.ceil(distanceValue);
-              const totalPrice = calculatePrice(roundedDistanceValue);
-              console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-              console.log(
-                "ระยะทางที่ปัดขึ้นมาคิดเลข:",
-                roundedDistanceValue,
-                "กิโลเมตร"
-              );
-              console.log("ราคาทั้งหมด:", totalPrice, "บาท");
-              document.getElementById("total-price").innerHTML = totalPrice;
-              document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
-              document.getElementById("distance").value = roundedDistanceValue;
-            } else {
-              console.log("ไม่พบระยะทาง");
-            }
-          }, 6000);
-          return false;
-        });
-      }
-
-      function calculatePrice(distanceValue) {
-        const initial_price = 100; // ราคาเริ่มต้น 100 บาท
-        const initial_distance = 5; // กิโลเมตรแรกที่คิดราคาคงที่
-        const additional_price = 6; // ราคาต่อกิโลเมตรที่เกินจาก initial_distance
-
-        // คำนวณราคาตามระยะทาง
-        let basePrice;
-        if (distanceValue <= initial_distance) {
-          basePrice = initial_price;
-        } else {
-          const extra_distance = distanceValue - initial_distance;
-          const extra_cost = extra_distance * additional_price;
-          basePrice = initial_price + extra_cost;
-        }
-
-        // คำนวณราคาจากตัวเลือกเพิ่มเติมที่ถูกเลือก
-        const options = document.querySelectorAll(".option-checkbox:checked");
-        console.log(options)
-        let optionTotal = 0;
-        options.forEach((option) => {
-          optionTotal += parseFloat(option.value);
-        });
-
-        // รวมราคาทั้งหมดและจำกัดทศนิยม 2 ตำแหน่ง
-        const totalPrice = basePrice + optionTotal;
-        return parseFloat(totalPrice.toFixed(2));
-      }
-
-      // อัปเดตการคำนวณเมื่อมีการเปลี่ยนแปลงตัวเลือกเพิ่มเติม
-      document.querySelectorAll(".option-checkbox").forEach((checkbox) => {
-        checkbox.addEventListener("change", () => {
+        setTimeout(async () => {
           const distanceSpan = document.querySelector(".ldroute-distance");
           if (distanceSpan) {
             const distanceText = distanceSpan.innerText.replace(",", "");
+
+            let ten = Number(distanceText.length) * 10
+
+
             const distanceValue = parseFloat(distanceText);
             const roundedDistanceValue = Math.ceil(distanceValue);
-            const totalPrice = calculatePrice(roundedDistanceValue);
+            const totalPrice = await calculatePrice(roundedDistanceValue);
             console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
             console.log(
               "ระยะทางที่ปัดขึ้นมาคิดเลข:",
@@ -186,317 +93,390 @@
             document.getElementById("total-price").innerHTML = totalPrice;
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
             document.getElementById("distance").value = roundedDistanceValue;
+          } else {
+            console.log("ไม่พบระยะทาง");
+          }
+        }, 2000)
+      })
+
+      function setupRoute(marker1, marker2) {
+        map.Route.placeholder(document.getElementById("result"));
+        map.Route.add(marker1);
+        map.Route.add(marker2);
+        map.Route.search();
+        marker1.draggable = true;
+      }
+
+      map.Event.bind(longdo.EventName.OverlayDrop, function (overlay) {
+        const lat = overlay.location().lat;
+        const lon = overlay.location().lon;
+
+        if (overlay === marker1) {
+          // อัปเดตพิกัดของ marker1
+          document.getElementById("marker1_lat").value = lat;
+          document.getElementById("marker1_lon").value = lon;
+          console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
+        } else if (overlay === marker2) {
+          // อัปเดตพิกัดของ marker2
+          document.getElementById("marker2_lat").value = lat;
+          document.getElementById("marker2_lon").value = lon;
+          console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
+        }
+
+        map.Route.search();
+        console.log(
+          "Start Location lat:",
+          document.getElementById("marker1_lat").value
+        );
+        console.log(
+          "Start Location long:",
+          document.getElementById("marker1_lon").value
+        );
+        console.log(
+          "End Location lat:",
+          document.getElementById("marker2_lat").value
+        );
+        console.log(
+          "End Location long:",
+          document.getElementById("marker2_lon").value
+        );
+        setTimeout(async () => {
+          const distanceSpan = document.querySelector(".ldroute-distance");
+          if (distanceSpan) {
+            const distanceText = distanceSpan.innerText.replace(",", "");
+
+            let ten = Number(distanceText.length) * 10
+
+
+            const distanceValue = parseFloat(distanceText);
+            const roundedDistanceValue = Math.ceil(distanceValue);
+            const totalPrice = await calculatePrice(roundedDistanceValue);
+            console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+            console.log(
+              "ระยะทางที่ปัดขึ้นมาคิดเลข:",
+              roundedDistanceValue,
+              "กิโลเมตร"
+            );
+            console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+            document.getElementById("total-price").innerHTML = totalPrice;
+            document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
+            document.getElementById("distance").value = roundedDistanceValue;
+          } else {
+            console.log("ไม่พบระยะทาง");
+          }
+        }, 2000);
+        return false;
+      });
+    }
+
+    async function calculatePrice(distanceValue) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const vehicleID = urlParams.get('vehicleID');
+
+      try {
+        const response = await fetch(`/backend/api/vehicles.php?vehicleID=${vehicleID}`, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
           }
         });
-      });
 
-      //minimum selected date is tomorrow
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      document.getElementById("date").min = tomorrow
-        .toISOString()
-        .split("T")[0];
-    </script>
-  </head>
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-  <body class="bg-gradient-to-b from-white via-cyan-50 to-white h-screen">
-    <input id="myButton" type="hidden" value="100">
+        const data = await response.json();
+        const initial_price = data['initial_price'];
+        const additional_price = data['add_price'];
 
-    <script type="module">
-        // Wait for the DOM to fully load before selecting elements
-        document.addEventListener('DOMContentLoaded', () => {
-            const button = document.getElementById('myButton');
-            button.addEventListener('change', () => {
-                alert('Button was clicked!');
-            });
-            document.getElementById('myButton').value = "200";
+        // Calculate the base price based on distance
+        let basePrice = initial_price + (distanceValue * additional_price);
+
+        // Calculate additional options price
+        const options = document.querySelectorAll(".option-checkbox:checked");
+        let optionTotal = 0;
+        options.forEach(async (option) => {
+          optionTotal += await parseFloat(option.getAttribute("price"));
         });
-    </script>
-  
-    <nav class="bg-white drop-shadow-md">
-      <div class="mx-auto px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-          <div
-            class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
-          >
-            <!-- logo -->
-            <div class="flex flex-shrink-0 items-center">
-              <img src="/img.png" alt="" class="size-14 mr-3" />
-              <a href="/" class="text-3xl font-bold">CaliCloud</a>
-            </div>
-            <div class="hidden sm:ml-6 sm:block">
-              <div class="flex space-x-4">
-                <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400"
-                  >Home</a
-                >
-              </div>
+
+        // Calculate the total price and round it to 2 decimal places
+        const totalPrice = parseFloat((basePrice + optionTotal).toFixed(2));
+        console.log("Calculated total price:", totalPrice); // Debug line to confirm total price
+        return totalPrice;
+      } catch (error) {
+        console.error('Error calculating price:', error);
+        return 0;
+      }
+    }
+
+    // Update calculation when additional options are changed
+    document.querySelectorAll(".option-checkbox").forEach((checkbox) => {
+      checkbox.addEventListener("change", async () => { // Make this function async
+        const distanceSpan = document.querySelector(".ldroute-distance");
+        if (distanceSpan) {
+          const distanceText = distanceSpan.innerText.replace(",", "");
+          const distanceValue = parseFloat(distanceText);
+          const roundedDistanceValue = Math.ceil(distanceValue);
+
+          // Use await here to get the total price
+          const totalPrice = await calculatePrice(roundedDistanceValue);
+          console.log("Resolved total price:", totalPrice); // Debug line to confirm resolved value
+
+          document.getElementById("total-price").innerHTML = totalPrice;
+          document.getElementById("totalPriceInput").value = totalPrice;
+          document.getElementById("distance").value = roundedDistanceValue;
+        }
+      });
+    });
+
+
+    //minimum selected date is tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById("date").min = tomorrow
+      .toISOString()
+      .split("T")[0];
+  </script>
+</head>
+
+<body class="bg-gradient-to-b from-white via-cyan-50 to-white h-screen">
+  <input id="myButton" type="hidden" value="100">
+
+  <script type="module">
+    // Wait for the DOM to fully load before selecting elements
+    document.addEventListener('DOMContentLoaded', () => {
+      const button = document.getElementById('myButton');
+      button.addEventListener('change', () => {
+        alert('Button was clicked!');
+      });
+      document.getElementById('myButton').value = "200";
+    });
+  </script>
+
+  <nav class="bg-white drop-shadow-md">
+    <div class="mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <!-- logo -->
+          <div class="flex flex-shrink-0 items-center">
+            <img src="/img.png" alt="" class="size-14 mr-3" />
+            <a href="/" class="text-3xl font-bold">CaliCloud</a>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400">Home</a>
             </div>
           </div>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <h1 class="mt-5 mb-5 flex justify-center text-4xl font-semibold">
-      Reservation Service
-    </h1>
-    <div class="m-5 mt-1 border-2 border-black" id="map"></div>
-    <div class="hidden" id="result"></div>
+  <h1 class="mt-5 mb-5 flex justify-center text-4xl font-semibold">
+    Reservation Service
+  </h1>
+  <div class="m-5 mt-1 border-2 border-black" id="map"></div>
+  <div class="hidden" id="result"></div>
 
-    <div class="flex">
-      <!--Vehicle Image-->
-      <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
-        <div class="w-fit">
-          <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
-          <img id="vehicle_image" class="w-auto h-auto" src="/img.png" />
-          <p class="mt-3 text-xl font-medium" id="vehicle_name"></p>
-        </div>
-      </div>
-
-      <div
-        class="m-5 mt-0 w-full bg-white border-2 border-black p-6 rounded-xl"
-      >
-        <form id="reservationForm" method="POST" onsubmit="submitForm(event)">
-          <!--Input Date time-->
-          <h1 class="mb-3 text-xl font-medium">
-            1. Select your pick-up and drop-off location from the map above.
-          </h1>
-          <hr />
-          <h1 class="mt-5 mb-2 text-xl font-medium">
-            2. Select Date-Time Pick-Up
-          </h1>
-          <div class="flex gap-4">
-            <input
-              id="date"
-              class="border border-slate-300 h-12 w-full px-2 mb-5"
-              type="date"
-              name="pickup_date"
-              placeholder="Select Pick-Up Date"
-              required
-            />
-            <input
-              id="time"
-              class="border border-slate-300 h-12 w-full px-2 mb-5"
-              type="time"
-              name="pickup_time"
-              placeholder="Select Pick-Up Time"
-              required
-            />
-          </div>
-
-          <hr />
-          <!--Service Option-->
-          <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
-          <ul id="option_show">
-            <li>
-              <input
-                class="mr-2 option-checkbox"
-                type="checkbox"
-                id="option1"
-                name="option1"
-                value="100"
-              />Packing Service +100
-            </li>
-            <li>
-              <input
-                class="mr-2 option-checkbox"
-                type="checkbox"
-                id="option1"
-                name="option1"
-                value="100"
-              />Packing Service +100
-            </li>
-          </ul>
-
-          <!-- Hidden fields for marker1 -->
-          <input type="hidden" id="marker1_lat" name="marker1_lat" />
-          <input type="hidden" id="marker1_lon" name="marker1_lon" />
-
-          <!-- Hidden fields for marker2 -->
-          <input type="hidden" id="marker2_lat" name="marker2_lat" />
-          <input type="hidden" id="marker2_lon" name="marker2_lon" />
-
-          <input type="hidden" name="distance" id="distance" />
-          <input type="hidden" id="totalPriceInput" name="total_price" />
-
-          <hr class="mt-5" />
-          <div class="mt-5">
-            <h1 class="mb-2 text-xl font-medium">
-              4. Select Method for Payment
-            </h1>
-            <div class="">
-              <ul>
-                <li>
-                  <input
-                    onclick="show_payment('card', 'qr')"
-                    class="mr-2 option-checkbox"
-                    type="radio"
-                    id="card"
-                    name="pay"
-                    value="CARD"
-                  />Credit/Debit Card
-                </li>
-                <div id="card-pay" class="hidden flex gap-2">
-                  <input
-                    id=""
-                    class="border border-slate-300 h-12 w-full px-2 mb-5"
-                    type="text"
-                    name="card_number"
-                    placeholder="Card Number"
-                  />
-                  <input
-                    id=""
-                    class="border border-slate-300 h-12 w-full px-2 mb-5"
-                    type="text"
-                    name="expire_date"
-                    placeholder="Expiration Date (mm/yy)"
-                  />
-                  <input
-                    id=""
-                    class="border border-slate-300 h-12 w-full px-2 mb-5"
-                    type="text"
-                    name="secure_code"
-                    placeholder="Security Code"
-                  />
-                </div>
-                <li>
-                  <input
-                    onclick="show_payment('qr', 'card')"
-                    class="mr-2 option-checkbox"
-                    type="radio"
-                    id="qr"
-                    name="pay"
-                    value="QR"
-                  />QR Code
-                </li>
-                <div id="qr-pay" class="hidden">
-                  <img class="" src="/qr.png" />
-                </div>
-              </ul>
-            </div>
-          </div>
-
-          <hr class="mt-5" />
-
-          <div class="flex mt-5">
-            <p class="flex-1 text-2xl font-medium">
-              Total Price: <span id="total-price">0</span> Baht
-            </p>
-            <button
-              class="bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center"
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+  <div class="flex">
+    <!--Vehicle Image-->
+    <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
+      <div class="w-fit">
+        <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
+        <img id="vehicle_image" class="w-auto h-auto" src="/img.png" />
+        <p class="mt-3 text-xl font-medium" id="vehicle_name"></p>
       </div>
     </div>
 
-    <footer class="bg-[#3d4854] text-white">
-      <div
-        class="container mx-auto py-4 flex items-center justify-between h-15"
-      >
-        <h3 class="text-3xl">CaliCloud</h3>
-      </div>
-      <div
-        class="container mx-auto py-4 flex items-center justify-between h-15"
-      >
-        <div class="text-sm">
-          <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
-          <span class="mx-2">|</span>
-          <a href="#" class="hover:underline">Privacy</a>
-          <span class="mx-2">|</span>
-          <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+    <div class="m-5 mt-0 w-full bg-white border-2 border-black p-6 rounded-xl">
+      <form id="reservationForm" method="POST" onsubmit="submitForm(event)">
+        <!--Input Date time-->
+        <h1 class="mb-3 text-xl font-medium">
+          1. Select your pick-up and drop-off location from the map above.
+        </h1>
+        <hr />
+        <h1 class="mt-5 mb-2 text-xl font-medium">
+          2. Select Date-Time Pick-Up
+        </h1>
+        <div class="flex gap-4">
+          <input id="date" class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" name="pickup_date"
+            placeholder="Select Pick-Up Date" required />
+          <input id="time" class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" name="pickup_time"
+            placeholder="Select Pick-Up Time" required />
         </div>
+
+        <hr />
+        <!--Service Option-->
+        <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
+        <ul id="option_show">
+          <li>
+            <input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100" />Packing
+            Service +100
+          </li>
+          <li>
+            <input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100" />Packing
+            Service +100
+          </li>
+        </ul>
+
+        <!-- Hidden fields for marker1 -->
+        <input type="hidden" id="marker1_lat" name="marker1_lat" />
+        <input type="hidden" id="marker1_lon" name="marker1_lon" />
+
+        <!-- Hidden fields for marker2 -->
+        <input type="hidden" id="marker2_lat" name="marker2_lat" />
+        <input type="hidden" id="marker2_lon" name="marker2_lon" />
+
+        <input type="hidden" name="distance" id="distance" />
+        <input type="hidden" id="totalPriceInput" name="total_price" />
+
+        <hr class="mt-5" />
+        <div class="mt-5">
+          <h1 class="mb-2 text-xl font-medium">
+            4. Select Method for Payment
+          </h1>
+          <div class="">
+            <ul>
+              <li>
+                <input onclick="show_payment('card', 'qr')" class="mr-2" type="radio" id="card" name="pay" value="CARD"
+                  required />Credit/Debit Card
+              </li>
+              <div id="card-pay" class="hidden flex gap-2">
+                <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="card_number"
+                  placeholder="Card Number" />
+                <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="expire_date"
+                  placeholder="Expiration Date (mm/yy)" />
+                <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="secure_code"
+                  placeholder="Security Code" />
+              </div>
+              <li>
+                <input onclick="show_payment('qr', 'card')" class="mr-2" type="radio" id="qr" name="pay" value="QR"
+                  required />QR Code
+              </li>
+              <div id="qr-pay" class="hidden">
+                <img class="" src="/qr.png" />
+              </div>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="mt-5" />
+
+        <div class="flex mt-5">
+          <p class="flex-1 text-2xl font-medium">
+            Total Price: <span id="total-price">0</span> Baht
+          </p>
+          <button class="bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center"
+            type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="bg-[#3d4854] text-white">
+    <div class="container mx-auto py-4 flex items-center justify-between h-15">
+      <h3 class="text-3xl">CaliCloud</h3>
+    </div>
+    <div class="container mx-auto py-4 flex items-center justify-between h-15">
+      <div class="text-sm">
+        <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
+        <span class="mx-2">|</span>
+        <a href="#" class="hover:underline">Privacy</a>
+        <span class="mx-2">|</span>
+        <a href="#" class="hover:underline">Terms &amp; Conditions</a>
       </div>
-    </footer>
-  </body>
+    </div>
+  </footer>
+</body>
+
 </html>
 
 <script>
   const option_show = document.getElementById("option_show")
 
   fetch("/backend/api/options.php", {
-      method: "GET",
-      headers: {
-          'Content-Type': 'application/json'
-      }
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
     .then((response) => {
-        // console.log('Response:', response); // Log the whole response object
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json(); // Proceed to parse JSON if response is okay
+      // console.log('Response:', response); // Log the whole response object
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json(); // Proceed to parse JSON if response is okay
     })
     .then(data => {
-      
+
       console.log("data" + data)
       option_show.innerHTML = ""
-        data.forEach(item => {
-          let option = document.createElement('li')
-          let input = document.createElement('input')
+      data.forEach(item => {
+        let option = document.createElement('li')
+        let input = document.createElement('input')
 
-          input.classList.add("mr-2","option-checkbox")
-          input.type = "checkbox"
-          input.id = item['id']
-          input.name="option" 
-          input.value = item['id']
-          input.price = item['price']
+        input.classList.add("mr-2", "option-checkbox")
+        input.type = "checkbox"
+        input.id = item['id']
+        input.name = "option"
+        input.value = item['id']
+        input.price = item['price']
 
-          option.append(input)
-          option.append(document.createTextNode(`${item['name']} +${item['price']}`))
-          option_show.append(option)
-          
-          input.addEventListener("change", ()=>{
-            if (input.checked){
-              totalprice = Number(document.getElementById("total-price").innerHTML) + input.price;
-              console.log(input.price)
-            }
-            else{
-              totalprice = Number(document.getElementById("total-price").innerHTML) - input.price;
-            }
-            document.getElementById("total-price").innerHTML = totalprice;
-            document.getElementById("totalPriceInput").value = totalprice;// อัปเดตฟิลด์ซ่อน
-          })
+        option.append(input)
+        option.append(document.createTextNode(`${item['name']} +${item['price']}`))
+        option_show.append(option)
+
+        input.addEventListener("change", () => {
+          if (input.checked) {
+            totalprice = Number(document.getElementById("total-price").innerHTML) + input.price;
+            console.log(input.price)
+          }
+          else {
+            totalprice = Number(document.getElementById("total-price").innerHTML) - input.price;
+          }
+          document.getElementById("total-price").innerHTML = totalprice;
+          document.getElementById("totalPriceInput").value = totalprice;// อัปเดตฟิลด์ซ่อน
         })
+      })
     })
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const vehicleID = urlParams.get('vehicleID');
+  const urlParams = new URLSearchParams(window.location.search);
+  const vehicleID = urlParams.get('vehicleID');
 
-    const vehicleImage = document.getElementById("vehicle_image")
-    const vehicleName = document.getElementById("vehicle_name")
-    
-    console.log("vehicleID: "+vehicleID)
-    if (vehicleID == null)location.href = "Reservation.html"
+  const vehicleImage = document.getElementById("vehicle_image")
+  const vehicleName = document.getElementById("vehicle_name")
 
-    //const vehicle_show = document.getElementById("vehicle_show")
-    console.log(window.location.search)
-    
-    fetch(`/backend/api/vehicles.php?vehicleID=${vehicleID}`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        }
+  console.log("vehicleID: " + vehicleID)
+  if (vehicleID == null) location.href = "Reservation.html"
+
+  //const vehicle_show = document.getElementById("vehicle_show")
+  console.log(window.location.search)
+
+  fetch(`/backend/api/vehicles.php?vehicleID=${vehicleID}`, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then((response) => {
+      // console.log('Response:', response); // Log the whole response object
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json(); // Proceed to parse JSON if response is okay
     })
-        .then((response) => {
-            // console.log('Response:', response); // Log the whole response object
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); // Proceed to parse JSON if response is okay
-        })
-        .then(data => {
-          vehicleImage.src = '/'+data['image_url']
-          vehicleName.innerHTML = data['name']
-          console.log("data['image_url']"+data['image_url'])
-            //vehicle_show.innerHTML = ""
-            //data.forEach(item => {
-               // vehicle_show.innerHTML +=
-                
-            //)
-        })
+    .then(data => {
+      vehicleImage.src = '/' + data['image_url']
+      vehicleName.innerHTML = data['name']
+      console.log("data['image_url']" + data['image_url'])
+      //vehicle_show.innerHTML = ""
+      //data.forEach(item => {
+      // vehicle_show.innerHTML +=
+
+      //)
+    })
 
 </script>
 
@@ -509,48 +489,48 @@
   }
 
   function submitForm(event) {
-      event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
+    event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
 
-      // ดึงข้อมูลจากฟอร์ม
-      const form = document.getElementById("reservationForm");
-      const formData = new FormData(form);
-      const pay = Array.from(document.getElementsByName("pay")).filter(item=>item.checked)[0].value
-      const option = Array.from(document.getElementsByName("option")).filter(item=>item.checked).map(item=>Number(item.value))
+    // ดึงข้อมูลจากฟอร์ม
+    const form = document.getElementById("reservationForm");
+    const formData = new FormData(form);
+    const pay = Array.from(document.getElementsByName("pay")).filter(item => item.checked)[0].value
+    const option = Array.from(document.getElementsByName("option")).filter(item => item.checked).map(item => Number(item.value))
 
-      // กำหนดข้อมูลในรูปแบบที่ต้องการ
-      const data = {
-          vehicle_id: Number(vehicleID),
-          marker1_lat: Number(document.getElementById("marker1_lat").value),
-          marker1_lon: Number(document.getElementById("marker1_lon").value),
-          marker2_lat: Number(document.getElementById("marker2_lat").value),
-          marker2_lon: Number(document.getElementById("marker2_lon").value),
-          distance: Number(document.getElementById("distance").value),
-          pickup_date: document.getElementById("date").value,
-          pickup_time: document.getElementById("time").value,
-          option: option,
-          pay: pay,
-      };
+    // กำหนดข้อมูลในรูปแบบที่ต้องการ
+    const data = {
+      vehicle_id: Number(vehicleID),
+      marker1_lat: Number(document.getElementById("marker1_lat").value),
+      marker1_lon: Number(document.getElementById("marker1_lon").value),
+      marker2_lat: Number(document.getElementById("marker2_lat").value),
+      marker2_lon: Number(document.getElementById("marker2_lon").value),
+      distance: Number(document.getElementById("distance").value),
+      pickup_date: document.getElementById("date").value,
+      pickup_time: document.getElementById("time").value,
+      option: option,
+      pay: pay,
+    };
 
-      console.log(data);
+    console.log(data);
 
-      // ส่งข้อมูลไปยัง backend
-      fetch("/backend/api/reservation.php", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-      })
+    // ส่งข้อมูลไปยัง backend
+    fetch("/backend/api/reservation.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
       .then((response) => {
-          if (!response.ok) throw new Error("Network response was not ok");
-          return response.json();
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
       })
       .then((responseData) => {
-          console.log("Success:", responseData);
-          // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
+        console.log("Success:", responseData);
+        // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
       })
       .catch((error) => {
-          console.error("Error:", error);
+        console.error("Error:", error);
       });
-    }
+  }
 </script>

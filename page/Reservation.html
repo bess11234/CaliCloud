@@ -2,63 +2,66 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Service</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="fonts.css">
 </head>
 
-<body class="text-black dark:text-white flex flex-col min-h-screen transition-colors duration-300 bg-lightBlue dark:bg-darkBlue">
-<nav class="bg-[#3d4854]/70 text-white dark:bg-gray-800/70 backdrop-blur-2xl fixed top-0 left-0 right-0 z-50">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div class="flex flex-shrink-0 items-center">
-                    <img src="/img.png" alt="" class="size-14 mr-3">
-                    <a href="/" class="text-3xl font-black">CaliCloud</a>
+<body
+    class="text-black dark:text-white flex flex-col min-h-screen transition-colors duration-300 bg-lightBlue dark:bg-darkBlue">
+    <nav class="bg-[#3d4854]/70 text-white dark:bg-gray-800/70 backdrop-blur-2xl fixed top-0 left-0 right-0 z-50">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex flex-shrink-0 items-center">
+                        <img src="/img.png" alt="" class="size-14 mr-3">
+                        <a href="/" class="text-3xl font-black">CaliCloud</a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex space-x-4">
+                        <a href="#"
+                            class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Home</a>
+                        <a href="#"
+                            class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Service</a>
+                    </div>
                 </div>
-                <div class="hidden sm:ml-6 sm:flex space-x-4">
-                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Home</a>
-                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Service</a>
-                </div>
-            </div>
 
-            <div id="signin" class="relative flex flex-row">
-                <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
-                <div id="logout_box"
-                     class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
-                    <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
+                <div id="signin" class="relative flex flex-row">
+                    <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
+                    <div id="logout_box"
+                        class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
+                        <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- Main Content Wrapper -->
-<div class="flex-grow mt-14">
-    <h1 class="text-center font-bold text-6xl mt-20">The right vehicle for the job</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-16 m-4 text-white"
-         id="vehicle_show">
-    </div>
-</div>
-
-<!-- Footer -->
-<footer class="bg-[#3d4854] text-white">
-    <div class="container mx-auto py-4 flex items-center justify-between h-15">
-        <h3 class="text-3xl">CaliCloud</h3>
-    </div>
-    <div class="container mx-auto py-4 flex items-center justify-between h-15">
-        <div class="text-sm">
-            <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
-            <span class="mx-2">|</span>
-            <a href="#" class="hover:underline">Privacy</a>
-            <span class="mx-2">|</span>
-            <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+    <!-- Main Content Wrapper -->
+    <div class="flex-grow mt-14">
+        <h1 class="text-center font-bold text-6xl mt-20">The right vehicle for the job</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-16 m-4 text-white"
+            id="vehicle_show">
         </div>
     </div>
-</footer>
+
+    <!-- Footer -->
+    <footer class="bg-[#3d4854] text-white">
+        <div class="container mx-auto py-4 flex items-center justify-between h-15">
+            <h3 class="text-3xl">CaliCloud</h3>
+        </div>
+        <div class="container mx-auto py-4 flex items-center justify-between h-15">
+            <div class="text-sm">
+                <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
+                <span class="mx-2">|</span>
+                <a href="#" class="hover:underline">Privacy</a>
+                <span class="mx-2">|</span>
+                <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+            </div>
+        </div>
+    </footer>
 </body>
 
 <script>
@@ -82,11 +85,13 @@
                 vehicle_show.innerHTML +=
                     `
                 <div class="bg-gray-500 rounded-t-3xl rounded-b-lg text-center">
-                    <img src="/${item['image_url']}" alt="" class="w-full h-auto rounded-t-3xl rounded-b-3xl ">
-                    <h2 class="text-center text-3xl font-bold">${item['name']}</h2>
-                    <p class="text-center text-xl">Weight limit: ${item['capacity']} KG</p>
-                    <p class="text-center text-xl">Price: ${item['initial_price']} Baht</p>
-                    <p class="text-center text-xl">Per KM: ${item['add_price']} Baht/KM</p>
+                    <img src="/${item['image_url']}" alt="" class="w-full max-h-[446px] object-center rounded-t-3xl rounded-b-3xl">
+                    <div class="my-2">
+                        <h2 class="text-center text-3xl font-bold">${item['name']}</h2>
+                        <p class="text-center text-lg font-light">Weight limit: ${item['capacity']} KG</p>
+                        <p class="text-center text-lg font-light">Price: ${item['initial_price']} Baht</p>
+                        <p class="text-center text-lg font-light">Per KM: ${item['add_price']} Baht/KM</p>
+                    </div>
                     <div class="items-center">
                         <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]
                         cursor-pointer ml-20 mr-20 mt-5">
