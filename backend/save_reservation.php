@@ -30,12 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $marker2_lat = $data['marker2_lat'] ?? null;
         $marker2_lon = $data['marker2_lon'] ?? null;
         $distance = $data['distance'] ?? 0;
-        $total_price = $data['total_price'] ?? 0;
+        // $total_price = $data['total_price'] ?? 0;
 
         // เก็บข้อมูลอื่นๆ เช่น Service Options
         $option1 = isset($data['option1']) ? true : false;
-        $option2 = isset($data['option2']) ? true : false;
-        $option3 = isset($data['option3']) ? true : false;
+        // $option2 = isset($data['option2']) ? true : false;
+        // $option3 = isset($data['option3']) ? true : false;
+        
 
         // ตัวอย่างการประมวลผลข้อมูล (อาจจะเก็บลงฐานข้อมูลหรือส่งต่อไปยัง API อื่น)
         // ตัวอย่างการตอบกลับด้วย JSON

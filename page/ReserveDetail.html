@@ -34,6 +34,9 @@
       document.head.appendChild(script);
 
       var map;
+      document.getElementById("distance").addEventListener("change", ()=>{
+        console.log("checked!")
+      })
 
       function init() {
         map = new longdo.Map({
@@ -111,6 +114,10 @@
             const distanceSpan = document.querySelector(".ldroute-distance");
             if (distanceSpan) {
               const distanceText = distanceSpan.innerText.replace(",", "");
+
+              let ten = Number(distanceText.length)*10
+
+
               const distanceValue = parseFloat(distanceText);
               const roundedDistanceValue = Math.ceil(distanceValue);
               const totalPrice = calculatePrice(roundedDistanceValue);
@@ -123,7 +130,7 @@
               console.log("ราคาทั้งหมด:", totalPrice, "บาท");
               document.getElementById("total-price").innerHTML = totalPrice;
               document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
-              document.getElementById("distance").value = distanceValue;
+              document.getElementById("distance").value = roundedDistanceValue;
             } else {
               console.log("ไม่พบระยะทาง");
             }
@@ -149,6 +156,7 @@
 
         // คำนวณราคาจากตัวเลือกเพิ่มเติมที่ถูกเลือก
         const options = document.querySelectorAll(".option-checkbox:checked");
+        console.log(options)
         let optionTotal = 0;
         options.forEach((option) => {
           optionTotal += parseFloat(option.value);
@@ -192,6 +200,19 @@
   </head>
 
   <body class="bg-gradient-to-b from-white via-cyan-50 to-white h-screen">
+    <input id="myButton" type="hidden" value="100">
+
+    <script type="module">
+        // Wait for the DOM to fully load before selecting elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('myButton');
+            button.addEventListener('change', () => {
+                alert('Button was clicked!');
+            });
+            document.getElementById('myButton').value = "200";
+        });
+    </script>
+  
     <nav class="bg-white drop-shadow-md">
       <div class="mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
@@ -226,7 +247,8 @@
       <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
         <div class="w-fit">
           <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
-          <img class="h-60" src="/public/img.png" />
+          <img id="vehicle_image" class="w-auto h-auto" src="/img.png" />
+          <p class="mt-3 text-xl font-medium" id="vehicle_name"></p>
         </div>
       </div>
 
@@ -265,7 +287,7 @@
           <!--Service Option-->
           <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
           <ul id="option_show">
-            {% comment %} <li>
+            <li>
               <input
                 class="mr-2 option-checkbox"
                 type="checkbox"
@@ -282,7 +304,7 @@
                 name="option1"
                 value="100"
               />Packing Service +100
-            </li> {% endcomment %}
+            </li>
           </ul>
 
           <!-- Hidden fields for marker1 -->
@@ -320,7 +342,7 @@
                     type="text"
                     name="card_number"
                     placeholder="Card Number"
-                    required
+                
                   />
                   <input
                     id=""
@@ -328,7 +350,7 @@
                     type="text"
                     name="expire_date"
                     placeholder="Expiration Date (mm/yy)"
-                    required
+                    
                   />
                   <input
                     id=""
@@ -336,7 +358,7 @@
                     type="text"
                     name="secure_code"
                     placeholder="Security Code"
-                    required
+                    
                   />
                 </div>
                 <li>
@@ -350,7 +372,7 @@
                   />QR Code
                 </li>
                 <div id="qr-pay" class="hidden">
-                  <img class="" src="public/qr.png" />
+                  <img class="" src="/qr.png" />
                 </div>
               </ul>
             </div>
@@ -396,33 +418,89 @@
 
 <script>
   const option_show = document.getElementById("option_show")
-  console.log(window.location.search)
-  fetch("/backend/api/reserve_detail.php", {
+
+  fetch("/backend/api/options.php", {
       method: "GET",
       headers: {
           'Content-Type': 'application/json'
       }
   })
-      .then((response) => {
-          // console.log('Response:', response); // Log the whole response object
-          if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json(); // Proceed to parse JSON if response is okay
-      })
-      .then(data => {
-        option_show.innerHTML = ""
-          data.forEach(item => {
-            console.log(item)
-            option_show.innerHTML +=
-              `
-              <li>
-                <input class="mr-2 option-checkbox" type="checkbox" id="${item['id']}" name="${item['name']}" value="${item['price']}">
-                ${item['name']} +${item['price']}
-              </li>
-              `;
+    .then((response) => {
+        // console.log('Response:', response); // Log the whole response object
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Proceed to parse JSON if response is okay
+    })
+    .then(data => {
+      
+      console.log("data" + data)
+      option_show.innerHTML = ""
+        data.forEach(item => {
+          let option = document.createElement('li')
+          let input = document.createElement('input')
+
+          input.classList.add("mr-2","option-checkbox")
+          input.type = "checkbox"
+          input.id = item['id']
+          input.name="option" 
+          input.value = item['id']
+          input.price = item['price']
+
+          option.append(input)
+          option.append(document.createTextNode(`${item['name']} +${item['price']}`))
+          option_show.append(option)
+          
+          input.addEventListener("change", ()=>{
+            if (input.checked){
+              totalprice = Number(document.getElementById("total-price").innerHTML) + input.price;
+              console.log(input.price)
+            }
+            else{
+              totalprice = Number(document.getElementById("total-price").innerHTML) - input.price;
+            }
+            document.getElementById("total-price").innerHTML = totalprice;
+            document.getElementById("totalPriceInput").value = totalprice;// อัปเดตฟิลด์ซ่อน
           })
-      })
+        })
+    })
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const vehicleID = urlParams.get('vehicleID');
+
+    const vehicleImage = document.getElementById("vehicle_image")
+    const vehicleName = document.getElementById("vehicle_name")
+    
+
+    console.log("vehicleID: "+vehicleID)
+
+    //const vehicle_show = document.getElementById("vehicle_show")
+    console.log(window.location.search)
+    
+    fetch(`/backend/api/vehicles.php?vehicleID=${vehicleID}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then((response) => {
+            // console.log('Response:', response); // Log the whole response object
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // Proceed to parse JSON if response is okay
+        })
+        .then(data => {
+          vehicleImage.src = '/'+data['image_url']
+          vehicleName.innerHTML = data['name']
+          console.log("data['image_url']"+data['image_url'])
+            //vehicle_show.innerHTML = ""
+            //data.forEach(item => {
+               // vehicle_show.innerHTML +=
+                
+            //)
+        })
+
 </script>
 
 <script>
@@ -445,24 +523,26 @@
       data[key] = value;
     });
 
+    console.log(data)
+
     // ส่งข้อมูลไปยัง backend
-    fetch("/backend/save_reservation.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Success:", data);
-        // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    // fetch("/backend/save_reservation.php", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // })
+    //   .then((response) => {
+    //     if (!response.ok) throw new Error("Network response was not ok");
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("Success:", data);
+    //     // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   }
 </script>
