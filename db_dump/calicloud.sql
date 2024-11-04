@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2024 at 05:33 PM
+-- Generation Time: Nov 04, 2024 at 02:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -49,8 +49,20 @@ CREATE TABLE `reserveservices` (
   `distance` float NOT NULL,
   `total_price` int(11) NOT NULL,
   `payment_method` enum('CARD','QR') NOT NULL,
-  `transport_status` enum('WAITING','GOING','ARRIVED','FINISHED') NOT NULL
+  `transport_status` enum('WAITING','GOING','ARRIVED','FINISHED') NOT NULL,
+  `pickup_date` date NOT NULL,
+  `pickup_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reserveservices`
+--
+
+INSERT INTO `reserveservices` (`id`, `user_id`, `vehicle_id`, `pickup_location_lat`, `pickup_location_lon`, `dropoff_location_lat`, `dropoff_location_lon`, `distance`, `total_price`, `payment_method`, `transport_status`, `pickup_date`, `pickup_time`) VALUES
+(2, 1, 1, 13, 13, 20, 20, 100, 2650, 'CARD', 'WAITING', '2024-10-30', '15:13:00'),
+(3, 1, 1, 13, 13, 20, 20, 100, 2650, 'CARD', 'WAITING', '2024-10-30', '15:13:00'),
+(4, 1, 2, 13.8026, 100.5, 13.8274, 100.396, 17, 1052, 'QR', 'WAITING', '2024-11-05', '17:38:00'),
+(5, 1, 2, 13.8026, 100.5, 13.8274, 100.396, 17, 1052, 'QR', 'WAITING', '2024-11-05', '17:38:00');
 
 -- --------------------------------------------------------
 
@@ -71,7 +83,7 @@ CREATE TABLE `serviceoptions` (
 INSERT INTO `serviceoptions` (`id`, `name`, `price`) VALUES
 (1, 'packing', 300),
 (2, 'insurance', 500),
-(3, 'lifting', 200);
+(3, 'rifting', 200);
 
 -- --------------------------------------------------------
 
@@ -84,6 +96,13 @@ CREATE TABLE `user` (
   `email` varchar(200) NOT NULL,
   `token` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `token`) VALUES
+(1, 'test@mail.com', '$$$$');
 
 -- --------------------------------------------------------
 
@@ -156,7 +175,7 @@ ALTER TABLE `vehicles`
 -- AUTO_INCREMENT for table `reserveservices`
 --
 ALTER TABLE `reserveservices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `serviceoptions`
@@ -168,7 +187,7 @@ ALTER TABLE `serviceoptions`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vehicles`

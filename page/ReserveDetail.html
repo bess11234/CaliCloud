@@ -185,12 +185,18 @@
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
+        const show_price_initial = document.getElementById("show_price_initial")
+        const show_price_addition = document.getElementById("show_price_addition")
+
         const data = await response.json();
         const initial_price = data['initial_price'];
         const additional_price = data['add_price'];
 
         // Calculate the base price based on distance
         let basePrice = initial_price + (distanceValue * additional_price);
+
+        show_price_initial.innerText = "Initial Price: " + initial_price
+        show_price_addition.innerText = `Additional Price (${additional_price} Bath/KM): ` + (distanceValue * additional_price)
 
         // Calculate additional options price
         const options = document.querySelectorAll(".option-checkbox:checked");
@@ -239,156 +245,156 @@
   </script>
 </head>
 
-<body class="bg-gradient-to-b from-white via-cyan-50 to-white h-screen">
-  <input id="myButton" type="hidden" value="100">
-
-  <script type="module">
-    // Wait for the DOM to fully load before selecting elements
-    document.addEventListener('DOMContentLoaded', () => {
-      const button = document.getElementById('myButton');
-      button.addEventListener('change', () => {
-        alert('Button was clicked!');
-      });
-      document.getElementById('myButton').value = "200";
-    });
-  </script>
-
-  <nav class="bg-white drop-shadow-md">
-    <div class="mx-auto px-2 sm:px-6 lg:px-8">
+<body
+  class="text-black dark:text-white flex flex-col min-h-screen transition-colors duration-300 bg-lightBlue dark:bg-darkBlue">
+  <nav class="bg-[#3d4854]/70 text-white dark:bg-gray-800/70 backdrop-blur-2xl fixed top-0 left-0 right-0 z-50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-          <!-- logo -->
           <div class="flex flex-shrink-0 items-center">
-            <img src="/img.png" alt="" class="size-14 mr-3" />
-            <a href="/" class="text-3xl font-bold">CaliCloud</a>
+            <img src="/img.png" alt="" class="size-14 mr-3">
+            <a href="/" class="text-3xl font-black">CaliCloud</a>
           </div>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <a href="" class="rounded-md px-3 py-4 text-xl text-gray-400">Home</a>
-            </div>
+          <div class="hidden sm:ml-6 sm:flex space-x-4">
+            <a href="/" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Home</a>
+            <a href="/page/Reservation.html"
+              class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Service</a>
+          </div>
+        </div>
+
+        <div id="signin" class="relative flex flex-row">
+          <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
+          <div id="logout_box"
+            class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
+            <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
           </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <h1 class="mt-5 mb-5 flex justify-center text-4xl font-semibold">
-    Reservation Service
-  </h1>
-  <div class="m-5 mt-1 border-2 border-black" id="map"></div>
-  <div class="hidden" id="result"></div>
-
-  <div class="flex">
-    <!--Vehicle Image-->
-    <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
-      <div class="w-fit">
-        <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
-        <img id="vehicle_image" class="w-auto h-auto" src="/img.png" />
-        <p class="mt-3 text-xl font-medium" id="vehicle_name"></p>
-      </div>
-    </div>
-
-    <div class="m-5 mt-0 w-full bg-white border-2 border-black p-6 rounded-xl">
-      <form id="reservationForm" method="POST" onsubmit="submitForm(event)">
-        <!--Input Date time-->
-        <h1 class="mb-3 text-xl font-medium">
-          1. Select your pick-up and drop-off location from the map above.
-        </h1>
-        <hr />
-        <h1 class="mt-5 mb-2 text-xl font-medium">
-          2. Select Date-Time Pick-Up
-        </h1>
-        <div class="flex gap-4">
-          <input id="date" class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" name="pickup_date"
-            placeholder="Select Pick-Up Date" required />
-          <input id="time" class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" name="pickup_time"
-            placeholder="Select Pick-Up Time" required />
+  <div class="h-full flex-grow mt-14">
+    <h1 class="text-center font-bold text-6xl mt-20">Reservation Service</h1>
+    <div class="m-5 mt-1 border-2 border-black text-black" id="map"></div>
+    <div class="hidden" id="result"></div>
+    <div class="flex flex-row my-6">
+      <!--Vehicle Image-->
+      <div class="basis-2/5 ml-5 w-full flex justify-center text-center">
+        <div class="w-fit">
+          <h1 class="mb-2 text-xl font-medium">(Vehicle Selected)</h1>
+          <img id="vehicle_image" class="w-auto h-auto rounded-3xl" src="/img.png" />
+          <p class="mt-3 text-xl font-medium" id="vehicle_name"></p>
         </div>
+      </div>
 
-        <hr />
-        <!--Service Option-->
-        <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
-        <ul id="option_show">
-          <li>
-            <input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100" />Packing
-            Service +100
-          </li>
-          <li>
-            <input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100" />Packing
-            Service +100
-          </li>
-        </ul>
-
-        <!-- Hidden fields for marker1 -->
-        <input type="hidden" id="marker1_lat" name="marker1_lat" />
-        <input type="hidden" id="marker1_lon" name="marker1_lon" />
-
-        <!-- Hidden fields for marker2 -->
-        <input type="hidden" id="marker2_lat" name="marker2_lat" />
-        <input type="hidden" id="marker2_lon" name="marker2_lon" />
-
-        <input type="hidden" name="distance" id="distance" />
-        <input type="hidden" id="totalPriceInput" name="total_price" />
-
-        <hr class="mt-5" />
-        <div class="mt-5">
-          <h1 class="mb-2 text-xl font-medium">
-            4. Select Method for Payment
+      <div class="m-5 mt-0 w-full bg-white border-2 border-black dark:border-white p-6 rounded-xl text-black">
+        <form id="reservationForm" method="POST" onsubmit="submitForm(event)">
+          <!--Input Date time-->
+          <h1 class="mb-3 text-xl font-medium">
+            1. Select your pick-up and drop-off location from the map above.
           </h1>
-          <div class="">
-            <ul>
-              <li>
-                <input onclick="show_payment('card', 'qr')" class="mr-2" type="radio" id="card" name="pay" value="CARD"
-                  required />Credit/Debit Card
-              </li>
-              <div id="card-pay" class="hidden flex gap-2">
-                <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="card_number"
-                  placeholder="Card Number" />
-                <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="expire_date"
-                  placeholder="Expiration Date (mm/yy)" />
-                <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="secure_code"
-                  placeholder="Security Code" />
-              </div>
-              <li>
-                <input onclick="show_payment('qr', 'card')" class="mr-2" type="radio" id="qr" name="pay" value="QR"
-                  required />QR Code
-              </li>
-              <div id="qr-pay" class="hidden">
-                <img class="" src="/qr.png" />
-              </div>
-            </ul>
+          <hr />
+          <h1 class="mt-5 mb-2 text-xl font-medium">
+            2. Select Date-Time Pick-Up
+          </h1>
+          <div class="flex gap-4">
+            <input id="date" class="border border-slate-300 h-12 w-full px-2 mb-5" type="date" name="pickup_date"
+              placeholder="Select Pick-Up Date" required />
+            <input id="time" class="border border-slate-300 h-12 w-full px-2 mb-5" type="time" name="pickup_time"
+              placeholder="Select Pick-Up Time" required />
           </div>
-        </div>
 
-        <hr class="mt-5" />
+          <hr />
+          <!--Service Option-->
+          <h1 class="mt-5 mb-2 text-xl font-medium">3. Select Option(s)</h1>
+          <ul id="option_show">
+            <li>
+              <input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100" />Packing
+              Service +100
+            </li>
+            <li>
+              <input class="mr-2 option-checkbox" type="checkbox" id="option1" name="option1" value="100" />Packing
+              Service +100
+            </li>
+          </ul>
 
-        <div class="flex mt-5">
-          <p class="flex-1 text-2xl font-medium">
-            Total Price: <span id="total-price">0</span> Baht
-          </p>
-          <button class="bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center"
-            type="submit">
-            Submit
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+          <!-- Hidden fields for marker1 -->
+          <input type="hidden" id="marker1_lat" name="marker1_lat" />
+          <input type="hidden" id="marker1_lon" name="marker1_lon" />
 
-  <footer class="bg-[#3d4854] text-white">
-    <div class="container mx-auto py-4 flex items-center justify-between h-15">
-      <h3 class="text-3xl">CaliCloud</h3>
-    </div>
-    <div class="container mx-auto py-4 flex items-center justify-between h-15">
-      <div class="text-sm">
-        <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
-        <span class="mx-2">|</span>
-        <a href="#" class="hover:underline">Privacy</a>
-        <span class="mx-2">|</span>
-        <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+          <!-- Hidden fields for marker2 -->
+          <input type="hidden" id="marker2_lat" name="marker2_lat" />
+          <input type="hidden" id="marker2_lon" name="marker2_lon" />
+
+          <input type="hidden" name="distance" id="distance" />
+          <input type="hidden" id="totalPriceInput" name="total_price" />
+
+          <hr class="mt-5" />
+          <div class="mt-5">
+            <h1 class="mb-2 text-xl font-medium">
+              4. Select Method for Payment
+            </h1>
+            <div class="">
+              <ul>
+                <li>
+                  <input onclick="show_payment('card', 'qr')" class="mr-2" type="radio" id="card" name="pay"
+                    value="CARD" required />Credit/Debit Card
+                </li>
+                <div id="card-pay" class="hidden flex gap-2">
+                  <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="card_number"
+                    placeholder="Card Number" />
+                  <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="expire_date"
+                    placeholder="Expiration Date (mm/yy)" />
+                  <input id="" class="border border-slate-300 h-12 w-full px-2 mb-5" type="text" name="secure_code"
+                    placeholder="Security Code" />
+                </div>
+                <li>
+                  <input onclick="show_payment('qr', 'card')" class="mr-2" type="radio" id="qr" name="pay" value="QR"
+                    required />QR Code
+                </li>
+                <div id="qr-pay" class="hidden">
+                  <img class="" src="/qr.png" />
+                </div>
+              </ul>
+            </div>
+          </div>
+
+          <hr class="mt-5" />
+
+          <div class="flex flex-row justify-between mt-5">
+            <div class="flex flex-col">
+              <p class="flex-1 text-2xl font-medium">
+                Total Price: <span id="total-price">...</span> Baht
+              </p>
+              <ul>
+                <li id="show_price_initial">Initial Price: ...</li>
+                <li id="show_price_addition">Additional Price (.. Bath/KM): ...</li>
+              </ul>
+            </div>
+            <button
+              class="bg-blue-700 hover:bg-gray-400 text-white font-bold py-3 px-4 rounded inline-flex items-center"
+              type="submit">
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </footer>
+
+    <!-- Footer -->
+    <footer class="bg-[#3d4854] text-white dark:bg-gray-800">
+      <div class="container mx-auto py-4 flex flex-col items-center justify-between">
+        <h3 class="text-3xl">CaliCloud</h3>
+        <div class="text-sm">
+          <span>&copy; [2024] [CaliCloud]. All Rights Reserved.</span>
+          <span class="mx-2">|</span>
+          <a href="#" class="hover:underline">Privacy</a>
+          <span class="mx-2">|</span>
+          <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </footer>
+  </div>
 </body>
 
 </html>
@@ -533,4 +539,7 @@
         console.error("Error:", error);
       });
   }
+</script>
+
+<script src="/page/assets/js/credential.js" type="module">
 </script>

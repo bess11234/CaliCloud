@@ -1,6 +1,7 @@
 <?php
 include '../config.php';
 include '../database.php';
+session_start();
 
 $input = json_decode(file_get_contents("php://input"), true);
 
@@ -14,7 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $result = $conn->query("SELECT id FROM user WHERE token='{$_SESSION['token']}'");
     $result->setFetchMode(PDO::FETCH_ASSOC);
-    $user_id = $result->fetchObject()->id;
+    $result = $result->fetchObject();
+    $user_id = $result->id;
+    echo $_SESSION['token'];
     // $user_id = isset($input['user_id']) ? $input['user_id'] : null;
     // $user_id = 1;
 
@@ -42,6 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $result = $conn->query("SELECT SUM(price) AS sum_price FROM serviceoptions WHERE id in $options");
 
     $total_price += $result->fetchObject()->sum_price;
+
+    //echo $user_id ." 1 ". $vehicleID ." 2 ". $marker1_lat ." 3 ". $marker1_lon ." 4 ". $marker2_lat ." 5 ". $marker2_lon ." 6 ". $distance ." 7 ". $pickup_date ." 8 ". $pickup_time ." 9 ". $options ." 10 ". $pay ." 11 ". $total_price ;
 
     if ($user_id && $vehicleID && $marker1_lat && $marker1_lon && $marker2_lat && $marker2_lon && $distance && $pickup_date && $pickup_time && $options && $pay && $total_price) {
         $result = $conn->query("INSERT INTO reserveservices (user_id, vehicle_id, pickup_location_lat, pickup_location_lon, dropoff_location_lat, dropoff_location_lon, distance, total_price, payment_method, transport_status, pickup_date, pickup_time) VALUES 
