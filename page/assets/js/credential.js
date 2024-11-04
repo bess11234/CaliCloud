@@ -52,7 +52,7 @@ fetch("/backend/retrieveuser.php", {
 
         let show_name_user = document.createElement("p")
         let div = document.createElement("div")
-        let a_link = document.createElement("a")
+        let a_link = document.createElement("p")
         let show_sign_out = document.createElement("p")
 
         show_name_user.className = "select-none cursor-pointer"
@@ -62,7 +62,7 @@ fetch("/backend/retrieveuser.php", {
 
         a_link.className = "cursor-pointer w-32 hover:opacity-50"
         a_link.innerText = "Booking"
-        a_link.href = "/page/booking.html"
+        a_link.addEventListener("click", ()=> location.href="/page/booking.html")
         div.append(a_link)
 
         show_sign_out.className = "cursor-pointer w-32 hover:opacity-50"
