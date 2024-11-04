@@ -75,6 +75,7 @@ fetch("/backend/retrieveuser.php", {
         show_sign_out.addEventListener("click", () => signout())
         div.append(show_sign_out)
 
+        div.className = "absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700"
         signin.append(div)
     }
 })
