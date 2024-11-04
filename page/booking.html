@@ -8,6 +8,98 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/page/fonts.css">
     <title>CaliCloud | Booking</title>
+
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0px;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        #result {
+            height: 50%;
+        }
+    </style>
+
+    <script type="module">
+        const mapKey = import.meta.env.VITE_LONGDO_MAP_API_KEY;
+
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = `https://api.longdo.com/map3/?key=${mapKey}`;
+
+        script.onload = function () {
+            init();
+        };
+
+        document.head.appendChild(script);
+
+        var map;
+        document.getElementById("distance").addEventListener("change", () => {
+            console.log("checked!")
+        })
+
+        function init() {
+            map = new longdo.Map({
+                placeholder: document.getElementById("map"),
+            });
+
+            var marker1 = new longdo.Marker(
+                { lon: 100.538316, lat: 13.764953 },
+                { title: "จุดเริ่มต้น", detail: "I'm here" }
+            );
+
+            var marker2 = new longdo.Marker(
+                { lon: 100.396498, lat: 13.827429 },
+                {
+                    title: "จุดสิ้นสุด",
+                    detail: "I'm here",
+                    icon: {
+                        url: "https://cdn-icons-png.flaticon.com/512/2702/2702604.png", // เปลี่ยนเป็น URL หรือ path ของไอคอนที่คุณต้องการ
+                        size: { width: 40, height: 40 },
+                    },
+                }
+            );
+
+            map.Event.bind("ready", function () {
+                setupRoute(marker1, marker2);
+            })
+
+            function setupRoute(marker1, marker2) {
+                map.Route.placeholder(document.getElementById("result"));
+                map.Route.add(marker1);
+                map.Route.add(marker2);
+                map.Route.search();
+            }
+
+            function updateMarkers() {
+                var newLat1 = Number(document.getElementById("m1_lon").value);
+                var newLon1 = Number(document.getElementById("m1_lat").value);
+                var newLat2 = Number(document.getElementById("m2_lon").value);
+                var newLon2 = Number(document.getElementById("m2_lat").value);
+
+                // อัปเดตตำแหน่งของ marker 1
+                marker1.location({ lat: newLat1, lon: newLon1 });
+
+                // อัปเดตตำแหน่งของ marker 2
+                marker2.location({ lat: newLat2, lon: newLon2 });
+
+                // เคลียร์เส้นทางเดิมและค้นหาเส้นทางใหม่
+                map.Route.clear();
+                setupRoute(marker1, marker2);
+            }
+
+            document.getElementById("show_book_data").addEventListener("click", ()=>setTimeout(()=>{updateMarkers()},500));
+        }
+
+    </script>
 </head>
 
 <body
@@ -40,53 +132,86 @@
     </nav>
 
     <div class="container mx-auto p-6">
+        <input type="hidden" id="m1_lon">
+        <input type="hidden" id="m1_lat">
+        <input type="hidden" id="m2_lon">
+        <input type="hidden" id="m2_lat">
+
         <h1 class="text-2xl font-bold mb-4 text-center pt-14">ข้อมูลการจองของคุณ</h1>
 
-        <table class="min-w-full bg-gray-800 rounded-lg">
-            <thead>
-                <tr class="bg-gray-700 text-gray-300">
-                    <th class="py-3 px-4 text-left">ID การจอง</th>
-                    <th class="py-3 px-4 text-left">ยานพาหนะ</th>
-                    <th class="py-3 px-4 text-left">สถานที่รับ</th>
-                    <th class="py-3 px-4 text-left">สถานที่ส่ง</th>
-                    <th class="py-3 px-4 text-left">ระยะทาง (กม.)</th>
-                    <th class="py-3 px-4 text-left">ราคา (บาท)</th>
-                    <th class="py-3 px-4 text-left">สถานะ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- แถวข้อมูลการจองแต่ละรายการ -->
-                <tr class="hover:bg-gray-700">
-                    <td class="py-3 px-4">1</td>
-                    <td class="py-3 px-4">รถยนต์</td>
-                    <td class="py-3 px-4">13.7563, 100.5018</td>
-                    <td class="py-3 px-4">13.7601, 100.5018</td>
-                    <td class="py-3 px-4">2.5</td>
-                    <td class="py-3 px-4">300</td>
-                    <td class="py-3 px-4">กำลังเดินทาง</td>
-                </tr>
-                <!-- สามารถเพิ่มข้อมูลเพิ่มเติมได้ที่นี่ -->
-            </tbody>
-        </table>
+        <div id="show_book" class="rounded-sm bg-gray-800 my-6">
+            <table class="min-w-full">
+                <thead>
+                    <tr class="bg-gray-700 text-gray-300">
+                        <th class="py-3 px-4 text-left">ยานพาหนะ</th>
+                        <th class="py-3 px-4 text-left">สถานที่รับ</th>
+                        <th class="py-3 px-4 text-left">สถานที่ส่ง</th>
+                        <th class="py-3 px-4 text-left">ระยะทาง (กม.)</th>
+                        <th class="py-3 px-4 text-left">ราคา (บาท)</th>
+                        <th class="py-3 px-4 text-left">สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody id="show_book_data">
+                    <!-- แถวข้อมูลการจองแต่ละรายการ -->
+                    <tr class="hover:opacity-70 cursor-pointer">
+                        <td class="py-3 px-4">รถยนต์</td>
+                        <td class="py-3 px-4">13.7563, 100.5018</td>
+                        <td class="py-3 px-4">13.7601, 100.5018</td>
+                        <td class="py-3 px-4">2.5</td>
+                        <td class="py-3 px-4">300</td>
+                        <td class="py-3 px-4">กำลังเดินทาง</td>
+                    </tr>
+                    <!-- สามารถเพิ่มข้อมูลเพิ่มเติมได้ที่นี่ -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="hidden" id="result"></div>
+        <div class="border-2 border-black text-black" id="map"></div>
     </div>
 
+
     <script>
+        function draw_marker(m1_lon, m1_lat, m2_lon, m2_lat) {
+            const m1_lon_ = document.getElementById("m1_lon")
+            const m1_lat_ = document.getElementById("m1_lat")
+            const m2_lon_ = document.getElementById("m2_lon")
+            const m2_lat_ = document.getElementById("m2_lat")
+            m1_lon_.value = m1_lon
+            m1_lat_.value = m1_lat
+            m2_lon_.value = m2_lon
+            m2_lat_.value = m2_lat
+        }
         fetch("/backend/api/reservation.php", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        .then((response) => {
-            // console.log('Response:', response); // Log the whole response object
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); // Proceed to parse JSON if response is okay
-        })
-        .then(data => {
-            console.log(data)
-        })
+            .then((response) => {
+                // console.log('Response:', response); // Log the whole response object
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json(); // Proceed to parse JSON if response is okay
+            })
+            .then(data => {
+                const show_book_data = document.getElementById("show_book_data")
+                show_book_data.innerHTML = ""
+                data.forEach(book => {
+                    show_book_data.innerHTML +=
+                        `
+                    <tr onclick="draw_marker(${book.pickup_location_lat}, ${book.pickup_location_lon}, ${book.dropoff_location_lat}, ${book.dropoff_location_lon})" class="hover:opacity-50 cursor-pointer">
+                        <td class="py-3 px-4">${book.name}</td>
+                        <td class="py-3 px-4">${book.pickup_location_lat}, ${book.pickup_location_lon}</td>
+                        <td class="py-3 px-4">${book.dropoff_location_lat}, ${book.dropoff_location_lon}</td>
+                        <td class="py-3 px-4">${book.distance}</td>
+                        <td class="py-3 px-4">${book.total_price}</td>
+                        <td class="py-3 px-4">${book.transport_status}</td>
+                    </tr>
+                    `
+                })
+            })
     </script>
 
     <script src="/page/assets/js/credential.js" type="module">
