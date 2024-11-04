@@ -55,13 +55,26 @@ fetch("/backend/retrieveuser.php", {
 })
 .then(data => {
     if (data['userdata']['name']) {
-        signin.innerHTML = `
-    <p id="show_name" class="select-none cursor-pointer">${data['userdata']['name']}</p>
-    <div id="logout_box"
-        class="absolute transition-all bg-black2 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow">
-        <a href="/page/booking.html" class="cursor-pointer w-32 hover:opacity-50">Booking</a>
-        <p id="show_signout" class="cursor-pointer w-32 hover:opacity-50">Sign out</p>
-    </div>
-    `
+        let show_name_user = document.createElement("p")
+        let div = document.createElement("div")
+        let a_link = document.createElement("a")
+        let show_sign_out = document.createElement("p")
+
+        show_name_user.className = "select-none cursor-pointer"
+        show_name_user.innerText = data['userdata']['name']
+        show_name_user.addEventListener("click", () => showLogout())
+        signin.append(show_name_user)
+
+        a_link.className = "cursor-pointer w-32 hover:opacity-50"
+        a_link.innerText = "Booking"
+        a_link.href = "/page/booking.html"
+        div.append(a_link)
+
+        show_sign_out.className = "cursor-pointer w-32 hover:opacity-50"
+        show_sign_out.innerText = "Sign out"
+        show_sign_out.addEventListener("click", () => signout())
+        div.append(show_sign_out)
+
+        signin.append(div)
     }
 })
