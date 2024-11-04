@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/img.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Booking</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/page/fonts.css">
+</head>
+
+<body class="text-black dark:text-white flex flex-col min-h-screen transition-colors duration-300 bg-lightBlue dark:bg-darkBlue">
+<nav class="bg-[#3d4854]/70 text-white dark:bg-gray-800/70 backdrop-blur-2xl fixed top-0 left-0 right-0 z-50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex flex-shrink-0 items-center">
+                    <img src="/img.png" alt="" class="size-14 mr-3">
+                    <a href="/" class="text-3xl font-black">CaliCloud</a>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex space-x-4">
+                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Home</a>
+                    <a href="#" class="rounded-md px-3 py-4 text-xl text-gray-400 hover:text-white transition-colors">Service</a>
+                </div>
+            </div>
+
+            <div id="signin" class="relative flex flex-row">
+                <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
+                <div id="logout_box"
+                     class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
+                    <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4 text-center pt-14">ข้อมูลการจองของคุณ</h1>
+
+    <table class="min-w-full bg-gray-800 rounded-lg">
+        <thead>
+        <tr class="bg-gray-700 text-gray-300">
+            <th class="py-3 px-4 text-left">ID การจอง</th>
+            <th class="py-3 px-4 text-left">ยานพาหนะ</th>
+            <th class="py-3 px-4 text-left">สถานที่รับ</th>
+            <th class="py-3 px-4 text-left">สถานที่ส่ง</th>
+            <th class="py-3 px-4 text-left">ระยะทาง (กม.)</th>
+            <th class="py-3 px-4 text-left">ราคา (บาท)</th>
+            <th class="py-3 px-4 text-left">สถานะ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- แถวข้อมูลการจองแต่ละรายการ -->
+        <tr class="hover:bg-gray-700">
+            <td class="py-3 px-4">1</td>
+            <td class="py-3 px-4">รถยนต์</td>
+            <td class="py-3 px-4">13.7563, 100.5018</td>
+            <td class="py-3 px-4">13.7601, 100.5018</td>
+            <td class="py-3 px-4">2.5</td>
+            <td class="py-3 px-4">300</td>
+            <td class="py-3 px-4">กำลังเดินทาง</td>
+        </tr>
+        <!-- สามารถเพิ่มข้อมูลเพิ่มเติมได้ที่นี่ -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+</script>
+</body>
+</html>
