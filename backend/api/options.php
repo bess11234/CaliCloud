@@ -5,26 +5,19 @@ include '../database.php';
 $input = json_decode(file_get_contents("php://input"), true);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET"){
-    
-    if (isset($_GET["vehicleID"])) {
-       $vehicleID = $_GET["vehicleID"];
-       $result = $conn->prepare("SELECT id, name, initial_price, add_price, capacity, image_url FROM vehicles WHERE id = :vehicleID");
-        
-       $result->bindParam(':vehicleID', $vehicleID, PDO::PARAM_INT);
-       
-       $result->setFetchMode(PDO::FETCH_ASSOC);
-       $result->execute();
-       header("HTTP/1.1 200 OK");
-       echo json_encode($result->fetch());
-    }
-    else {
-        $result = $conn->query("SELECT id, name, initial_price, add_price, capacity, image_url FROM vehicles");
-        $result->setFetchMode(PDO::FETCH_ASSOC);
-        header("HTTP/1.1 200 OK");
-        echo json_encode($result->fetchAll());
-    }
+
+    $result = $conn->query("SELECT id, name, price FROM serviceoptions");
+    $result->setFetchMode(PDO::FETCH_ASSOC);
+    $serviceOptions = $result->fetchAll();
+
+    header("HTTP/1.1 200 OK");
+    // Return the combined response as JSON
+    echo json_encode($serviceOptions);
 }
 
+//     header("HTTP/1.1 200 OK");
+//     echo json_encode($result->fetchAll());
+// }
 // if ($_SERVER['REQUEST_METHOD'] == "POST"){
 //     $name = isset($input['name']) ? $input['name'] : null;
     
