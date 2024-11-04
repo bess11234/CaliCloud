@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/img.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Service</title>
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="/page/fonts.css">
+    <title>CaliCloud | Services</title>
 </head>
 
 <body
@@ -29,10 +29,10 @@
                 </div>
 
                 <div id="signin" class="relative flex flex-row">
-                    <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
+                    <p id="show_name" class="select-none cursor-pointer hover:text-gray-300">...</p>
                     <div id="logout_box"
-                        class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
-                        <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
+                         class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
+                        <p id="show_signout" class="cursor-pointer w-32 hover:opacity-50">Sign out</p>
                     </div>
                 </div>
             </div>
@@ -42,8 +42,7 @@
     <!-- Main Content Wrapper -->
     <div class="flex-grow mt-14">
         <h1 class="text-center font-bold text-6xl mt-20">The right vehicle for the job</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-16 m-4 text-white"
-            id="vehicle_show">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-16 m-4 text-white" id="vehicle_show">
         </div>
     </div>
 
@@ -60,58 +59,60 @@
             </div>
         </div>
     </footer>
+    <script>
+        const vehicle_show = document.getElementById("vehicle_show")
+        fetch("/backend/api/vehicles.php", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                // console.log('Response:', response); // Log the whole response object
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json(); // Proceed to parse JSON if response is okay
+            })
+            .then(data => {
+                vehicle_show.innerHTML = ""
+                data.forEach(item => {
+                    vehicle_show.innerHTML +=
+                    `
+                    <div class="bg-gray-500 rounded-t-3xl rounded-b-lg text-center">
+                        <img src="/${item['image_url']}" alt="" class="w-full max-h-[446px] object-center rounded-t-3xl rounded-b-3xl">
+                        <div class="my-2">
+                            <h2 class="text-center text-3xl font-bold">${item['name']}</h2>
+                            <p class="text-center text-lg font-light">Weight limit: ${item['capacity']} KG</p>
+                            <p class="text-center text-lg font-light">Price: ${item['initial_price']} Baht</p>
+                            <p class="text-center text-lg font-light">Per KM: ${item['add_price']} Baht/KM</p>
+                        </div>
+                        <div class="items-center">
+                            <a href="ReserveDetail.html?vehicleID=${item['id']}">
+                                <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1cc6a] hover:bg-[#f1aa6a] active:bg-[#f1886a]
+                                cursor-pointer ml-20 mr-20 mt-5">
+                                    <p class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] m-auto">
+                                        Reserve
+                                    </p>
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                        class="flex-grow-0 flex-shrink-0 w-3.5 h-3.5 relative" preserveAspectRatio="xMidYMid meet">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M7.78085 2.00535C7.96199 1.82201 8.25747 1.82023 8.44081 2.00137L12.928 6.4347C13.0167 6.52237 13.0667 6.64192 13.0667 6.76667C13.0667 6.89141 13.0167 7.01096 12.928 7.09864L8.44081 11.532C8.25747 11.7131 7.96199 11.7113 7.78085 11.528C7.59971 11.3446 7.60149 11.0492 7.78484 10.868L11.4637 7.23334H0.933334C0.675601 7.23334 0.466667 7.0244 0.466667 6.76667C0.466667 6.50894 0.675601 6.3 0.933334 6.3H11.4637L7.78484 2.6653C7.60149 2.48416 7.59971 2.18869 7.78085 2.00535Z"
+                                            fill="#1B3764"></path>
+                                    </svg>
+                                </div>
+                            </a>
+                        </div>
+                        <br>
+                    </div>
+                    `
+                })
+            })
+    </script>
+    
+    <script src="/page/assets/js/credential.js" type="module">
+    </script>
 </body>
 
-<script>
-    const vehicle_show = document.getElementById("vehicle_show")
-    fetch("/backend/api/vehicles.php", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then((response) => {
-            // console.log('Response:', response); // Log the whole response object
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); // Proceed to parse JSON if response is okay
-        })
-        .then(data => {
-            vehicle_show.innerHTML = ""
-            data.forEach(item => {
-                vehicle_show.innerHTML +=
-                    `
-                <div class="bg-gray-500 rounded-t-3xl rounded-b-lg text-center">
-                    <img src="/${item['image_url']}" alt="" class="w-full max-h-[446px] object-center rounded-t-3xl rounded-b-3xl">
-                    <div class="my-2">
-                        <h2 class="text-center text-3xl font-bold">${item['name']}</h2>
-                        <p class="text-center text-lg font-light">Weight limit: ${item['capacity']} KG</p>
-                        <p class="text-center text-lg font-light">Price: ${item['initial_price']} Baht</p>
-                        <p class="text-center text-lg font-light">Per KM: ${item['add_price']} Baht/KM</p>
-                    </div>
-                    <div class="items-center">
-                        <div class="flex justify-start items-center h-[52px] relative overflow-hidden gap-1 px-6 py-3 rounded-[100px] bg-[#f1bb6a]
-                        cursor-pointer ml-20 mr-20 mt-5">
-                            <a href="ReserveDetail.html?vehicleID=${item['id']}" class="flex-grow-0 flex-shrink-0 text-base font-semibold text-center text-[#1b3764] ml-10">
-                                Reserve
-                            </a>
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                class="flex-grow-0 flex-shrink-0 w-3.5 h-3.5 relative" preserveAspectRatio="xMidYMid meet">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M7.78085 2.00535C7.96199 1.82201 8.25747 1.82023 8.44081 2.00137L12.928 6.4347C13.0167 6.52237 13.0667 6.64192 13.0667 6.76667C13.0667 6.89141 13.0167 7.01096 12.928 7.09864L8.44081 11.532C8.25747 11.7131 7.96199 11.7113 7.78085 11.528C7.59971 11.3446 7.60149 11.0492 7.78484 10.868L11.4637 7.23334H0.933334C0.675601 7.23334 0.466667 7.0244 0.466667 6.76667C0.466667 6.50894 0.675601 6.3 0.933334 6.3H11.4637L7.78484 2.6653C7.60149 2.48416 7.59971 2.18869 7.78085 2.00535Z"
-                                    fill="#1B3764"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-                `
-            })
-        })
-</script>
-
-<script src="/page/assets/js/credential.js" type="module">
-</script>
 
 </html>

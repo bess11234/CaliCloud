@@ -6,7 +6,8 @@ session_start();
 $input = json_decode(file_get_contents("php://input"), true);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    $result = $conn->query("SELECT * FROM reserveservices FROM user WHERE token='{$_SESSION['token']}'");
+    // $result = $conn->query("SELECT * FROM reserveservices WHERE token='{$_SESSION['token']}'");
+    $result = $conn->query("SELECT * FROM reserveservices WHERE user_id=1");
     $result->setFetchMode(PDO::FETCH_ASSOC);
 
     header("HTTP/1.1 200 OK");
@@ -17,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $result->setFetchMode(PDO::FETCH_ASSOC);
     $result = $result->fetchObject();
     $user_id = $result->id;
-    echo $_SESSION['token'];
     // $user_id = isset($input['user_id']) ? $input['user_id'] : null;
     // $user_id = 1;
 

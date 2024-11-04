@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>CaliCloud</title>
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="page/fonts.css">
+    <link rel="stylesheet" href="/page/fonts.css">
     <style>
         .parallax {
             background-image: url('page/assets/img/GoldenGate.webp'); /* Add your image URL */
@@ -36,10 +36,10 @@
             </div>
 
             <div id="signin" class="relative flex flex-row">
-                <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
+                <p id="show_name" class="select-none cursor-pointer hover:text-gray-300">...</p>
                 <div id="logout_box"
                      class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
-                    <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
+                    <p id="show_signout" class="cursor-pointer w-32 hover:opacity-50">Sign out</p>
                 </div>
             </div>
         </div>
