@@ -185,7 +185,7 @@
             console.log("ราคาทั้งหมด:", totalPrice, "บาท");
             document.getElementById("total-price").innerHTML = totalPrice;
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
-            document.getElementById("distance").value = distanceValue;
+            document.getElementById("distance").value = roundedDistanceValue;
           }
         });
       });
@@ -509,37 +509,48 @@
   }
 
   function submitForm(event) {
-    event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
+      event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
 
-    // ดึงข้อมูลจากฟอร์ม
-    const form = document.getElementById("reservationForm");
-    const formData = new FormData(form);
-    const data = {};
+      // ดึงข้อมูลจากฟอร์ม
+      const form = document.getElementById("reservationForm");
+      const formData = new FormData(form);
+      const pay = Array.from(document.getElementsByName("pay")).filter(item=>item.checked)[0].value
+      const option = Array.from(document.getElementsByName("option")).filter(item=>item.checked).map(item=>Number(item.value))
 
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
+      // กำหนดข้อมูลในรูปแบบที่ต้องการ
+      const data = {
+          vehicle_id: vehicleID,
+          marker1_lat: document.getElementById("marker1_lat").value,
+          marker1_lon: document.getElementById("marker1_lon").value,
+          marker2_lat: document.getElementById("marker2_lat").value,
+          marker2_lon: document.getElementById("marker2_lon").value,
+          distance: document.getElementById("distance").value,
+          pickup_date: document.getElementById("date").value,
+          pickup_time: document.getElementById("time").value,
+          option: option,
+          pay: pay,
+      };
 
-    console.log(data)
+      console.log(data);
 
-    // ส่งข้อมูลไปยัง backend
-    // fetch("/backend/save_reservation.php", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then((response) => {
-    //     if (!response.ok) throw new Error("Network response was not ok");
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log("Success:", data);
-    //     // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
-  }
+      // ส่งข้อมูลไปยัง backend
+      fetch("/backend/api/reservation.php", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+      })
+      .then((response) => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response.json();
+      })
+      .then((responseData) => {
+          console.log("Success:", responseData);
+          // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
+      })
+      .catch((error) => {
+          console.error("Error:", error);
+      });
+    }
 </script>
