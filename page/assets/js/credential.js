@@ -1,4 +1,4 @@
-const ip = "3.83.133.202"
+const ip = "18.233.7.46"
 const signOutPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/logout?client_id=7uvm35k22tckpfkhbq46b7jkut&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php&response_type=code`
 const signInPath = `https://calicloudgooglev2.auth.us-east-1.amazoncognito.com/login?client_id=7uvm35k22tckpfkhbq46b7jkut&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2F${ip}%2Fbackend%2Fcredential.php`
 

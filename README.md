@@ -29,7 +29,7 @@ php -S localhost:8000
    Update the IP address in your Amazon Cognito settings as required.
 
 4. **File Modifications**
-    - Update the `index.html` file with the necessary IP address.
+    - Update the `page/assets/js/credential.js` file with the necessary IP address.
     - Modify `config.php` to include the correct `redirect_url`.
 
 5. **User Data Script**  
