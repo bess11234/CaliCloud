@@ -40,9 +40,9 @@
     document.head.appendChild(script);
 
     var map;
-    document.getElementById("distance").addEventListener("change", () => {
+    /*document.getElementById("distance").addEventListener("change", () => {
       console.log("checked!")
-    })
+    })*/
 
     function init() {
       map = new longdo.Map({
@@ -85,18 +85,14 @@
             const distanceValue = parseFloat(distanceText);
             const roundedDistanceValue = Math.ceil(distanceValue);
             const totalPrice = await calculatePrice(roundedDistanceValue);
-            console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-            console.log(
-              "ระยะทางที่ปัดขึ้นมาคิดเลข:",
-              roundedDistanceValue,
-              "กิโลเมตร"
-            );
-            console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+            // console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+            // console.log("ระยะทางที่ปัดขึ้นมาคิดเลข:",roundedDistanceValue,"กิโลเมตร");
+            // console.log("ราคาทั้งหมด:", totalPrice, "บาท");
             document.getElementById("total-price").innerHTML = totalPrice;
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
             document.getElementById("distance").value = roundedDistanceValue;
           } else {
-            console.log("ไม่พบระยะทาง");
+            // console.log("ไม่พบระยะทาง");
           }
         }, 2000)
       })
@@ -117,31 +113,19 @@
           // อัปเดตพิกัดของ marker1
           document.getElementById("marker1_lat").value = lat;
           document.getElementById("marker1_lon").value = lon;
-          console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
+          // console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
         } else if (overlay === marker2) {
           // อัปเดตพิกัดของ marker2
           document.getElementById("marker2_lat").value = lat;
           document.getElementById("marker2_lon").value = lon;
-          console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
+          // console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
         }
 
         map.Route.search();
-        console.log(
-          "Start Location lat:",
-          document.getElementById("marker1_lat").value
-        );
-        console.log(
-          "Start Location long:",
-          document.getElementById("marker1_lon").value
-        );
-        console.log(
-          "End Location lat:",
-          document.getElementById("marker2_lat").value
-        );
-        console.log(
-          "End Location long:",
-          document.getElementById("marker2_lon").value
-        );
+        // console.log("Start Location lat:",document.getElementById("marker1_lat").value);
+        // console.log("Start Location long:",document.getElementById("marker1_lon").value);
+        // console.log("End Location lat:",document.getElementById("marker2_lat").value);
+        // console.log("End Location long:",document.getElementById("marker2_lon").value);
         setTimeout(async () => {
           const distanceSpan = document.querySelector(".ldroute-distance");
           if (distanceSpan) {
@@ -153,18 +137,14 @@
             const distanceValue = parseFloat(distanceText);
             const roundedDistanceValue = Math.ceil(distanceValue);
             const totalPrice = await calculatePrice(roundedDistanceValue);
-            console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-            console.log(
-              "ระยะทางที่ปัดขึ้นมาคิดเลข:",
-              roundedDistanceValue,
-              "กิโลเมตร"
-            );
-            console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+            // console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+            // console.log("ระยะทางที่ปัดขึ้นมาคิดเลข:",roundedDistanceValue,"กิโลเมตร");
+            // console.log("ราคาทั้งหมด:", totalPrice, "บาท");
             document.getElementById("total-price").innerHTML = totalPrice;
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
             document.getElementById("distance").value = roundedDistanceValue;
           } else {
-            console.log("ไม่พบระยะทาง");
+            // console.log("ไม่พบระยะทาง");
           }
         }, 2000);
         return false;
@@ -209,10 +189,10 @@
 
         // Calculate the total price and round it to 2 decimal places
         const totalPrice = parseFloat((basePrice + optionTotal).toFixed(2));
-        console.log("Calculated total price:", totalPrice); // Debug line to confirm total price
+        // console.log("Calculated total price:", totalPrice); // Debug line to confirm total price
         return totalPrice;
       } catch (error) {
-        console.error('Error calculating price:', error);
+        // console.error('Error calculating price:', error);
         return 0;
       }
     }
@@ -228,7 +208,7 @@
 
           // Use await here to get the total price
           const totalPrice = await calculatePrice(roundedDistanceValue);
-          console.log("Resolved total price:", totalPrice); // Debug line to confirm resolved value
+          // console.log("Resolved total price:", totalPrice); // Debug line to confirm resolved value
 
           document.getElementById("total-price").innerHTML = totalPrice;
           document.getElementById("totalPriceInput").value = totalPrice;
