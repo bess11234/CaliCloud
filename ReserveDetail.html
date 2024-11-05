@@ -82,31 +82,19 @@
             // อัปเดตพิกัดของ marker1
             document.getElementById("marker1_lat").value = lat;
             document.getElementById("marker1_lon").value = lon;
-            console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
+            // console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
           } else if (overlay === marker2) {
             // อัปเดตพิกัดของ marker2
             document.getElementById("marker2_lat").value = lat;
             document.getElementById("marker2_lon").value = lon;
-            console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
+            // console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
           }
 
           map.Route.search();
-          console.log(
-            "Start Location lat:",
-            document.getElementById("marker1_lat").value
-          );
-          console.log(
-            "Start Location long:",
-            document.getElementById("marker1_lon").value
-          );
-          console.log(
-            "End Location lat:",
-            document.getElementById("marker2_lat").value
-          );
-          console.log(
-            "End Location long:",
-            document.getElementById("marker2_lon").value
-          );
+          // console.log("Start Location lat:",document.getElementById("marker1_lat").value);
+          // console.log("Start Location long:",document.getElementById("marker1_lon").value);
+          // console.log("End Location lat:",document.getElementById("marker2_lat").value);
+          // console.log("End Location long:",document.getElementById("marker2_lon").value);
           setTimeout(() => {
             const distanceSpan = document.querySelector(".ldroute-distance");
             if (distanceSpan) {
@@ -114,18 +102,14 @@
               const distanceValue = parseFloat(distanceText);
               const roundedDistanceValue = Math.ceil(distanceValue);
               const totalPrice = calculatePrice(roundedDistanceValue);
-              console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-              console.log(
-                "ระยะทางที่ปัดขึ้นมาคิดเลข:",
-                roundedDistanceValue,
-                "กิโลเมตร"
-              );
-              console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+              // console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+              // console.log("ระยะทางที่ปัดขึ้นมาคิดเลข:",roundedDistanceValue,"กิโลเมตร");
+              // console.log("ราคาทั้งหมด:", totalPrice, "บาท");
               document.getElementById("total-price").innerHTML = totalPrice;
               document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
               document.getElementById("distance").value = distanceValue;
             } else {
-              console.log("ไม่พบระยะทาง");
+              // console.log("ไม่พบระยะทาง");
             }
           }, 6000);
           return false;
@@ -168,13 +152,9 @@
             const distanceValue = parseFloat(distanceText);
             const roundedDistanceValue = Math.ceil(distanceValue);
             const totalPrice = calculatePrice(roundedDistanceValue);
-            console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-            console.log(
-              "ระยะทางที่ปัดขึ้นมาคิดเลข:",
-              roundedDistanceValue,
-              "กิโลเมตร"
-            );
-            console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+            // console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+            // console.log("ระยะทางที่ปัดขึ้นมาคิดเลข:",roundedDistanceValue,"กิโลเมตร");
+            // console.log("ราคาทั้งหมด:", totalPrice, "บาท");
             document.getElementById("total-price").innerHTML = totalPrice;
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
             document.getElementById("distance").value = distanceValue;
@@ -405,8 +385,8 @@
 
 <script>
   function show_payment(open, close) {
-    console.log("open = " + open, "close = ", close);
-    console.log(document.getElementById(open + "-pay"));
+    // console.log("open = " + open, "close = ", close);
+    // console.log(document.getElementById(open + "-pay"));
     document.getElementById(open + "-pay").style.display = "block";
     document.getElementById(close + "-pay").style.display = "none";
   }
@@ -436,11 +416,11 @@
         return response.json();
       })
       .then((data) => {
-        console.log("Success:", data);
+        // console.log("Success:", data);
         // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
       })
       .catch((error) => {
-        console.error("Error:", error);
+        // console.error("Error:", error);
       });
   }
 </script>

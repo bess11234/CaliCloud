@@ -3,8 +3,10 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="fonts.css" />
+  <link rel="icon" type="image/svg+xml" href="/img.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/page/fonts.css">
   <title>Create Map Sample | Longdo Map</title>
   <style type="text/css">
     html {
@@ -38,9 +40,9 @@
     document.head.appendChild(script);
 
     var map;
-    document.getElementById("distance").addEventListener("change", () => {
+    /*document.getElementById("distance").addEventListener("change", () => {
       console.log("checked!")
-    })
+    })*/
 
     function init() {
       map = new longdo.Map({
@@ -83,18 +85,14 @@
             const distanceValue = parseFloat(distanceText);
             const roundedDistanceValue = Math.ceil(distanceValue);
             const totalPrice = await calculatePrice(roundedDistanceValue);
-            console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-            console.log(
-              "ระยะทางที่ปัดขึ้นมาคิดเลข:",
-              roundedDistanceValue,
-              "กิโลเมตร"
-            );
-            console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+            // console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+            // console.log("ระยะทางที่ปัดขึ้นมาคิดเลข:",roundedDistanceValue,"กิโลเมตร");
+            // console.log("ราคาทั้งหมด:", totalPrice, "บาท");
             document.getElementById("total-price").innerHTML = totalPrice;
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
             document.getElementById("distance").value = roundedDistanceValue;
           } else {
-            console.log("ไม่พบระยะทาง");
+            // console.log("ไม่พบระยะทาง");
           }
         }, 2000)
       })
@@ -115,31 +113,19 @@
           // อัปเดตพิกัดของ marker1
           document.getElementById("marker1_lat").value = lat;
           document.getElementById("marker1_lon").value = lon;
-          console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
+          // console.log("New position for marker1 - Lat:", lat, "Lon:", lon);
         } else if (overlay === marker2) {
           // อัปเดตพิกัดของ marker2
           document.getElementById("marker2_lat").value = lat;
           document.getElementById("marker2_lon").value = lon;
-          console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
+          // console.log("New position for marker2 - Lat:", lat, "Lon:", lon);
         }
 
         map.Route.search();
-        console.log(
-          "Start Location lat:",
-          document.getElementById("marker1_lat").value
-        );
-        console.log(
-          "Start Location long:",
-          document.getElementById("marker1_lon").value
-        );
-        console.log(
-          "End Location lat:",
-          document.getElementById("marker2_lat").value
-        );
-        console.log(
-          "End Location long:",
-          document.getElementById("marker2_lon").value
-        );
+        // console.log("Start Location lat:",document.getElementById("marker1_lat").value);
+        // console.log("Start Location long:",document.getElementById("marker1_lon").value);
+        // console.log("End Location lat:",document.getElementById("marker2_lat").value);
+        // console.log("End Location long:",document.getElementById("marker2_lon").value);
         setTimeout(async () => {
           const distanceSpan = document.querySelector(".ldroute-distance");
           if (distanceSpan) {
@@ -151,18 +137,14 @@
             const distanceValue = parseFloat(distanceText);
             const roundedDistanceValue = Math.ceil(distanceValue);
             const totalPrice = await calculatePrice(roundedDistanceValue);
-            console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
-            console.log(
-              "ระยะทางที่ปัดขึ้นมาคิดเลข:",
-              roundedDistanceValue,
-              "กิโลเมตร"
-            );
-            console.log("ราคาทั้งหมด:", totalPrice, "บาท");
+            // console.log("ระยะทาง:", distanceValue, "กิโลเมตร");
+            // console.log("ระยะทางที่ปัดขึ้นมาคิดเลข:",roundedDistanceValue,"กิโลเมตร");
+            // console.log("ราคาทั้งหมด:", totalPrice, "บาท");
             document.getElementById("total-price").innerHTML = totalPrice;
             document.getElementById("totalPriceInput").value = totalPrice; // อัปเดตฟิลด์ซ่อน
             document.getElementById("distance").value = roundedDistanceValue;
           } else {
-            console.log("ไม่พบระยะทาง");
+            // console.log("ไม่พบระยะทาง");
           }
         }, 2000);
         return false;
@@ -195,8 +177,8 @@
         // Calculate the base price based on distance
         let basePrice = initial_price + (distanceValue * additional_price);
 
-        show_price_initial.innerText = "Initial Price: " + initial_price
-        show_price_addition.innerText = `Additional Price (${additional_price} Bath/KM): ` + (distanceValue * additional_price)
+        show_price_initial.innerText = "Initial Price: " + initial_price + " Baht"
+        show_price_addition.innerText = `Additional Price (${additional_price} Baht/KM): ` + (distanceValue * additional_price) + " Baht"
 
         // Calculate additional options price
         const options = document.querySelectorAll(".option-checkbox:checked");
@@ -207,10 +189,10 @@
 
         // Calculate the total price and round it to 2 decimal places
         const totalPrice = parseFloat((basePrice + optionTotal).toFixed(2));
-        console.log("Calculated total price:", totalPrice); // Debug line to confirm total price
+        // console.log("Calculated total price:", totalPrice); // Debug line to confirm total price
         return totalPrice;
       } catch (error) {
-        console.error('Error calculating price:', error);
+        // console.error('Error calculating price:', error);
         return 0;
       }
     }
@@ -226,7 +208,7 @@
 
           // Use await here to get the total price
           const totalPrice = await calculatePrice(roundedDistanceValue);
-          console.log("Resolved total price:", totalPrice); // Debug line to confirm resolved value
+          // console.log("Resolved total price:", totalPrice); // Debug line to confirm resolved value
 
           document.getElementById("total-price").innerHTML = totalPrice;
           document.getElementById("totalPriceInput").value = totalPrice;
@@ -263,10 +245,10 @@
         </div>
 
         <div id="signin" class="relative flex flex-row">
-          <p onclick="showLogout()" class="select-none cursor-pointer hover:text-gray-300">...</p>
+          <p id="show_name" class="select-none cursor-pointer hover:text-gray-300">...</p>
           <div id="logout_box"
             class="absolute transition-all bg-gray-800 border border-gray-950 hidden opacity-0 translate-y-full top-8 right-0 p-3 rounded shadow dark:bg-gray-700">
-            <p onclick="signout()" class="cursor-pointer w-32 hover:text-red-500">Sign out</p>
+            <p id="show_signout" class="cursor-pointer w-32 hover:opacity-50">Sign out</p>
           </div>
         </div>
       </div>
@@ -274,7 +256,7 @@
   </nav>
 
   <div class="h-full flex-grow mt-14">
-    <h1 class="text-center font-bold text-6xl mt-20">Reservation Service</h1>
+    <h1 class="text-center font-bold text-6xl my-10">Reservation Service</h1>
     <div class="m-5 mt-1 border-2 border-black text-black" id="map"></div>
     <div class="hidden" id="result"></div>
     <div class="flex flex-row my-6">
@@ -368,7 +350,7 @@
               </p>
               <ul>
                 <li id="show_price_initial">Initial Price: ...</li>
-                <li id="show_price_addition">Additional Price (.. Bath/KM): ...</li>
+                <li id="show_price_addition">Additional Price (.. Baht/KM): ...</li>
               </ul>
             </div>
             <button
@@ -395,151 +377,149 @@
       </div>
     </footer>
   </div>
+  <script>
+    const option_show = document.getElementById("option_show")
+  
+    fetch("/backend/api/options.php", {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        // console.log('Response:', response); // Log the whole response object
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Proceed to parse JSON if response is okay
+      })
+      .then(data => {
+  
+        console.log("data" + data)
+        option_show.innerHTML = ""
+        data.forEach(item => {
+          let option = document.createElement('li')
+          let input = document.createElement('input')
+  
+          input.classList.add("mr-2", "option-checkbox")
+          input.type = "checkbox"
+          input.id = item['id']
+          input.name = "option"
+          input.value = item['id']
+          input.price = item['price']
+  
+          option.append(input)
+          option.append(document.createTextNode(`${item['name']} +${item['price']}`))
+          option_show.append(option)
+  
+          input.addEventListener("change", () => {
+            if (input.checked) {
+              totalprice = Number(document.getElementById("total-price").innerHTML) + input.price;
+              console.log(input.price)
+            }
+            else {
+              totalprice = Number(document.getElementById("total-price").innerHTML) - input.price;
+            }
+            document.getElementById("total-price").innerHTML = totalprice;
+            document.getElementById("totalPriceInput").value = totalprice;// อัปเดตฟิลด์ซ่อน
+          })
+        })
+      })
+  
+    const urlParams = new URLSearchParams(window.location.search);
+    const vehicleID = urlParams.get('vehicleID');
+  
+    const vehicleImage = document.getElementById("vehicle_image")
+    const vehicleName = document.getElementById("vehicle_name")
+  
+    console.log("vehicleID: " + vehicleID)
+    if (vehicleID == null) location.href = "Reservation.html"
+  
+    //const vehicle_show = document.getElementById("vehicle_show")
+    console.log(window.location.search)
+  
+    fetch(`/backend/api/vehicles.php?vehicleID=${vehicleID}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        // console.log('Response:', response); // Log the whole response object
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Proceed to parse JSON if response is okay
+      })
+      .then(data => {
+        vehicleImage.src = '/' + data['image_url']
+        vehicleName.innerHTML = data['name']
+        console.log("data['image_url']" + data['image_url'])
+        //vehicle_show.innerHTML = ""
+        //data.forEach(item => {
+        // vehicle_show.innerHTML +=
+  
+        //)
+      })
+  
+  </script>
+  
+  <script>
+    function show_payment(open, close) {
+      console.log("open = " + open, "close = ", close);
+      console.log(document.getElementById(open + "-pay"));
+      document.getElementById(open + "-pay").style.display = "block";
+      document.getElementById(close + "-pay").style.display = "none";
+    }
+  
+    function submitForm(event) {
+      event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
+  
+      // ดึงข้อมูลจากฟอร์ม
+      const form = document.getElementById("reservationForm");
+      const formData = new FormData(form);
+      const pay = Array.from(document.getElementsByName("pay")).filter(item => item.checked)[0].value
+      const option = Array.from(document.getElementsByName("option")).filter(item => item.checked).map(item => Number(item.value))
+  
+      // กำหนดข้อมูลในรูปแบบที่ต้องการ
+      const data = {
+        vehicle_id: Number(vehicleID),
+        marker1_lat: Number(document.getElementById("marker1_lat").value),
+        marker1_lon: Number(document.getElementById("marker1_lon").value),
+        marker2_lat: Number(document.getElementById("marker2_lat").value),
+        marker2_lon: Number(document.getElementById("marker2_lon").value),
+        distance: Number(document.getElementById("distance").value),
+        pickup_date: document.getElementById("date").value,
+        pickup_time: document.getElementById("time").value,
+        option: option,
+        pay: pay,
+      };
+    
+      // ส่งข้อมูลไปยัง backend
+      fetch("/backend/api/reservation.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response.json();
+        })
+        .then((responseData) => {
+          console.log("Success:", responseData);
+          location.href = "/page/booking.html"
+          // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  </script>
+  
+  <script src="/page/assets/js/credential.js" type="module">
+  </script>
 </body>
 
 </html>
-
-<script>
-  const option_show = document.getElementById("option_show")
-
-  fetch("/backend/api/options.php", {
-    method: "GET",
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then((response) => {
-      // console.log('Response:', response); // Log the whole response object
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json(); // Proceed to parse JSON if response is okay
-    })
-    .then(data => {
-
-      console.log("data" + data)
-      option_show.innerHTML = ""
-      data.forEach(item => {
-        let option = document.createElement('li')
-        let input = document.createElement('input')
-
-        input.classList.add("mr-2", "option-checkbox")
-        input.type = "checkbox"
-        input.id = item['id']
-        input.name = "option"
-        input.value = item['id']
-        input.price = item['price']
-
-        option.append(input)
-        option.append(document.createTextNode(`${item['name']} +${item['price']}`))
-        option_show.append(option)
-
-        input.addEventListener("change", () => {
-          if (input.checked) {
-            totalprice = Number(document.getElementById("total-price").innerHTML) + input.price;
-            console.log(input.price)
-          }
-          else {
-            totalprice = Number(document.getElementById("total-price").innerHTML) - input.price;
-          }
-          document.getElementById("total-price").innerHTML = totalprice;
-          document.getElementById("totalPriceInput").value = totalprice;// อัปเดตฟิลด์ซ่อน
-        })
-      })
-    })
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const vehicleID = urlParams.get('vehicleID');
-
-  const vehicleImage = document.getElementById("vehicle_image")
-  const vehicleName = document.getElementById("vehicle_name")
-
-  console.log("vehicleID: " + vehicleID)
-  if (vehicleID == null) location.href = "Reservation.html"
-
-  //const vehicle_show = document.getElementById("vehicle_show")
-  console.log(window.location.search)
-
-  fetch(`/backend/api/vehicles.php?vehicleID=${vehicleID}`, {
-    method: "GET",
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then((response) => {
-      // console.log('Response:', response); // Log the whole response object
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json(); // Proceed to parse JSON if response is okay
-    })
-    .then(data => {
-      vehicleImage.src = '/' + data['image_url']
-      vehicleName.innerHTML = data['name']
-      console.log("data['image_url']" + data['image_url'])
-      //vehicle_show.innerHTML = ""
-      //data.forEach(item => {
-      // vehicle_show.innerHTML +=
-
-      //)
-    })
-
-</script>
-
-<script>
-  function show_payment(open, close) {
-    console.log("open = " + open, "close = ", close);
-    console.log(document.getElementById(open + "-pay"));
-    document.getElementById(open + "-pay").style.display = "block";
-    document.getElementById(close + "-pay").style.display = "none";
-  }
-
-  function submitForm(event) {
-    event.preventDefault(); // ป้องกันการส่งฟอร์มตามปกติ
-
-    // ดึงข้อมูลจากฟอร์ม
-    const form = document.getElementById("reservationForm");
-    const formData = new FormData(form);
-    const pay = Array.from(document.getElementsByName("pay")).filter(item => item.checked)[0].value
-    const option = Array.from(document.getElementsByName("option")).filter(item => item.checked).map(item => Number(item.value))
-
-    // กำหนดข้อมูลในรูปแบบที่ต้องการ
-    const data = {
-      vehicle_id: Number(vehicleID),
-      marker1_lat: Number(document.getElementById("marker1_lat").value),
-      marker1_lon: Number(document.getElementById("marker1_lon").value),
-      marker2_lat: Number(document.getElementById("marker2_lat").value),
-      marker2_lon: Number(document.getElementById("marker2_lon").value),
-      distance: Number(document.getElementById("distance").value),
-      pickup_date: document.getElementById("date").value,
-      pickup_time: document.getElementById("time").value,
-      option: option,
-      pay: pay,
-    };
-
-    console.log(data);
-
-    // ส่งข้อมูลไปยัง backend
-    fetch("/backend/api/reservation.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      .then((responseData) => {
-        console.log("Success:", responseData);
-        // ทำอะไรกับผลลัพธ์ที่ได้ เช่น แสดงข้อความหรือเปลี่ยนหน้า
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-</script>
-
-<script src="/page/assets/js/credential.js" type="module">
-</script>
